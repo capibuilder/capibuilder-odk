@@ -1,9 +1,4 @@
-import { useRouter } from 'next/router';
-
-
-
-
-
+import { useRouter } from "next/router";
 import { HeroWrapper } from "./styles";
 
 export default function Index() {
@@ -23,10 +18,8 @@ const router = useRouter();
         <div className="flex">
           <button className="darkbtn" onClick={() => {
                     push("/sign-up");
-                  }}
-                  
+                  }}             
                 >Try for free</button>
-
           <button className="lightbtn">
             <svg
               width="14"
