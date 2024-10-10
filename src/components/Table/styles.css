@@ -1,0 +1,121 @@
+.table-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+.NameQsn {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+.product-table {
+  width: 100%;
+  table-layout: fixed;
+  background-color: #ffffff;
+  padding: 10px;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+
+.soon-text {
+  border: 0.81px solid #818b98;
+  width: 39px;
+  border-radius: 81.25px;
+  font-family: Poppins;
+  font-weight: 300;
+  font-size: 11px;
+  text-align: center;
+}
+.product-row.odd {
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.product-row.even {
+  background-color: #f9f9fb;
+  border-radius: 8px;
+}
+
+.product-row:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.product-name-cell {
+  padding-left: 15px;
+  font-weight: 500;
+  color: #1f2937;
+  text-align: center;
+  word-wrap: break-word;
+  border-radius: 8px 0px 0px 8px;
+  font-size: 16px;
+  width: 40%;
+}
+
+.icon-cell {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 400;
+  font-family: Poppins;
+}
+
+.actualrow {
+  height: 54px;
+  margin: 3px 0;
+}
+
+.product-table td {
+  border-right: none;
+  border-left: none;
+}
+
+.product-name-cell {
+  border-left: none;
+}
+
+.lastRow {
+  border-radius: 0px 8px 8px 0;
+}
+.sideHeaderTable {
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 18px;
+  text-transform: capitalize;
+  padding: 0px 8px;
+  position: relative;
+  left: 12px;
+  top: 10px;
+  text-transform: uppercase;
+}
+
+.Toolthingy {
+  position: relative;
+}
+
+.tooltipp {
+  position: absolute;
+  background-color: #e2e8f0;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
+  padding: 6px 9px;
+  border-radius: 18px 5px 5px 18px;
+  clip-path: polygon(0% 50%, 10px 0%, 100% 0%, 100% 100%, 10px 100%, 0% 50%);
+  font-size: 12px;
+  top: -10px;
+  left: 20px;
+  white-space: normal;
+  line-height: 20px;
+  max-width: 800px;
+  word-wrap: break-word;
+  width: max-content !important;
+  z-index: 300;
+  box-sizing: border-box;
+  visibility: visible;
+  opacity: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

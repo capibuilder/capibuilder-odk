@@ -1,0 +1,81 @@
+<h:html xmlns="http://www.w3.org/2002/xforms" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa">
+    <h:head>
+        <h:title>
+            Survey Name
+        </h:title>
+        <model>
+            <instance>
+                <data id="survey-name" version="2.1">
+                    <meta>
+                        <instanceID/>
+                    </meta>
+                    <fullName>
+                        John Doe
+                    </fullName>
+                    <age>
+                        20
+                    </age>
+                    <yearAndMonthDate/>
+                </data>
+            </instance>
+            <itext>
+                <text id="/data/fullName:label">
+                    <value>
+                        What is your name?
+                    </value>
+                </text>
+                <text id="/data/fullName:hint">
+                    <value>
+                        fullName
+                    </value>
+                </text>
+                <text id="/data/fullName:requiredMsg">
+                    <value>
+                        Please enter your name
+                    </value>
+                </text>
+                <text id="/data/age:label">
+                    <value>
+                        How old are you?
+                    </value>
+                </text>
+                <text id="/data/age:hint">
+                    <value>
+                        age
+                    </value>
+                </text>
+                <text id="/data/age:requiredMsg">
+                    <value></value>
+                </text>
+                <text id="/data/yearAndMonthDate:label">
+                    <value>
+                        Year And Month Date
+                    </value>
+                </text>
+                <text id="/data/yearAndMonthDate:hint">
+                    <value>
+                        yearAndMonthDate
+                    </value>
+                </text>
+            </itext>
+            <bind nodeset="/data/meta/instanceID" type="string" readonly="true()" jr:preload="uid"/>
+            <bind nodeset="/data/fullName" type="string" required="true()" jr:requiredMsg="jr:itext('/data/fullName:requiredMsg')"/>
+            <bind nodeset="/data/age" type="int" required="true()" jr:requiredMsg="jr:itext('/data/age:requiredMsg')" readonly="true()"/>
+            <bind nodeset="/data/yearAndMonthDate" type="date"/>
+        </model>
+    </h:head>
+    <h:body>
+        <input ref="/data/fullName">
+            <label ref="jr:itext('/data/fullName:label')"/>
+            <hint ref="jr:itext('/data/fullName:hint')"/>
+        </input>
+        <input ref="/data/age">
+            <label ref="jr:itext('/data/age:label')"/>
+            <hint ref="jr:itext('/data/age:hint')"/>
+        </input>
+        <input ref="/data/yearAndMonthDate" appearance="month-year">
+            <label ref="jr:itext('/data/yearAndMonthDate:label')"/>
+            <hint ref="jr:itext('/data/yearAndMonthDate:hint')"/>
+        </input>
+    </h:body>
+</h:html>

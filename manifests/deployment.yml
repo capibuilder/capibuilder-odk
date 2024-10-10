@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: socialwell-odkformbuilder-fe
+  name: socialwell-odkformbuilder-fe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: socialwell-odkformbuilder-fe
+  template:
+    metadata:
+      labels:
+        app: socialwell-odkformbuilder-fe
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: nodemode
+                operator: In
+                values:
+                - user
+      containers:
+        - envFrom:
+          - configMapRef:
+              name: socialwell-odkformbuilder-fe-env-config
+          image: socialwellacrdev.azurecr.io/socialwell/socialwell-odkformbuilder-fe-{{branch}}
+          name: socialwell-odkformbuilder-fe
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "200Mi"
+              cpu: "100m"
+            limits:
+              memory: "300Mi"
+              cpu: "300m"
