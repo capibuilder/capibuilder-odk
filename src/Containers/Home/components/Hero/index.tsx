@@ -1,17 +1,32 @@
+import { useRouter } from 'next/router';
+
+
+
+
+
 import { HeroWrapper } from "./styles";
 
 export default function Index() {
+
+const router = useRouter();
+  const { query, push } = useRouter();
+  
   return (
     <HeroWrapper>
       <div className="inWrap">
-        <h1>Form builder for nonprofit data collection using ODK</h1>
+        <h1>Form builder for the social impact data collection, using ODK</h1>
         <p className="text">
-          The fastest, simplest, and most cost-economical way for your nonprofit
+          The fastest, simplest, and most cost-effective way for the social impact initiatives
           to design, test, iterate, and translate forms for survey and data
           collection for any app that uses open source Open Data Kit (ODK).
         </p>
         <div className="flex">
-          <button className="darkbtn">Try for free</button>
+          <button className="darkbtn" onClick={() => {
+                    push("/sign-up");
+                  }}
+                  
+                >Try for free</button>
+
           <button className="lightbtn">
             <svg
               width="14"
@@ -57,7 +72,7 @@ export default function Index() {
                 fill="#6F47EB"
               />
             </svg>
-            14-day free trail
+            14-day free trial
           </p>
         </div>
       </div>

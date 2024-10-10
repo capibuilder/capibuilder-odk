@@ -192,7 +192,7 @@ const Navbar = () => {
                 </button>
                 <button
                   onClick={() => {
-                    push("/tryfree");
+                    push("/sign-up");
                   }}
                   className="gs-btn darkbtn"
                 >
