@@ -80,8 +80,11 @@ export default function Index() {
     </FooterWrapper>
   );
 }
-
-const FooterItem = ({ title, items }) => (
+interface MenuItem {
+  name: string;
+  link: string;
+}
+const FooterItem = ({ title, items }: { title: string; items: MenuItem[] }) => (
   <GridItems>
     <FooterTitle>{title}</FooterTitle>
     <List>
