@@ -48,8 +48,8 @@ function Login() {
         .then(res => {
           localStorage.setItem("auth", JSON.stringify(res.data));
           login();
-          // router.push(`${router.query.return || "/"}`);
-          window.location.href = `${router.query.return || "/"}`;
+          //router.push("/projects");
+          window.location.href = `${router.query.return || "/projects"}`;
         })
         .catch(err => {
           setError(err.message);
@@ -62,7 +62,7 @@ function Login() {
 
   useEffect(() => {
     if (localStorage?.getItem("auth")) {
-      router.push("/");
+      router.push("/projects");
     }
   }, []);
 
