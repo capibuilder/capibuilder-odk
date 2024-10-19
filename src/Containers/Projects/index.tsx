@@ -137,7 +137,7 @@ export default function Projects() {
         >
           <Table className="table">
             <div className="head grid">
-              <span>Project</span>
+              <span>Project Name</span>
               <span>
                 <center> Total forms</center>
               </span>
