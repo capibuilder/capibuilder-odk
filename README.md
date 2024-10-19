@@ -24,6 +24,8 @@ NEXT_PUBLIC_PIVOT_API_BASE_URL (The URL of the Pivot API)
 
 ## Installation
 
+The deployment can be done through running through the command or docker.
+
 ### Clone the repository to your local machine
 
 ```sh
