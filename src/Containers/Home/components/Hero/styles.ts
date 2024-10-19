@@ -14,7 +14,7 @@ export const HeroWrapper = styled.section`
   width: 95%;
 
   .inWrap {
-    width: 60%;
+    width: 80%;
 
     h1 {
       color: #262627;

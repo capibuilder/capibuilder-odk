@@ -21,10 +21,9 @@ export const Wrapper = styled(WrapperStub)`
     color: #fff;
     right: 40px;
     z-index: 11;
-    bottom: 40px;
+    bottom: 140px;
     border-radius: 50%;
     box-shadow: 1px 2px 5.800000190734863px 0px #00000040;
-
     &:hover {
       outline: 1px solid #fff;
     }
