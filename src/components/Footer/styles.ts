@@ -68,7 +68,7 @@ export const FooterTopRightImage = styled.img`
 export const FooterWrapper = styled.div`
   margin: 0 auto;
   padding: 0 3rem;
-  height: 550px;
+  height: 360px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

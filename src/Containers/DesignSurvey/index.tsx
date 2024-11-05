@@ -413,12 +413,12 @@ const DesignSurvey = () => {
             >
               <IoChevronBackOutline size={24} />
             </Link>
-            <span>Design Survey -</span>
+            <span>Build Form</span>
 
             <div className="group">
               <input
                 type="text"
-                placeholder="Enter name of your survey"
+                placeholder="Form title"
                 value={data.title}
                 onChange={e => {
                   setData({

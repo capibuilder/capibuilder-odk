@@ -94,6 +94,11 @@ const Navbar = () => {
         <Wrapper>
           <LeftItems>
             <Logo href={"/"}>
+            <img
+                src={"/images/logoCapibara.svg"}
+                style={{ width: 40, height: 40, transform: 'scaleX(-1)' }}
+                alt="CAPIBuilder logo"
+              />
               <span className="text-logo">
                 <span className="light">CAPI</span>Builder
               </span>
@@ -114,58 +119,33 @@ const Navbar = () => {
                 onClick={() => {
                   window.innerWidth < 900 && setMenuOpen(false);
                 }}
-                href={"/cloud"}
-                active={(asPath === "/cloud").toString()}
+                href={"/projects"}
+                active={(asPath === "/projects").toString()}
               >
-                Cloud
+                Projects
               </NavItem>
 
               <NavItem
                 onClick={() => {
                   window.innerWidth < 900 && setMenuOpen(false);
                 }}
-                href={"/OpenSource"}
-                active={(asPath === "/OpenSource").toString()}
-              >
-                OpenSource
-              </NavItem>
-              <NavItem
-                onClick={() => {
-                  window.innerWidth < 900 && setMenuOpen(false);
-                }}
-                href={"/price"}
-                active={(asPath === "/price").toString()}
-              >
-                Pricing
-              </NavItem>
-              <NavItem
-                onClick={() => {
-                  window.innerWidth < 900 && setMenuOpen(false);
-                }}
-                href={"/resources"}
-                active={(asPath === "/resources").toString()}
-              >
-                Resources
-              </NavItem>
-              <NavItem
-                onClick={() => {
-                  window.innerWidth < 900 && setMenuOpen(false);
-                }}
-                href={"/Support"}
-                active={(asPath === "/Support").toString()}
-              >
-                Support
-              </NavItem>
-              <NavItem
-                onClick={() => {
-                  window.innerWidth < 900 && setMenuOpen(false);
-                }}
-                className="sm"
-                href={"/account"}
+                href={"/tags"}
                 active={(asPath === "/tags").toString()}
               >
-                Account
+                Tags
               </NavItem>
+              <NavItem
+                onClick={() => {
+                  window.innerWidth < 900 && setMenuOpen(false);
+                }}
+                href={"/templates"}
+                active={(asPath === "/templates").toString()}
+              >
+                Templates
+              </NavItem>
+          
+            
+       
               <NavItem
                 className="sm"
                 active=""

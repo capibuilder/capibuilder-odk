@@ -1,7 +1,7 @@
-import { Home } from "@/Containers";
+import { Login } from "@/Containers";
 
 const HomePage = () => {
-  return <Home />;
+  return <Login />;
 };
 
 export default HomePage;

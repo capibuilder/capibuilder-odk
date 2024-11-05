@@ -99,13 +99,13 @@ export default function AddProject({
         onClick={e => e.stopPropagation()}
       >
         <div className="head">
-          <h2>New Project</h2>
+          <h2>Create Project</h2>
         </div>
 
         <form>
           <FormControl
             inputType="text"
-            label="Project Name"
+            label="Title of Project"
             name="name"
             value={form.name}
             onChange={e => {

@@ -1,22 +1,21 @@
-import React from "react";
 import Link from "next/link";
 import {
-  FooterWrapper,
-  FooterInner,
-  LogoBanner,
-  FooterLogo,
-  FooterItems,
+  BorderThingy,
   FooterContainer,
   FooterContent,
+  FooterInner,
+  FooterItems,
   FooterLinks,
+  FooterLogo,
   FooterTitle,
+  FooterWrapper,
   GridItems,
-  BorderThingy,
-  TextLogo,
-  LogoLeft,
+  ItemLink,
   List,
   ListItem,
-  ItemLink,
+  LogoBanner,
+  LogoLeft,
+  TextLogo,
 } from "./styles";
 
 export default function Index() {
@@ -29,7 +28,7 @@ export default function Index() {
               <LogoLeft>CAPI</LogoLeft>Builder
             </TextLogo>
           </FooterLogo>
-          <p>Form builder for nonprofit data collection using ODK</p>
+          <p>Form builder for social impact data collection using ODK</p>
         </LogoBanner>
         <FooterItems>
           <FooterItem
@@ -70,11 +69,11 @@ export default function Index() {
       <BorderThingy />
       <FooterContainer>
         <FooterContent>
-          &copy; {new Date().getFullYear()} SocialWell
+          &copy; {new Date().getFullYear()} CAPIBuilder.
         </FooterContent>
         <FooterLinks>
-          <p>Privacy</p>
-          <p>Terms</p>
+          <p>Privacy Policy</p>
+          <p>Terms of Service</p>
         </FooterLinks>
       </FooterContainer>
     </FooterWrapper>

@@ -1,10 +1,8 @@
 import { Footer } from "..";
-import FooterTop from "./FooterTop";
 
 const FooterComponent = () => {
   return (
-    <div>
-      <FooterTop />
+    <div> 
       <Footer />
     </div>
   );

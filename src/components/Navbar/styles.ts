@@ -53,19 +53,21 @@ export const Wrapper = styled(WrapperStub)`
 `;
 
 export const Logo = styled(Link)`
+  padding: 2px 2px 2px 20px;
   display: flex;
   align-items: center;
+  gap: 8px;
   font-weight: 600;
   color: #000;
 
   img {
     margin-bottom: 4px;
-    margin-right: 3px;
+    margin-right: 2px;
   }
 
   .text-logo {
-    padding: 8px 16px;
-    border-radius: 10px;
+    padding: 0px 0px 0px 0px;
+    border-radius: 5px;
     font-weight: 600;
     /* background-color: ${props => props.theme.linkColor};
     color: ${props => props.theme.darkBackground}; */

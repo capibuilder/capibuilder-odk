@@ -116,11 +116,6 @@ export default function Index() {
   return (
     <>
       <Wrapper>
-        <Link href={`/projects/${projectId}/survey/new`} className="add-new">
-          <ToolTips text="Create new Survey" position="top">
-            <FiPlus size={36} />
-          </ToolTips>
-        </Link>
         <Flex
           alignItems="center"
           gap="30px"
@@ -178,6 +173,12 @@ export default function Index() {
             )}
           </Table>
         </TableCover>
+
+        <Link href={`/projects/${projectId}/survey/new`} className="generate-btn">
+          <ToolTips text="Create Survey" position="top">
+            <FiPlus size={36} />
+          </ToolTips>
+        </Link>
       </Wrapper>
     </>
   );

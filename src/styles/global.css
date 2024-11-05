@@ -27,7 +27,7 @@ html:has(.popup-overlay-active) {
 }
 
 body {
-  background-color: #ffffff;
+  background-color: #fffff;
 }
 .max-container {
   max-width: 1800px;

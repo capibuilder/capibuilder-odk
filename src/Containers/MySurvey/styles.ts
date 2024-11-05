@@ -26,6 +26,27 @@ export const Wrapper = styled(WrapperStub)`
       outline: 1px solid #fff;
     }
   }
+
+  a.generate-btn {
+    all: unset;
+    position: relative;
+    cursor: pointer;
+    background-color: #7879f1;
+    display: flex;
+    height: 55px;
+    width: 55px;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    margin-left: auto;
+    margin-top: 20px;
+    border-radius: 50%;
+    box-shadow: 1px 2px 5.800000190734863px 0px #00000040;
+
+    &:hover {
+      outline: 1px solid #fff;
+    }
+  }
 `;
 
 export const Table = styled.div`
@@ -36,6 +57,8 @@ export const Table = styled.div`
     display: grid;
     grid-template-columns: 1.5fr 0.8fr 0.8fr 0.2fr;
     align-items: center;
+    text-align: center;
+    
   }
 
   .head {
@@ -46,13 +69,14 @@ export const Table = styled.div`
     span {
       color: #fff;
       font-size: 18px;
+      font-size: 18px;
       font-weight: 600;
     }
   }
 `;
 
 export const RowWrapper = styled.div`
-  padding: 40px 25px;
+  padding: 50px 25px;
   background-color: #fff;
   position: relative;
   transition: background 0.2s;
@@ -79,13 +103,24 @@ export const RowWrapper = styled.div`
   }
 
   button.generate-btn {
-    background-color: transparent;
-    padding: 8px 20px;
-    border: 2px solid #a84787;
-    color: #a84787;
-    font-weight: 600;
-    border-radius: 8px;
+    all: unset;
+    position: relative;
     cursor: pointer;
+    background-color: #a84787;
+    display: flex;
+    height: 55px;
+    width: 55px;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    margin-left: auto;
+    margin-top: 20px;
+    border-radius: 50%;
+    box-shadow: 1px 2px 5.800000190734863px 0px #00000040;
+
+    &:hover {
+      outline: 1px solid #fff;
+    }
   }
 
   span.link {

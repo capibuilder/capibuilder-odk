@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { Alert, Flex, TextField, Typography } from "socialwell-design";
 import * as Yup from "yup";
 
+import { Logo } from "@/components/Navbar/styles";
 import { AuthContainer, AuthWrapper } from "./style";
 
 function Login() {
@@ -70,6 +71,11 @@ function Login() {
     <AuthContainer>
       <AuthWrapper>
         <div className="formwrapper">
+        <Logo href={"/"}>
+              <span className="text-logo">
+                <span className="light">CAPI</span>Builder
+              </span>
+            </Logo>
           <Typography as="h1" content="Welcome Back" />
           {error && (
             <Alert

@@ -3,13 +3,15 @@ import styled from "styled-components";
 export const SurveyModelContainer = styled.div`
   position: fixed;
   inset: 0;
+  display: flex;
   z-index: 2;
+  align-items: center;
 `;
 
 export const Overlay = styled.div`
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #dce4ea;
   z-index: 2;
 `;
 
@@ -19,11 +21,21 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 24px;
-
+  
   select {
     padding: 8px;
     border-radius: 4px;
     border: 1px solid #d4d4d4;
+  }
+
+  .label {
+    display: flex;
+    gap: 4px;
+    
+    .required {
+      color: red;
+      margin-left: 4px;
+    }
   }
 `;
 export const Button = styled.button`

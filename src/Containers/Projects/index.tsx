@@ -107,17 +107,6 @@ export default function Projects() {
             id={openDrawer.id}
           />
         )}
-        <button
-          className="add-new"
-          onClick={e => {
-            e.stopPropagation();
-            setOpenDrawer(v => ({ id: null, show: !v.show, type: "project" }));
-          }}
-        >
-          <ToolTips text="Create new Project" position="top">
-            <FiPlus size={36} />
-          </ToolTips>
-        </button>
         <Flex
           alignItems="center"
           gap="30px"
@@ -165,6 +154,17 @@ export default function Projects() {
             )}
           </Table>
         </TableCover>
+        <button
+          className="add-new"
+          onClick={e => {
+            e.stopPropagation();
+            setOpenDrawer(v => ({ id: null, show: !v.show, type: "project" }));
+          }}
+        >
+          <ToolTips text="Create Project" position="top">
+            <FiPlus size={36} />
+          </ToolTips>
+        </button>
       </Wrapper>
     </>
   );

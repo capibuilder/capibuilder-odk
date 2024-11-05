@@ -12,9 +12,12 @@ export const CreateSurveyContainer = styled.section`
 
 export const SurveyGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 320px));
+  gap: 2rem;
+  margin: 2rem auto;
   padding-top: 60px;
+  justify-content: center;
+  max-width: 1200px;
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
@@ -29,9 +32,9 @@ export const SurveyGrid = styled.div`
 
 export const CreateSurveyCard = styled.div`
   width: 100%;
-  padding: 15px 20px;
+  padding: 12px 20px;
   text-align: center;
-  background: #ffffff;
+  background: #CED9E5;
   border-radius: 10px;
   cursor: pointer;
   display: grid;
@@ -51,8 +54,8 @@ export const CreateSurveyCard = styled.div`
 
   h2 {
     font-weight: 400;
-    font-size: 32px;
-    line-height: 24px;
+    font-size: 30px;
+    line-height: 1.4;
     color: #353c3c;
   }
 

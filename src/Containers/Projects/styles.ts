@@ -10,7 +10,7 @@ export const Wrapper = styled(WrapperStub)`
 
   button.add-new {
     all: unset;
-    position: fixed;
+    position: relative;
     cursor: pointer;
     background-color: #7879f1;
     display: flex;
@@ -19,11 +19,11 @@ export const Wrapper = styled(WrapperStub)`
     align-items: center;
     justify-content: center;
     color: #fff;
-    right: 40px;
-    z-index: 11;
-    bottom: 140px;
+    margin-left: auto;
+    margin-top: 20px;
     border-radius: 50%;
     box-shadow: 1px 2px 5.800000190734863px 0px #00000040;
+
     &:hover {
       outline: 1px solid #fff;
     }
@@ -37,6 +37,12 @@ export const Table = styled.div`
     display: grid;
     grid-template-columns: var(--grid);
     align-items: center;
+    text-align: center;
+
+    span {
+      justify-self: center;  // Add this to center the content within grid items
+      width: 100%;  // Add this to ensure span takes full width
+    }
   }
 
   .head {
@@ -50,6 +56,7 @@ export const Table = styled.div`
       color: #fff;
       font-size: 18px;
       font-weight: 600;
+      
     }
   }
 `;

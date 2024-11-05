@@ -1,6 +1,5 @@
 import { Navbar } from "@/components";
 import FooterComponent from "@/components/Footer/FooterComponent";
-import StickyBanner from "@/components/StickyBanner";
 import GlobalStyles, { theme } from "@/styles/globals";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
@@ -26,10 +25,14 @@ export default function App({ Component, pageProps }: AppProps) {
         <div>
           <AlertProvider>
             <NextNProgress color="var(--primary-color)" />
-            <StickyBanner />
-            <Navbar />
+           
+            {(typeof window !== "undefined" && (window.location.pathname === "/" || window.location.pathname === "/index")) ? null : (
+              <Navbar />
+            )}        
             <Component {...pageProps} />
-            <FooterComponent />
+            {process.env.NODE_ENV !== "production" || (typeof window !== "undefined" && window.location.pathname !== "/index") ? (
+              <FooterComponent />
+            ) : null}
             <GlobalStyles />
           </AlertProvider>
         </div>

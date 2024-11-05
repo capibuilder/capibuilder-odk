@@ -168,6 +168,7 @@ const SurveyModel = ({ handleClose }: { handleClose: () => void }) => {
   return (
     <SurveyModelContainer>
       <Overlay onClick={handleClose} />
+     
       <ModelWrapper data-animate="opacity" className="c-scrollbar">
         {loading ? (
           <Loading height="30px" />
@@ -191,7 +192,7 @@ const SurveyModel = ({ handleClose }: { handleClose: () => void }) => {
                   required
                   ref={focusInputRef}
                   inputType="text"
-                  label="Survey Name"
+                  label="Form Title"
                   name="surveyName"
                   onChange={e => {
                     setError({ feild: "", message: "" });
@@ -200,7 +201,7 @@ const SurveyModel = ({ handleClose }: { handleClose: () => void }) => {
                       surveyName: e.target.value,
                     }));
                   }}
-                  placeholder="Survey Name"
+                  placeholder="Provide a title for your form."
                   value={detail.surveyName}
                 />
                 {Error.feild === "name" && (
@@ -209,7 +210,7 @@ const SurveyModel = ({ handleClose }: { handleClose: () => void }) => {
               </div>
 
               <div className="lang">
-                <div className="label">Survey Category</div>
+                <div className="label">Social Impact Category</div>
                 <Select
                   required
                   onChange={(o: any) => {
@@ -292,7 +293,8 @@ const SurveyModel = ({ handleClose }: { handleClose: () => void }) => {
             </Form>
           </>
         )}
-      </ModelWrapper>
+        </ModelWrapper>
+     
     </SurveyModelContainer>
   );
 };
@@ -305,8 +307,52 @@ const getCategoriesOptions = (categories: any[]) => {
         value: "",
       },
       {
-        label: "Health",
-        value: "HEALTH",
+        label: "Climate Action",
+        value: "CLIMATE_ACTION",
+      },
+      {
+        label: "Economic Growth",
+        value: "ECONOMIC_GROWTH",
+      },
+      {
+        label: "Education",
+        value: "EDUCATION",
+      },
+      {
+        label: "Energy",
+        value: "ENERGY",
+      },
+      {
+        label: "Environmental Conservation",
+        value: "ENVIRONMENTAL_CONSERVATION",
+      },
+      {
+        label: "Food Security & Agriculture",
+        value: "FOOD_SECURITY_AGRICULTURE",
+      },
+      {
+        label: "Gender Equality",
+        value: "GENDER_EQUALITY",
+      },
+      {
+        label: "Health & Well-being",
+        value: "HEALTH_WELLBEING",
+      },
+      {
+        label: "Infrastructure & Innovation",
+        value: "INFRASTRUCTURE_INNOVATION",
+      },
+      {
+        label: "Peace & Justice",
+        value: "PEACE_JUSTICE",
+      },
+      {
+        label: "Poverty Reduction",
+        value: "POVERTY_REDUCTION",
+      },
+      {
+        label: "Water & Sanitation",
+        value: "WATER_SANITATION",
       },
     ];
   }

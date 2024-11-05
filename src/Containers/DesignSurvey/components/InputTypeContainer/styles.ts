@@ -4,7 +4,7 @@ export const InputTypeContainer = styled.div<{ open: boolean }>`
   position: fixed;
   inset: 0;
   left: ${({ open }) => (open ? "22%" : "100%")};
-  background-color: #fff;
+  background-color: #DCE4EA;
   transition: left 0.5s ease-in-out;
   padding: 24px;
   z-index: 100;
