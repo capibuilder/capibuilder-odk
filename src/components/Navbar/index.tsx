@@ -96,7 +96,7 @@ const Navbar = () => {
             <Logo href={"/"}>
             <img
                 src={"/images/logoCapibara.svg"}
-                style={{ width: 40, height: 40, transform: 'scaleX(-1)' }}
+                style={{ width: 40, height: 40, transform: "scaleX(-1)" }}
                 alt="CAPIBuilder logo"
               />
               <span className="text-logo">
