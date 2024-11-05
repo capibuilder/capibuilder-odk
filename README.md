@@ -1,4 +1,4 @@
-# CAPIBuilder
+# CAPIBuilder for ODK
 `CAPIBuilder` is an open-source web application built with Next.js, TypeScript, and Styled-Component CSS. CAPIBuilder solves an important problem in the data collection process by providing a user-friendly interface for creating and managing survey forms, collecting responses, and reviewing data for Open Data Kit (ODK) API.
 
 ## Before you begin
@@ -6,7 +6,14 @@ CAPIBuilder provides only the web application. To use it, you will need to run t
 https://github.com/getodk/central
 
 ### Environment Variables (.env)
-Create a `.env` file in the root directory of the project and add the following environment variables:
+First, copy the example environment file to create your own `.env` file:
+
+```sh
+cp .env.example .env
+```
+
+Then edit the `.env` file in the root directory of the project and update the following environment variables:
+
 ```
 NEXT_PUBLIC_ODK_CENTRAL_REST_API (The URL of the ODK Central REST API)
 NEXT_PUBLIC_ODK_ADMIN_EMAIL (The email of the ODK Central admin user)
@@ -15,11 +22,8 @@ NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID (The Google Measurement ID)
 NEXT_PUBLIC_DOCS_URL (The URL of the documentation, optional)
 NEXT_PUBLIC_KEYWORDS_REST_API (The URL of the Keywords REST API)
 NEXT_PUBLIC_TRANSLATIONS_REST_API (The URL of the Translations REST API)
-NEXT_PUBLIC_PIVOT_REST_API (The URL of the Pivot REST API)
 NEXT_PUBLIC_TEMPLATE_REST_API (The URL of the Template REST API)
-NEXT_PUBLIC_ATTRIBUTE_REST_API (The URL of the Attribute REST API)
 NEXT_PUBLIC_API_KEY (The API key for the API)
-NEXT_PUBLIC_PIVOT_API_BASE_URL (The URL of the Pivot API)
 ```
 
 ## Installation
@@ -29,13 +33,13 @@ The deployment can be done through running through the command or docker.
 ### Clone the repository to your local machine
 
 ```sh
-git clone https://github.com/capibuilder/capibuilder-web
+git clone https://github.com/capibuilder/capibuilder-odk
 ```
 
 ### Navigate to the project directory
 
 ```sh
-cd capibuilder
+cd capibuilder-odk
 ```
 
 ### Install the dependencies

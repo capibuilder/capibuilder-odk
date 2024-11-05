@@ -1,12 +1,12 @@
 {
-  "name": "capibuilder",
+  "name": "capibuilder-odk",
   "version": "0.0.1",
   "private": false,
   "author": "capibuilder (hi@capibuilder.org)",
   "description": "CAPIBuilder is an open-source drag-and-drop form builder for ODK that support most of the ODK question types. CAPIBuilder also provides data tables for review and approval by the Project Manager. It comes with automatic translations using major Azure and Google translation APIs.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/capibuilder/capibuilder-web"
+    "url": "https://github.com/capibuilder/capibuilder-odk"
   },
   "keywords": [
     "CAPI",
