@@ -122,11 +122,29 @@ export default function Index() {
           className="header"
           justifyContent="space-between"
         >
-          <Typography
-            content={Trimmer(projectData?.name || "Surveys", 60)}
-            as="h1"
-            weight="600"
-          />
+          <Flex
+            direction="column"
+            alignItems="flex-start"
+            gap="10px"
+          >
+            <Typography
+              content={Trimmer(projectData?.name || "Surveys", 60)}
+              as="h2"
+              weight="600"
+            />
+            <ToolTips 
+              text={projectData?.description || "No description available"}
+              position="bottom"
+            >
+              <Typography
+                content={projectData?.description || "No description available"}
+                as="h4"
+                weight="200"
+                className="description-block"
+              />
+            </ToolTips>
+          </Flex>
+          
           <Search
             inputProps={{
               onFocus: () => {

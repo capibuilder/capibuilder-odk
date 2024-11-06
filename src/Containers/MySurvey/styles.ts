@@ -6,6 +6,18 @@ export const Wrapper = styled(WrapperStub)`
     margin-bottom: 30px;
   }
 
+  .description-block {
+    max-width: 600px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    line-height: 1.5;
+    color: #666;
+  }
+
   a.add-new {
     position: fixed;
     cursor: pointer;
