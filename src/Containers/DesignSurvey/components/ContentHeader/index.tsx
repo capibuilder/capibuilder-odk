@@ -73,39 +73,43 @@ const ContentHeader = ({
       sourceDroppableId.includes("content-child-items") &&
       destinationDroppableId.includes("content-child-items")
     ) {
-      // Handle sub-questions reordering (existing code)
       const parentId = `field-${sourceDroppableId.split("-")[3]}`;
       const parentField = newData.fields[parentId];
       
       if (!parentField || !parentField.groupfields) return;
 
-      const subItems = Object.values(parentField.groupfields);
+      const subItems = Object.values(parentField.groupfields).filter(Boolean);
       const reorderedSubItems = Array.from(subItems);
-      const [removed] = reorderedSubItems.splice(source.index, 1);
-      reorderedSubItems.splice(destination.index, 0, removed);
+      
+      if (reorderedSubItems.length > 0) {
+        const [removed] = reorderedSubItems.splice(source.index, 1);
+        reorderedSubItems.splice(destination.index, 0, removed);
 
-      // Update the parent's groupfields
-      const updatedGroupFields = reorderedSubItems.reduce((acc: any, item: any, index: number) => {
-        acc[`field-${item.id}`] = {
-          ...item,
-          questionNumber: `${parentField.questionNumber}.${index + 1}`
+        // Update the parent's groupfields
+        const updatedGroupFields = reorderedSubItems.reduce((acc: any, item: any, index: number) => {
+          if (item && item.id) {
+            acc[`field-${item.id}`] = {
+              ...item,
+              questionNumber: `${parentField.questionNumber}.${index + 1}`
+            };
+          }
+          return acc;
+        }, {});
+
+        // Update the fields object
+        const updatedFields = {
+          ...newData.fields,
+          [parentId]: {
+            ...parentField,
+            groupfields: updatedGroupFields
+          }
         };
-        return acc;
-      }, {});
 
-      // Update the fields object
-      const updatedFields = {
-        ...newData.fields,
-        [parentId]: {
-          ...parentField,
-          groupfields: updatedGroupFields
-        }
-      };
-
-      setData({
-        ...allData,
-        fields: updatedFields
-      });
+        setData({
+          ...allData,
+          fields: updatedFields
+        });
+      }
     }
   };
 

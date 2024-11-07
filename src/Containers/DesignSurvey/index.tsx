@@ -89,7 +89,7 @@ const DesignSurvey = () => {
 
   const handleXmlSubmit = (directPublish: boolean) => {
     setXmlLoading(true);
-    if (Object.values(data.fields).length === 0) {
+    if (Object.values(data?.fields || {}).length === 0) {
       setXmlLoading(false);
       setAlert({
         title: "Error",
@@ -100,7 +100,7 @@ const DesignSurvey = () => {
       return;
     }
 
-    if (data.title.length === 0) {
+    if (!data?.title || data.title.length === 0) {
       setXmlLoading(false);
       setAlert({
         title: "Error",
@@ -205,13 +205,12 @@ const DesignSurvey = () => {
     try {
       setXmlLoading(true);
       const jsonData = {
-        title: data.title,
-        // entityDataset: data?.entityDataset,
-        fields: data.fields,
-        entity: data.entity || undefined,
-        langs: data.langs || [],
-        dataset: data.dataset,
-        uniqueIdentifier: data.uniqueIdentifier,
+        title: data?.title || '',
+        fields: data?.fields || {},
+        entity: data?.entity || undefined,
+        langs: data?.langs || [],
+        dataset: data?.dataset,
+        uniqueIdentifier: data?.uniqueIdentifier,
       };
 
       const xmlData = generateXml({
@@ -290,22 +289,27 @@ const DesignSurvey = () => {
         push(`/projects/${projectId}/survey`);
       })();
     } catch (error: any) {
-      if (error.response.data.code && error.response.data.code === 403.1) {
+      setXmlLoading(false);
+      
+      // Check if error has response and data properties
+      if (error?.response?.data?.code === 403.1) {
         setAlert({
           show: true,
           state: "error",
           text: "Your account has no permission to perform this action.",
           title: "Error",
         });
-
-        return;
+      } else {
+        // Generic error message for other cases
+        setAlert({
+          show: true,
+          state: "error",
+          text: error?.message || "An error occurred while processing your request.",
+          title: "Error",
+        });
       }
-      setAlert({
-        show: true,
-        state: "error",
-        text: "Something went wrong!",
-        title: "",
-      });
+      
+      console.error("XML Submit Error:", error);
     } finally {
       setXmlLoading(false);
     }

@@ -8,7 +8,6 @@ import { questionTypes } from "@/interfaces/questionTypes";
 import { combineQuestion } from "@/utils/combineQuestions";
 import { useCallback, useEffect, useState } from "react";
 import { FiHash } from "react-icons/fi";
-import Select from "react-select";
 import { Flex, Switch, TextField } from "socialwell-design";
 import { inputListData } from "../InputTypeContainer/inputListData";
 import CreateDataset from "../Popups/CreateDataset";
@@ -141,6 +140,8 @@ const QuestionHeader = () => {
   const [showConnecton, setShowConnecton] = useState(false);
   const [createDataset, setCreateDataset] = useState(false);
   const [showSelectAppearance, setShowSelectAppearance] = useState(false);
+  const [showNumberOfRepeat, setShowNumberOfRepeat] = useState(false);
+  const [numberOfRepeat, setNumberOfRepeat] = useState("");
 
   const current: questionField = data.fields[currentField];
 
@@ -421,152 +422,86 @@ const QuestionHeader = () => {
       {!current?.auditType && (
         <>
           <Options>
-            <div className="title">setting</div>
+            <div className="title">settings</div>
 
             {field?.group && (
+              <>
+                <SwitchOptions
+                  name={
+                    current.questionType === "group"
+                      ? "Repeat Question Group"
+                      : "Repeat Cascading Select"
+                  }
+                  isChecked={options.loop}
+                  onChange={() => {
+                    setOptions(data => ({
+                      ...data,
+                      loop: !data.loop,
+                    }));
+                    if (!options.loop) {
+                      setNumberOfRepeat("");
+                    }
+                  }}
+                />
+
+                {options.loop && (
+                  <div style={{ marginBlock: "8px" }}>
+                    <TextField
+                      onChange={e => {
+                        const value = e.target.value;
+                        if (!/^\d*$/.test(value)) {
+                          return;
+                        }
+                        const numValue = parseInt(value);
+                        if (numValue >= 1 || value === '') {
+                          setNumberOfRepeat(value);
+                          addFieldData({
+                            repeatCount: value ? parseInt(value) : undefined,
+                          });
+                        }
+                      }}
+                      placeholder="Enter number of repeats (min: 1)"
+                      value={numberOfRepeat}
+                      type="number"
+                      min="1"
+                      onBlur={() => {
+                        if (!numberOfRepeat || parseInt(numberOfRepeat) < 1) {
+                          setNumberOfRepeat('1');
+                          addFieldData({
+                            repeatCount: 1,
+                          });
+                        }
+                      }}
+                    />
+                  </div>
+                )}
+              </>
+            )}
+
+            {!hideReadOnly.includes(current.questionType) && (
               <SwitchOptions
-                name={
-                  current.questionType === "group"
-                    ? "Repeat Question Group"
-                    : "Repeat Cascading Select"
-                }
-                isChecked={options.loop}
+                name="read only"
+                isChecked={options.readOnly}
                 onChange={() => {
                   setOptions(data => ({
                     ...data,
-                    loop: !data.loop,
+                    readOnly: !data.readOnly,
                   }));
                 }}
               />
             )}
-
-            {current?.style !== "upload" &&
-              // current?.style !== "range" &&
-              // current?.style !== "select" &&
-              current?.style !== "trigger" && (
-                <>
-                  {!hideReadOnly.includes(current.questionType) && (
-                    <SwitchOptions
-                      name="read only"
-                      isChecked={options.readOnly}
-                      onChange={() => {
-                        setOptions(data => ({
-                          ...data,
-                          readOnly: !data.readOnly,
-                        }));
-                      }}
-                    />
-                  )}
-                  {!hideDefaultValue.includes(current.questionType) && (
-                    <SwitchOptions
-                      name="Default Value"
-                      isChecked={options.hasDefaultValue}
-                      onChange={() => {
-                        setOptions(data => ({
-                          ...data,
-                          hasDefaultValue: !data.hasDefaultValue,
-                        }));
-                      }}
-                    />
-                  )}
-                </>
-              )}
-            {options.hasDefaultValue &&
-              !hideDefaultValue.includes(current.questionType) &&
-              (current.questionType === "singleselect" ||
-              current.questionType === "chooseone" ||
-              current.questionType === "likert" ? (
-                <Select
-                  options={current.selectOptions}
-                  onChange={(e: any) =>
-                    setOptions(data => ({
-                      ...data,
-                      defaultValue: e.value,
-                    }))
-                  }
-                  value={{
-                    label: options.defaultValue || "Select",
-                    value: options.defaultValue,
-                  }}
-                />
-              ) : current.questionType === "multipleselect" ? (
-                <Select
-                  options={current.selectOptions}
-                  onChange={(e: any) =>
-                    setOptions(data => ({
-                      ...data,
-                      defaultValue: e.map((v: any) => v.value).join(" "),
-                    }))
-                  }
-                  value={
-                    options?.defaultValue
-                      .trim()
-                      ?.split(" ")
-                      .map(v => ({
-                        label: v,
-                        value: v,
-                      })) || []
-                  }
-                  isMulti
-                />
-              ) : current.questionType === "date" ? (
-                <input
-                  required
-                  type="date"
-                  className="defaultValue"
-                  onChange={e =>
-                    setOptions(data => ({
-                      ...data,
-                      defaultValue: e.target.value,
-                    }))
-                  }
-                  value={current.defaultValue}
-                />
-              ) : current.questionType === "datetime" ? (
-                <input
-                  required
-                  type="datetime-local"
-                  className="defaultValue"
-                  onChange={e =>
-                    setOptions(data => ({
-                      ...data,
-                      defaultValue: e.target.value,
-                    }))
-                  }
-                  value={current.defaultValue}
-                />
-              ) : current.questionType === "time" ? (
-                <input
-                  required
-                  type="time"
-                  className="defaultValue"
-                  onChange={e =>
-                    setOptions(data => ({
-                      ...data,
-                      defaultValue: e.target.value,
-                    }))
-                  }
-                  value={current.defaultValue}
-                />
-              ) : (
-                <div style={{ marginBlock: "8px" }}>
-                  <TextField
-                    onChange={e =>
-                      setOptions(data => ({
-                        ...data,
-                        defaultValue: e.target.value,
-                      }))
-                    }
-                    placeholder={
-                      current.questionType === "geopoint"
-                        ? "Required format = lat long"
-                        : "Enter Default Value"
-                    }
-                    value={options.defaultValue}
-                    type="text"
-                  />
-                </div>
-              ))}
+            {!hideDefaultValue.includes(current.questionType) && (
+              <SwitchOptions
+                name="Default Value"
+                isChecked={options.hasDefaultValue}
+                onChange={() => {
+                  setOptions(data => ({
+                    ...data,
+                    hasDefaultValue: !data.hasDefaultValue,
+                  }));
+                }}
+              />
+            )}
 
             {!hideRequired.includes(current.questionType) && (
               <SwitchOptions

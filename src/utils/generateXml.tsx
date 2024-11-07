@@ -482,11 +482,13 @@ const generateBody = (
       .join("");
 
     if (data.groupRepeat) {
+      const repeatCount = data.repeatCount ? ` jr:count="${data.repeatCount}" jr:noAddRemove="true()"` : '';
+      
       return `
       <group ref="/data/${modifiedDataAttribute}">
         <label ref="jr:itext('/data/${modifiedDataAttribute}:label')"/>
-        <repeat nodeset="/data/${modifiedDataAttribute}">
-        ${groupContent}
+        <repeat nodeset="/data/${modifiedDataAttribute}"${repeatCount}>
+          ${groupContent}
         </repeat>
       </group>
     `;
