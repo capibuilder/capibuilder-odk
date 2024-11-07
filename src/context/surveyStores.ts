@@ -12,7 +12,7 @@ interface SurveyState {
     uniqueIdentifier?: string;
   };
   setData: (data: any) => void;
-  // ... any other state properties and methods
+  deleteField: (fieldKey: string) => void;
 }
 
 export const useSurveyStore = create<SurveyState>((set) => ({
@@ -21,5 +21,13 @@ export const useSurveyStore = create<SurveyState>((set) => ({
     fields: {},
   },
   setData: (data) => set({ data }),
-  // ... other state methods
+  deleteField: (fieldKey) => 
+    set((state) => ({
+      data: {
+        ...state.data,
+        fields: Object.fromEntries(
+          Object.entries(state.data.fields).filter(([key]) => key !== fieldKey)
+        )
+      }
+    }))
 })); 
