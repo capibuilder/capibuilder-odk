@@ -190,7 +190,7 @@ const InputTypeList: React.FC<InputTypeListProps> = ({
 
   return (
     <InputTypeListContainer>
-      <div className="title">all question type</div>
+      <div className="title">Question Types & Form Structure</div>
       <InputTypeWrapper
         className="c-scrollbar"
         style={{ overflowY: visible ? "auto" : "hidden" }}

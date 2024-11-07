@@ -21,98 +21,91 @@ const ContentHeader = ({
   const setData = useSurveyStore(state => state.setData);
 
   const handleDragEnd = (result: any) => {
-    if (!result.destination || result.destination.index === result.source.index)
+    if (!result.destination || result.destination.index === result.source.index) {
       return;
+    }
 
     const { source, destination } = result;
     const sourceDroppableId = source.droppableId;
     const destinationDroppableId = destination.droppableId;
 
-    const updateItems = (
-      items: any[],
-      sourceIndex: number,
-      destinationIndex: number
-    ) => {
-      const [movedItem] = items.splice(sourceIndex, 1);
-      items.splice(destinationIndex, 0, movedItem);
-      return items;
-    };
+    // Create a copy of the current data
+    const newData = { ...allData };
+    const fields = Object.values(newData.fields);
 
-    const updateFields = (items: any[]) => {
-      return items.reduce((acc: any, item: any, index: number) => {
-        acc[`field-${item.id}`] = item.parentId
-          ? item
-          : { ...item, questionNumber: index + 1 };
+    if (sourceDroppableId === "content-items" && destinationDroppableId === "content-items") {
+      // Get all parent-level questions (including group questions)
+      const parentQuestions = fields.filter((item: any) => !item.parentId);
+      const reorderedItems = Array.from(parentQuestions);
+      
+      // Perform the reorder
+      const [removed] = reorderedItems.splice(source.index, 1);
+      reorderedItems.splice(destination.index, 0, removed);
+
+      // Create new fields object with updated order
+      const updatedFields = reorderedItems.reduce((acc: any, item: any, index: number) => {
+        // Add the parent question with updated number
+        acc[`field-${item.id}`] = {
+          ...item,
+          questionNumber: index + 1
+        };
+
+        // If it's a group question, add all its children
+        if (item.group && item.groupfields) {
+          Object.values(item.groupfields).forEach((child: any, childIndex: number) => {
+            acc[`field-${child.id}`] = {
+              ...child,
+              parentId: `field-${item.id}`,
+              questionNumber: `${index + 1}.${childIndex + 1}`
+            };
+          });
+        }
+
         return acc;
       }, {});
-    };
 
-    const reduceFields = (items: any[], allItems: any[], parentId: string) => {
-      let count = 1;
-      const questionNumberMap = new Map<string, string>();
-
-      allItems.forEach(item => {
-        if (item.id) {
-          questionNumberMap.set(`field-${item.id}`, item.questionNumber || "");
-        }
+      // Update the store
+      setData({
+        ...allData,
+        fields: updatedFields
       });
-
-      const updatedFields = items.reduce(
-        (acc: Record<string, any>, item: any) => {
-          if (!item.parentId || item.parentId !== parentId) {
-            acc[`field-${item.id}`] = item;
-          } else {
-            const questionNumber = questionNumberMap.get(item.parentId) || "";
-            acc[`field-${item.id}`] = {
-              ...item,
-              questionNumber: `${questionNumber}.${count}`,
-            };
-            count++;
-          }
-          return acc;
-        },
-        {}
-      );
-
-      return updatedFields;
-    };
-
-    if (
-      sourceDroppableId === "content-items" &&
-      destinationDroppableId === "content-items"
-    ) {
-      const items = Object.values(allData.fields);
-      const updatedItems = updateItems(items, source.index, destination.index);
-      const updatedFields = updateFields(updatedItems);
-      setData({ ...allData, fields: updatedFields });
     } else if (
       sourceDroppableId.includes("content-child-items") &&
       destinationDroppableId.includes("content-child-items")
     ) {
+      // Handle sub-questions reordering (existing code)
       const parentId = `field-${sourceDroppableId.split("-")[3]}`;
-      const allItems: any = Object.values(allData.fields);
-      const parentItems = allItems.filter(
-        (item: any) => item.parentId === parentId
-      );
-      const otherItems = allItems.filter(
-        (item: any) => item.parentId !== parentId
-      );
+      const parentField = newData.fields[parentId];
+      
+      if (!parentField || !parentField.groupfields) return;
 
-      const updatedParentItems = updateItems(
-        parentItems,
-        source.index,
-        destination.index
-      );
+      const subItems = Object.values(parentField.groupfields);
+      const reorderedSubItems = Array.from(subItems);
+      const [removed] = reorderedSubItems.splice(source.index, 1);
+      reorderedSubItems.splice(destination.index, 0, removed);
 
-      const updatedFields = reduceFields(
-        [...otherItems, ...updatedParentItems],
-        allItems,
-        parentId
-      );
+      // Update the parent's groupfields
+      const updatedGroupFields = reorderedSubItems.reduce((acc: any, item: any, index: number) => {
+        acc[`field-${item.id}`] = {
+          ...item,
+          questionNumber: `${parentField.questionNumber}.${index + 1}`
+        };
+        return acc;
+      }, {});
 
-      setData({ ...allData, fields: updatedFields });
-    } else {
-      console.log(result);
+      // Update the fields object
+      const updatedFields = {
+        ...newData.fields,
+        [parentId]: {
+          ...parentField,
+          groupfields: updatedGroupFields
+        }
+      };
+
+      setData({
+        ...allData,
+        fields: updatedFields
+      });
     }
   };
 

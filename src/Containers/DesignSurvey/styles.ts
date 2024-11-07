@@ -110,6 +110,7 @@ export const DesignSurveyWrapper = styled.div`
   display: grid;
   grid-template-columns: 350px 1fr 350px;
   position: relative;
+  margin-bottom: 100px;
 `;
 
 export const Leftside = styled.div`
