@@ -453,7 +453,7 @@ const QuestionHeader = () => {
                           return;
                         }
                         const numValue = parseInt(value);
-                        if (numValue >= 1 || value === '') {
+                        if (numValue >= 1 || value === "") {
                           setNumberOfRepeat(value);
                           addFieldData({
                             repeatCount: value ? parseInt(value) : undefined,
@@ -463,10 +463,10 @@ const QuestionHeader = () => {
                       placeholder="Enter number of repeats (min: 1)"
                       value={numberOfRepeat}
                       type="number"
-                      min="1"
+                      min={1}
                       onBlur={() => {
                         if (!numberOfRepeat || parseInt(numberOfRepeat) < 1) {
-                          setNumberOfRepeat('1');
+                          setNumberOfRepeat("1");
                           addFieldData({
                             repeatCount: 1,
                           });

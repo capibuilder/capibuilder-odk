@@ -205,7 +205,7 @@ const DesignSurvey = () => {
     try {
       setXmlLoading(true);
       const jsonData = {
-        title: data?.title || '',
+        title: data?.title || "",
         fields: data?.fields || {},
         entity: data?.entity || undefined,
         langs: data?.langs || [],

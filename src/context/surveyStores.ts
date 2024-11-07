@@ -17,7 +17,7 @@ interface SurveyState {
 
 export const useSurveyStore = create<SurveyState>((set) => ({
   data: {
-    title: '',
+    title: "",
     fields: {},
   },
   setData: (data) => set({ data }),

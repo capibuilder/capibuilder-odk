@@ -32,6 +32,7 @@ export type XmlProps = {
   group?: boolean;
   groupRepeat?: boolean;
   groupLabel?: string;
+  repeatCount?: string;
   groupfields: XmlProps[];
   instanceId?: string;
   parentPath: string[];
@@ -482,7 +483,7 @@ const generateBody = (
       .join("");
 
     if (data.groupRepeat) {
-      const repeatCount = data.repeatCount ? ` jr:count="${data.repeatCount}" jr:noAddRemove="true()"` : '';
+      const repeatCount = data.repeatCount ? ` jr:count="${data.repeatCount}" jr:noAddRemove="true()"` : "";
       
       return `
       <group ref="/data/${modifiedDataAttribute}">
