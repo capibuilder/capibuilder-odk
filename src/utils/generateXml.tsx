@@ -493,7 +493,7 @@ const generateBody = (
       return `
         <group ref="/data/${modifiedDataAttribute}">
           <label ref="jr:itext('/data/${modifiedDataAttribute}:label')"/>
-          <repeat nodeset="/data/${modifiedDataAttribute}" jr:count="${data.repeatCount}">
+          <repeat nodeset="/data/${modifiedDataAttribute}" repeat_count="${data.repeatCount}">
             ${groupContent}
           </repeat>
         </group>
