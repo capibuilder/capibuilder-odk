@@ -31,6 +31,7 @@ export type XmlProps = {
   mediatype?: string;
   group?: boolean;
   groupRepeat?: boolean;
+  repeatCount?: string;
   groupLabel?: string;
   groupfields: XmlProps[];
   instanceId?: string;
@@ -485,7 +486,7 @@ const generateBody = (
       return `
       <group ref="/data/${modifiedDataAttribute}">
         <label ref="jr:itext('/data/${modifiedDataAttribute}:label')"/>
-        <repeat nodeset="/data/${modifiedDataAttribute}">
+        <repeat nodeset="/data/${modifiedDataAttribute}" ${data.repeatCount ? `jr:count="${data.repeatCount}"` : ""}>
         ${groupContent}
         </repeat>
       </group>

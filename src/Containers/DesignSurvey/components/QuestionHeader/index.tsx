@@ -132,9 +132,9 @@ const hideDefaultValue: questionTypes[] = [
 ];
 
 const QuestionHeader = () => {
-  const data = useSurveyStore(state => state.data);
-  const addFieldData = useSurveyStore(state => state.addFieldData);
-  const currentField = useSurveyStore(state => state.currentField)!;
+  const data = useSurveyStore((state) => state.data);
+  const addFieldData = useSurveyStore((state) => state.addFieldData);
+  const currentField = useSurveyStore((state) => state.currentField)!;
   const [field, setField] = useState<any>(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showTag, setShowTag] = useState(false);
@@ -145,11 +145,6 @@ const QuestionHeader = () => {
   const current: questionField = data.fields[currentField];
 
   const [options, setOptions] = useState({
-    // type: {
-    //   label: "Single Choice",
-    //   value: "single",
-    // },
-
     isRequired: false,
     requiredMsg: "",
     loop: false,
@@ -166,7 +161,7 @@ const QuestionHeader = () => {
     isMultipleSelection: false,
     isVerticalAlignment: false,
     isShuffleOptionOrder: false,
-    // saveToEntity: false,
+    repeatCount: "",
   });
 
   const updateCurrentField = useCallback(() => {
@@ -187,9 +182,9 @@ const QuestionHeader = () => {
       requiredMsg: options.isRequired ? options.requiredMsg : "",
       readOnly: options.readOnly,
       groupRepeat: options.loop,
+      repeatCount: options.loop ? options.repeatCount : "",
       constraint: options.invalid ? options.constraint : "",
-      constraintMsg:
-        options.invalid && options.constraintMsg ? options.constraintMsg : "",
+      constraintMsg: options.invalid && options.constraintMsg ? options.constraintMsg : "",
       relevant: options.hasRelevant ? options.relevant : "",
       defaultValue: options.hasDefaultValue ? options.defaultValue : "",
       calculate: options.hasCalculation ? options.calculate : "",
@@ -424,20 +419,38 @@ const QuestionHeader = () => {
             <div className="title">setting</div>
 
             {field?.group && (
-              <SwitchOptions
-                name={
-                  current.questionType === "group"
-                    ? "Repeat Question Group"
-                    : "Repeat Cascading Select"
-                }
-                isChecked={options.loop}
-                onChange={() => {
-                  setOptions(data => ({
-                    ...data,
-                    loop: !data.loop,
-                  }));
-                }}
-              />
+              <>
+                <SwitchOptions
+                  name={
+                    current.questionType === "group"
+                      ? "Repeat Question Group"
+                      : "Repeat Cascading Select"
+                  }
+                  isChecked={options.loop}
+                  onChange={() => {
+                    setOptions(data => ({
+                      ...data,
+                      loop: !data.loop,
+                    }));
+                  }}
+                />
+                {options.loop && (
+                  <div style={{ marginBlock: "8px" }}>
+                    <TextField
+                      onChange={e => {
+                        const value = e.target.value.replace(/[^0-9]/g, "");
+                        setOptions(data => ({
+                          ...data,
+                          repeatCount: value
+                        }));
+                      }}
+                      placeholder="Enter repeat count"
+                      value={options.repeatCount || ""}
+                      type="text"
+                    />
+                  </div>
+                )}
+              </>
             )}
 
             {current?.style !== "upload" &&
