@@ -1,5 +1,5 @@
-import { entity } from "@/utils/generateXml";
 import { create } from "zustand";
+import { entity } from "../utils/generateXml";
 
 export type State = {
   data: {
