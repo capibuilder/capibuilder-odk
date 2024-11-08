@@ -1,3 +1,5 @@
+// Added interface and function
+
 import { create } from "zustand";
 
 interface SurveyState {
