@@ -15,7 +15,7 @@ interface SurveyState {
   deleteField: (fieldKey: string) => void;
 }
 
-export const useSurveyStore = create<SurveyState>((set) => ({
+const useSurveyStore = create<SurveyState>((set) => ({
   data: {
     title: "",
     fields: {},
@@ -30,4 +30,6 @@ export const useSurveyStore = create<SurveyState>((set) => ({
         )
       }
     }))
-})); 
+}));
+
+export default useSurveyStore;

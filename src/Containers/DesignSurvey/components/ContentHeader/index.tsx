@@ -1,6 +1,6 @@
 import { AddIcon, CloseIcon, MenuIcon, TickIcon } from "@/assets";
 import { DragDropWrapper } from "@/components";
-import { useSurveyStore } from "@/context/surveyStores";
+import useSurveyStore from "@/context/surveyStores";
 import { questionField } from "@/interfaces/questionFields";
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { shallow } from "zustand/shallow";
@@ -17,7 +17,7 @@ const ContentHeader = ({
   title,
   handleClick,
 }: ContentHeaderProps) => {
-  const allData = useSurveyStore(state => state.data, shallow);
+  const allData = useSurveyStore((state) => state.data, shallow);
   const setData = useSurveyStore(state => state.setData);
 
   const handleDragEnd = (result: any) => {
