@@ -6,7 +6,7 @@ CAPIBuilder provides only the web application. To use it, you will need to run t
 https://github.com/getodk/central
 
 ### Environment Variables (.env)
-First, copy the example environment file to create your own `.env` file.
+First, copy the example environment file to create your own `.env` file:
 
 ```sh
 cp .env.example .env
