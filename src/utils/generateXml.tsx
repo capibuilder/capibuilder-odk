@@ -65,6 +65,7 @@ export type XmlProps = {
     min?: number;
   };
   otherLangs: MultiLangs[];
+  repeatCount?: number;
 };
 
 const ID_PREFIX = "id_";
@@ -76,11 +77,22 @@ const generateInstanceValue = (data: XmlProps): string => {
   }
 
   if (data.group) {
+    if (data.groupRepeat && data.repeatCount && data.repeatCount > 1) {
+      return Array(data.repeatCount)
+        .fill(null)
+        .map(() => `
+          <${data.dataAttribute}>
+            ${Object.values(data.groupfields).map(generateInstanceValue).join("")}
+          </${data.dataAttribute}>
+        `)
+        .join("");
+    }
+
     return `
-    <${data.dataAttribute}>
-      ${Object.values(data.groupfields).map(generateInstanceValue).join("")}
-    </${data.dataAttribute}>
-  `;
+      <${data.dataAttribute}>
+        ${Object.values(data.groupfields).map(generateInstanceValue).join("")}
+      </${data.dataAttribute}>
+    `;
   }
 
   if (data.defaultValue) {
@@ -469,27 +481,23 @@ const generateBody = (
 
   if (data.group) {
     const groupContent = Object.values(data.groupfields)
-      .map((field, i) =>
-        generateBody(
-          field,
-          i !== 0,
-          Object.values(data.groupfields)[i - 1]?.dataAttribute,
-          `${data.dataAttribute}/${
-            Object.values(data.groupfields)[i - 1]?.dataAttribute
-          }`
-        )
-      )
+      .map((field, i) => generateBody(
+        field,
+        i !== 0,
+        Object.values(data.groupfields)[i - 1]?.dataAttribute,
+        `${data.dataAttribute}/${Object.values(data.groupfields)[i - 1]?.dataAttribute}`
+      ))
       .join("");
 
-    if (data.groupRepeat) {
+    if (data.groupRepeat && data.repeatCount && data.repeatCount > 1) {
       return `
-      <group ref="/data/${modifiedDataAttribute}">
-        <label ref="jr:itext('/data/${modifiedDataAttribute}:label')"/>
-        <repeat nodeset="/data/${modifiedDataAttribute}">
-        ${groupContent}
-        </repeat>
-      </group>
-    `;
+        <group ref="/data/${modifiedDataAttribute}">
+          <label ref="jr:itext('/data/${modifiedDataAttribute}:label')"/>
+          <repeat nodeset="/data/${modifiedDataAttribute}" jr:count="${data.repeatCount}">
+            ${groupContent}
+          </repeat>
+        </group>
+      `;
     }
 
     return `
@@ -575,6 +583,17 @@ const generateXml = ({
   };
   minify?: boolean;
 }) => {
+  console.log("Fields in generateXml:", 
+    Object.entries(jsonData.fields)
+      .filter(([_, field]) => field.group)
+      .map(([key, field]) => ({
+        id: key,
+        repeatCount: field.repeatCount,
+        groupRepeat: field.groupRepeat,
+        dataAttribute: field.dataAttribute
+      }))
+  );
+
   const version = Math.floor(Math.random() * 10000000);
   const { fields, entity, dataset, uniqueIdentifier } = jsonData;
 
@@ -637,7 +656,16 @@ const generateXml = ({
       : "";
 
   const bodyData = modifiedFields
-    .map(field => generateBody(field, false))
+    .map(field => {
+      if (field.group) {
+        console.log("Generating group body:", {
+          dataAttribute: field.dataAttribute,
+          repeatCount: field.repeatCount,
+          groupRepeat: field.groupRepeat
+        });
+      }
+      return generateBody(field, false, undefined, undefined);
+    })
     .join("");
 
   const multiLangiTextData = jsonData.langs

@@ -213,6 +213,16 @@ const QuestionHeader = () => {
 
   const questions: questionType[] = combineQuestion(inputListData);
 
+  useEffect(() => {
+    if (current?.questionType === "group") {
+      console.log("Current field data:", {
+        fieldId: currentField,
+        repeatCount: current.repeatCount,
+        groupRepeat: current.groupRepeat
+      });
+    }
+  }, [current, currentField]);
+
   return (
     <QuestionHeaderContainer className="c-scrollbar">
       {createDataset && (
@@ -424,20 +434,43 @@ const QuestionHeader = () => {
             <div className="title">setting</div>
 
             {field?.group && (
-              <SwitchOptions
-                name={
-                  current.questionType === "group"
-                    ? "Repeat Question Group"
-                    : "Repeat Cascading Select"
-                }
-                isChecked={options.loop}
-                onChange={() => {
-                  setOptions(data => ({
-                    ...data,
-                    loop: !data.loop,
-                  }));
-                }}
-              />
+              <>
+                <SwitchOptions
+                  name={
+                    current.questionType === "group"
+                      ? "Repeat Question Group"
+                      : "Repeat Cascading Select"
+                  }
+                  isChecked={options.loop}
+                  onChange={() => {
+                    setOptions(data => ({
+                      ...data,
+                      loop: !data.loop,
+                    }));
+                  }}
+                />
+                
+                {current.questionType === "group" && options.loop && (
+                  <div style={{ marginBlock: "8px" }}>
+                    <TextField
+                      type="number"
+                      min={2}
+                      placeholder="Mention number of repeats"
+                      value={(current.repeatCount || "") as any}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (value >= 2 || e.target.value === "") {
+                          console.log("Setting repeatCount in QuestionHeader:", value);
+                          addFieldData({
+                            groupRepeat: options.loop,
+                            repeatCount: value || undefined
+                          });
+                        }
+                      }}
+                    />
+                  </div>
+                )}
+              </>
             )}
 
             {current?.style !== "upload" &&
