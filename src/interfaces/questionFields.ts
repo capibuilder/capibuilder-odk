@@ -50,6 +50,7 @@ export interface questionField {
     min?: number;
     max?: number;
   };
+  repeatCount?: number;
 }
 
 export interface isModified {
