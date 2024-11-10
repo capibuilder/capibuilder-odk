@@ -454,7 +454,7 @@ const QuestionHeader = () => {
                   <div style={{ marginBlock: "8px" }}>
                     <TextField
                       type="number"
-                      min={2}
+                      min={1}
                       placeholder="Mention number of repeats"
                       value={(current.repeatCount || "") as any}
                       onChange={(e) => {
