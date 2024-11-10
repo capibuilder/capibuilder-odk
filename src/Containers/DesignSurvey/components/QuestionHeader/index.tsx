@@ -459,7 +459,7 @@ const QuestionHeader = () => {
                       value={(current.repeatCount || "") as any}
                       onChange={(e) => {
                         const value = parseInt(e.target.value);
-                        if (value >= 2 || e.target.value === "") {
+                        if (value >= 1 || e.target.value === "") {
                           console.log("Setting repeatCount in QuestionHeader:", value);
                           addFieldData({
                             groupRepeat: options.loop,
