@@ -32,7 +32,7 @@ const ContentHeader = ({
     let destinationDroppableId = destination.droppableId;
 
     if (currentField) {
-      console.log("Setting destination based on currentField:", currentField);
+      //console.log("Setting destination based on currentField:", currentField);
       destinationDroppableId = `content-child-items-${currentField.replace("field-", "")}`;
     }
 
@@ -81,7 +81,7 @@ const ContentHeader = ({
   };
 
   const handleAddClick = () => {
-    console.log("Adding new question. Current field:", currentField);
+    //console.log("Adding new question. Current field:", currentField);
     handleClick(title, false, currentField);
   };
 
@@ -182,7 +182,7 @@ const QuestionWrapper = ({ number, field, id, handleClick, title }: any) => {
         className="content-wrapper"
         onClick={() => {
           setCurrentField(`field-${id}`);
-          console.log("Main question clicked:", `field-${id}`);
+         //console.log("Main question clicked:", `field-${id}`);
         }}
       >
         <div className="content-wrapper-item">
@@ -259,7 +259,7 @@ const SubQuestionWrapper = ({ field, id, handleClick, title }: any) => {
               <div
                 onClick={() => {
                   setCurrentField(`field-${item.id}`);
-                  console.log("Sub question clicked:", `field-${item.id}`);
+                  //console.log("Sub question clicked:", `field-${item.id}`);
                 }}
                 className="group-content"
               >

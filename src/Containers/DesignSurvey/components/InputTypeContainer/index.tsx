@@ -124,7 +124,7 @@ const InputTypeList: React.FC<InputTypeListProps> = ({
       const currentFieldId = useSurveyStore.getState().currentField;
       const currentField = data.fields[currentFieldId];
       
-      console.log("Current field data:", currentField);
+      //console.log("Current field data:", currentField);
       
       const randomId = generateRandomId(5);
       const commonFieldData = {
@@ -183,12 +183,6 @@ const InputTypeList: React.FC<InputTypeListProps> = ({
             }
           }
         };
-
-        console.log('Updated group structure:', {
-          existingFields: existingGroupFields,
-          newField: newFieldWithNumber,
-          finalFields: updatedFields[currentFieldId].groupfields
-        });
 
         setData({
           ...data,

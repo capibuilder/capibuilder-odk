@@ -80,11 +80,15 @@ const generateInstanceValue = (data: XmlProps): string => {
     if (data.groupRepeat && data.repeatCount && data.repeatCount > 1) {
       return Array(data.repeatCount)
         .fill(null)
-        .map(() => `
+        .map(
+          () => `
           <${data.dataAttribute}>
-            ${Object.values(data.groupfields).map(generateInstanceValue).join("")}
+            ${Object.values(data.groupfields)
+              .map(generateInstanceValue)
+              .join("")}
           </${data.dataAttribute}>
-        `)
+        `
+        )
         .join("");
     }
 
@@ -483,12 +487,16 @@ const generateBody = (
 
   if (data.group) {
     const groupContent = Object.values(data.groupfields)
-      .map((field, i) => generateBody(
-        field,
-        i !== 0,
-        Object.values(data.groupfields)[i - 1]?.dataAttribute,
-        `${data.dataAttribute}/${Object.values(data.groupfields)[i - 1]?.dataAttribute}`
-      ))
+      .map((field, i) =>
+        generateBody(
+          field,
+          i !== 0,
+          Object.values(data.groupfields)[i - 1]?.dataAttribute,
+          `${data.dataAttribute}/${
+            Object.values(data.groupfields)[i - 1]?.dataAttribute
+          }`
+        )
+      )
       .join("");
 
     if (data.groupRepeat && data.repeatCount && data.repeatCount > 1) {
@@ -585,17 +593,6 @@ const generateXml = ({
   };
   minify?: boolean;
 }) => {
-  console.log("Fields in generateXml:", 
-    Object.entries(jsonData.fields)
-      .filter(([_, field]) => field.group)
-      .map(([key, field]) => ({
-        id: key,
-        repeatCount: field.repeatCount,
-        groupRepeat: field.groupRepeat,
-        dataAttribute: field.dataAttribute
-      }))
-  );
-
   const version = Math.floor(Math.random() * 10000000);
   const { fields, entity, dataset, uniqueIdentifier } = jsonData;
 
@@ -663,7 +660,7 @@ const generateXml = ({
         console.log("Generating group body:", {
           dataAttribute: field.dataAttribute,
           repeatCount: field.repeatCount,
-          groupRepeat: field.groupRepeat
+          groupRepeat: field.groupRepeat,
         });
       }
       return generateBody(field, false, undefined, undefined);

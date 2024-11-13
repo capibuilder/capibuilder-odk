@@ -67,8 +67,6 @@ export default function Row() {
     });
   }, [currentQuestion]);
 
-  console.log(data);
-
   return (
     <RowW>
       <Flex>
