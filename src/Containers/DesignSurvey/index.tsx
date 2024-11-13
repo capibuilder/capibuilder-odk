@@ -147,7 +147,7 @@ const DesignSurvey = () => {
 
     const emptySelectOptions: any = Object.values(data.fields).find(
       (field: any) =>
-        field.type.includes("select") && field.selectOptions?.length === 0
+        field.type?.includes("select") && field.selectOptions?.length === 0
     );
 
     if (emptySelectOptions) {
@@ -165,9 +165,10 @@ const DesignSurvey = () => {
 
     const hasEmptyField = Object.values(data.fields).some((field: any) => {
       if (field.group) {
-        const empty = field.groupfields.find(
-          (field: any) => field.dataAttribute === ""
+        const empty = Object.values(field.groupfields).find(
+          (subField: any) => subField.dataAttribute === ""
         );
+        
         if (empty) {
           setAlert({
             title: "Empty data attribute",
@@ -177,7 +178,7 @@ const DesignSurvey = () => {
             state: "error",
             show: true,
           });
-          return true; // Stop execution if any empty field is found
+          return true;
         }
       }
       return false;

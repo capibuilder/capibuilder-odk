@@ -32,14 +32,25 @@ export const getParentDataAttributes = (
   fieldId: string
 ): string[] => {
   if (fieldId === "content") return [];
-  const dataAttributes = [];
+  
+  const dataAttributes: string[] = [];
   const field = fields[fieldId];
+  
+  // Add safety check for field existence
+  if (!field) {
+    return dataAttributes;
+  }
 
-  if (field.parentId) {
+  // Add safety check for parentId
+  if (field && field.parentId) {
     dataAttributes.push(...getParentDataAttributes(fields, field.parentId));
   }
 
-  dataAttributes.push(field.dataAttribute);
+  // Add safety check before accessing dataAttribute
+  if (field.dataAttribute) {
+    dataAttributes.push(field.dataAttribute);
+  }
+
   return dataAttributes;
 };
 

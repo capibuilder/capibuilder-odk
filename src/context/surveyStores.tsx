@@ -76,21 +76,38 @@ const useSurveyStore = create<State & Actions>((set, get) => ({
   deleteField: (id: string) => {
     const newFields: any = { ...get().data.fields };
 
-    const hasChildren = Object.values(newFields).some(
-      (field: any) => field.parentId === id
+    // Check if field is a sub-question in any group
+    const parentGroup = Object.values(newFields).find((field: any) => 
+      field.groupfields && field.groupfields[id]
     );
 
-    if (hasChildren) {
-      const children = Object.values(newFields).filter(
+    if (parentGroup) {
+      // If it's a sub-question, remove it from parent's groupfields
+      const updatedGroupFields = { ...parentGroup.groupfields };
+      delete updatedGroupFields[id];
+      
+      newFields[`field-${parentGroup.id}`] = {
+        ...parentGroup,
+        groupfields: updatedGroupFields
+      };
+    } else {
+      // Original logic for regular fields
+      const hasChildren = Object.values(newFields).some(
         (field: any) => field.parentId === id
       );
 
-      children.forEach((field: any) => {
-        delete newFields[`field-${field.id}`];
-      });
-    }
+      if (hasChildren) {
+        const children = Object.values(newFields).filter(
+          (field: any) => field.parentId === id
+        );
 
-    delete newFields[id];
+        children.forEach((field: any) => {
+          delete newFields[`field-${field.id}`];
+        });
+      }
+
+      delete newFields[id];
+    }
 
     set(state => ({
       ...state,
@@ -99,6 +116,7 @@ const useSurveyStore = create<State & Actions>((set, get) => ({
         fields: newFields,
       },
     }));
+    
     get().currentField === id &&
       set({
         currentField: null,

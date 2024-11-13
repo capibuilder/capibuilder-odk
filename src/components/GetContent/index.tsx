@@ -40,9 +40,11 @@ const GetContent = ({
     data: { fields },
   } = useSurveyStore();
 
-  const newGroupFields = Array.isArray(groupfields)
-    ? groupfields
-    : Object.values(groupfields);
+  const newGroupFields = groupfields
+    ? (Array.isArray(groupfields)
+        ? groupfields
+        : Object.values(groupfields || {}))
+    : [];
 
   const field: questionField = fields[currentField as string];
 

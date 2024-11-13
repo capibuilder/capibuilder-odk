@@ -9,7 +9,7 @@ import { Content, ContentHeaderContainer, ContentItem, Header } from "./styles";
 type ContentHeaderProps = {
   data?: any;
   title: string;
-  handleClick: (currentBtn: string, group?: boolean) => void;
+  handleClick: (currentBtn: string, group?: boolean, targetFieldId?: string) => void;
 };
 
 const ContentHeader = ({
@@ -19,6 +19,8 @@ const ContentHeader = ({
 }: ContentHeaderProps) => {
   const allData = useSurveyStore(state => state.data, shallow);
   const setData = useSurveyStore(state => state.setData);
+  const currentField = useSurveyStore(state => state.currentField);
+  const setCurrentField = useSurveyStore(state => state.setCurrentField);
 
   const handleDragEnd = (result: any) => {
     if (!result.destination || result.destination.index === result.source.index) {
@@ -27,65 +29,35 @@ const ContentHeader = ({
 
     const { source, destination } = result;
     const sourceDroppableId = source.droppableId;
-    const destinationDroppableId = destination.droppableId;
+    let destinationDroppableId = destination.droppableId;
 
-    // Create a copy of the current data
-    const newData = { ...allData };
-    const fields = Object.values(newData.fields);
+    if (currentField) {
+      console.log("Setting destination based on currentField:", currentField);
+      destinationDroppableId = `content-child-items-${currentField.replace("field-", "")}`;
+    }
 
-    if (sourceDroppableId === "content-items" && destinationDroppableId === "content-items") {
-      // Get all parent-level questions (including group questions)
-      const parentQuestions = fields.filter((item: any) => !item.parentId);
-      const reorderedItems = Array.from(parentQuestions);
+    if (sourceDroppableId.includes("content-child-items") && 
+        destinationDroppableId.includes("content-child-items")) {
       
-      // Perform the reorder
-      const [removed] = reorderedItems.splice(source.index, 1);
-      reorderedItems.splice(destination.index, 0, removed);
-
-      // Create new fields object with updated order
-      const updatedFields = reorderedItems.reduce((acc: any, item: any, index: number) => {
-        // Add the parent question with updated number
-        acc[`field-${item.id}`] = {
-          ...item,
-          questionNumber: index + 1
-        };
-
-        // If it's a group question, add all its children
-        if (item.group && item.groupfields) {
-          Object.values(item.groupfields).forEach((child: any, childIndex: number) => {
-            acc[`field-${child.id}`] = {
-              ...child,
-              parentId: `field-${item.id}`,
-              questionNumber: `${index + 1}.${childIndex + 1}`
-            };
-          });
-        }
-
-        return acc;
-      }, {});
-
-      // Update the store
-      setData({
-        ...allData,
-        fields: updatedFields
-      });
-    } else if (
-      sourceDroppableId.includes("content-child-items") &&
-      destinationDroppableId.includes("content-child-items")
-    ) {
-      // Handle sub-questions reordering (existing code)
       const parentId = `field-${sourceDroppableId.split("-")[3]}`;
-      const parentField = newData.fields[parentId];
+      const parentField = allData.fields[parentId];
       
-      if (!parentField || !parentField.groupfields) return;
+      if (!parentField || !parentField.groupfields) {
+        console.error("Parent field or groupfields not found:", parentId);
+        return;
+      }
 
       const subItems = Object.values(parentField.groupfields);
       const reorderedSubItems = Array.from(subItems);
       const [removed] = reorderedSubItems.splice(source.index, 1);
       reorderedSubItems.splice(destination.index, 0, removed);
 
-      // Update the parent's groupfields
       const updatedGroupFields = reorderedSubItems.reduce((acc: any, item: any, index: number) => {
+        if (!item || !item.id) {
+          console.error("Invalid item in reordered items");
+          return acc;
+        }
+
         acc[`field-${item.id}`] = {
           ...item,
           questionNumber: `${parentField.questionNumber}.${index + 1}`
@@ -93,9 +65,8 @@ const ContentHeader = ({
         return acc;
       }, {});
 
-      // Update the fields object
       const updatedFields = {
-        ...newData.fields,
+        ...allData.fields,
         [parentId]: {
           ...parentField,
           groupfields: updatedGroupFields
@@ -109,11 +80,16 @@ const ContentHeader = ({
     }
   };
 
+  const handleAddClick = () => {
+    console.log("Adding new question. Current field:", currentField);
+    handleClick(title, false, currentField);
+  };
+
   return (
     <ContentHeaderContainer>
       <Header>
         <h3>{title}</h3>
-        <button onClick={() => handleClick(title)}>
+        <button onClick={handleAddClick}>
           <AddIcon />
         </button>
       </Header>
@@ -204,7 +180,10 @@ const QuestionWrapper = ({ number, field, id, handleClick, title }: any) => {
     >
       <div
         className="content-wrapper"
-        onClick={() => setCurrentField(`field-${id}`)}
+        onClick={() => {
+          setCurrentField(`field-${id}`);
+          console.log("Main question clicked:", `field-${id}`);
+        }}
       >
         <div className="content-wrapper-item">
           <div className="content">
@@ -280,6 +259,7 @@ const SubQuestionWrapper = ({ field, id, handleClick, title }: any) => {
               <div
                 onClick={() => {
                   setCurrentField(`field-${item.id}`);
+                  console.log("Sub question clicked:", `field-${item.id}`);
                 }}
                 className="group-content"
               >

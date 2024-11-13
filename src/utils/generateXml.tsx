@@ -361,6 +361,12 @@ const generateBind = (data: XmlProps): string => {
       ? `${data.parentPath.join("/")}/${data.dataAttribute}`
       : data.dataAttribute;
 
+  if (data.group) {
+    bindElements.push('type="group"');
+  } else if (data.type) {
+    bindElements.push(`type="${data.type}"`);
+  }
+
   if (data.saveToEntity) {
     bindElements.push(`entities:saveto=${modifiedDataAttribute}`);
   }
@@ -394,10 +400,6 @@ const generateBind = (data: XmlProps): string => {
     );
 
     bindElements.push(`${MessageConstuctor({ dateRange: data.dateRange })}`);
-  }
-
-  if (data.type) {
-    bindElements.push(`type="${data.type}"`);
   }
 
   if (data.required) {
