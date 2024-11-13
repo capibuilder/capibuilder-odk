@@ -35,7 +35,7 @@ const ContentWrapperView = () => {
 
   const current: questionField = !!thisField
     ? thisField
-    : data.fields[currentField];
+    : (data.fields[currentField] as unknown as questionField);
 
   const debouncedTranslate = useDebounce(
     async (type: keyof isModified, text: string) => {

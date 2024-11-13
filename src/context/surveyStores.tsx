@@ -1,6 +1,13 @@
 import { entity } from "@/utils/generateXml";
 import { create } from "zustand";
 
+type Field = {
+  id: string;
+  parentId?: string;
+  groupfields?: { [key: string]: any };
+  [key: string]: any;
+};
+
 export type State = {
   data: {
     title: string;
@@ -8,7 +15,7 @@ export type State = {
     category: string;
     description: string;
     logics?: any;
-    fields: any;
+    fields: { [key: string]: Field };
     langs?: string[];
     dataset?: string | null;
     uniqueIdentifier?: string | null;
@@ -74,15 +81,13 @@ const useSurveyStore = create<State & Actions>((set, get) => ({
   removeCurrentField: () => set({ currentField: null }),
   setCurrentTabBtn: (tab: any) => set({ currentTabBtn: tab }),
   deleteField: (id: string) => {
-    const newFields: any = { ...get().data.fields };
+    const newFields: { [key: string]: Field } = { ...get().data.fields };
 
-    // Check if field is a sub-question in any group
-    const parentGroup = Object.values(newFields).find((field: any) => 
+    const parentGroup = Object.values(newFields).find((field: Field) => 
       field.groupfields && field.groupfields[id]
     );
 
     if (parentGroup) {
-      // If it's a sub-question, remove it from parent's groupfields
       const updatedGroupFields = { ...parentGroup.groupfields };
       delete updatedGroupFields[id];
       
@@ -91,17 +96,16 @@ const useSurveyStore = create<State & Actions>((set, get) => ({
         groupfields: updatedGroupFields
       };
     } else {
-      // Original logic for regular fields
       const hasChildren = Object.values(newFields).some(
-        (field: any) => field.parentId === id
+        (field: Field) => field.parentId === id
       );
 
       if (hasChildren) {
         const children = Object.values(newFields).filter(
-          (field: any) => field.parentId === id
+          (field: Field) => field.parentId === id
         );
 
-        children.forEach((field: any) => {
+        children.forEach((field: Field) => {
           delete newFields[`field-${field.id}`];
         });
       }

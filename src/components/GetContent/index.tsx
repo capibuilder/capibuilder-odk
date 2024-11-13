@@ -46,7 +46,10 @@ const GetContent = ({
         : Object.values(groupfields || {}))
     : [];
 
-  const field: questionField = fields[currentField as string];
+  const field = fields[currentField as string] as unknown as questionField;
+  if (!field) {
+    return null;
+  }
 
   switch (questionType) {
     case "shorttext":

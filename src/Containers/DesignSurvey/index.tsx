@@ -167,13 +167,13 @@ const DesignSurvey = () => {
       if (field.group) {
         const empty = Object.values(field.groupfields).find(
           (subField: any) => subField.dataAttribute === ""
-        );
+        ) as questionField | undefined;
         
         if (empty) {
           setAlert({
             title: "Empty data attribute",
             text: `Select Data Attribute for ${
-              empty?.label || "all Questions"
+              (empty as questionField).label || "all Questions"
             }`,
             state: "error",
             show: true,
@@ -218,7 +218,7 @@ const DesignSurvey = () => {
       const xmlData = generateXml({
         jsonData,
         minify: true,
-      });
+      } as any);
 
       // console.log(xmlData);
       // return;
@@ -291,7 +291,7 @@ const DesignSurvey = () => {
         push(`/projects/${projectId}/survey`);
       })();
     } catch (error: any) {
-      if (error.response.data.code && error.response.data.code === 403.1) {
+      if (error?.response?.data?.code && error.response.data.code === 403.1) {
         setAlert({
           show: true,
           state: "error",
@@ -506,10 +506,10 @@ const DesignSurveyWrapperView = () => {
   const setCurrentTabBtn = useSurveyStore(state => state.setCurrentTabBtn);
   const [isGrouped, setIsGrouped] = useState(false);
 
-  const handleClick = (currentBtn: string, group?: boolean, id?: string) => {
+  const handleClick = (currentBtn: string, group?: boolean, targetFieldId?: string | null) => {
     if (group) {
       setIsGrouped(true);
-      setCurrentTabBtn(id);
+      setCurrentTabBtn(targetFieldId || "");
       setOpen(!open);
       document.body.style.overflow = "hidden";
       return;
@@ -525,7 +525,9 @@ const DesignSurveyWrapperView = () => {
     (item: any) => item.tab === "content"
   );
 
-  const current: questionField = data.fields[currentField];
+  const current: questionField | undefined = currentField 
+    ? (data.fields[currentField] as unknown as questionField) 
+    : undefined;
 
   return (
     <DesignSurveyWrapper>

@@ -37,6 +37,7 @@ export const defaultSelectProps = {
   typeLroupLabel: "",
   groupfields: [],
   optionType: "select-one",
+  questionType: "singleselect",
   // optionType: "dropdown",
 };
 
@@ -52,7 +53,12 @@ export default function CascadingSelect() {
 
   const setData = useSurveyStore(state => state.setData);
 
-  const selected: questionField = data.fields[currentField as string];
+  const selected: questionField = {
+    ...data.fields[currentField as string],
+    questionType: "singleselect",
+    id: parseInt(data.fields[currentField as string].id),
+    groupfields: []
+  };
 
   const handleAdd = async (opta: any[]) => {
     if (dataKeys.length === 0) return;

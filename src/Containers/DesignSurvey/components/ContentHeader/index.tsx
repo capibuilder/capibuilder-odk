@@ -1,7 +1,6 @@
 import { AddIcon, CloseIcon, MenuIcon, TickIcon } from "@/assets";
 import { DragDropWrapper } from "@/components";
 import useSurveyStore from "@/context/surveyStores";
-import { questionField } from "@/interfaces/questionFields";
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { shallow } from "zustand/shallow";
 import { Content, ContentHeaderContainer, ContentItem, Header } from "./styles";
@@ -9,7 +8,7 @@ import { Content, ContentHeaderContainer, ContentItem, Header } from "./styles";
 type ContentHeaderProps = {
   data?: any;
   title: string;
-  handleClick: (currentBtn: string, group?: boolean, targetFieldId?: string) => void;
+  handleClick: (currentBtn: string, group?: boolean, targetFieldId?: string | null) => void;
 };
 
 const ContentHeader = ({
@@ -81,8 +80,7 @@ const ContentHeader = ({
   };
 
   const handleAddClick = () => {
-    //console.log("Adding new question. Current field:", currentField);
-    handleClick(title, false, currentField);
+    handleClick(title, false, currentField || undefined);
   };
 
   return (
@@ -124,7 +122,6 @@ const QuestionWrapper = ({ number, field, id, handleClick, title }: any) => {
   const deleteField = useSurveyStore(state => state.deleteField);
   const currentField = useSurveyStore(state => state.currentField);
   const setCurrentField = useSurveyStore(state => state.setCurrentField);
-  const selectedField: questionField = data.fields[currentField as string];
 
   const hasDuplicate = useMemo(() => {
     return Object.values(data.fields)
