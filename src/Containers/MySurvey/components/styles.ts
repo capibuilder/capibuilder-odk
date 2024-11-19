@@ -27,7 +27,7 @@ export const Table = styled.div`
 `;
 
 export const RowWrapper = styled.div`
-  padding: 40px 25px;
+  padding: 10px 15px;
   background-color: #fff;
   position: relative;
   transition: background 0.2s;
@@ -46,6 +46,14 @@ export const RowWrapper = styled.div`
   span {
     font-size: 16px;
     font-weight: 500;
+    max-width: 400px;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-wrap: break-word;
+    line-height: 1.5;
 
     .clipboard {
       background-color: transparent;

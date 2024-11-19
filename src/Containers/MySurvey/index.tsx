@@ -122,17 +122,13 @@ export default function Index() {
           className="header"
           justifyContent="space-between"
         >
-          <Flex
-            direction="column"
-            alignItems="flex-start"
-            gap="10px"
-          >
+          <Flex direction="column" alignItems="flex-start" gap="10px">
             <Typography
               content={Trimmer(projectData?.name || "Surveys", 60)}
               as="h2"
               weight="600"
             />
-            <ToolTips 
+            <ToolTips
               text={projectData?.description || "No description available"}
               position="bottom"
             >
@@ -144,7 +140,7 @@ export default function Index() {
               />
             </ToolTips>
           </Flex>
-          
+
           <Search
             inputProps={{
               onFocus: () => {
@@ -192,7 +188,10 @@ export default function Index() {
           </Table>
         </TableCover>
 
-        <Link href={`/projects/${projectId}/survey/new`} className="generate-btn">
+        <Link
+          href={`/projects/${projectId}/survey/new`}
+          className="generate-btn"
+        >
           <ToolTips text="Create Survey" position="top">
             <FiPlus size={36} />
           </ToolTips>

@@ -144,7 +144,7 @@ export default function Row({
         <SurveyPreviewModel {...{ previewUrl, setPreviewUrl }} />
       )}
       <RowWrapper className="grid" data-animate="opacity">
-        <span>{data?.name?.slice(0, 30)}</span>
+        <span>{data?.name}</span>
         <span>{new Date(data.createdAt).toLocaleString()?.toUpperCase()}</span>
 
         <span
