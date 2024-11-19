@@ -82,7 +82,7 @@ const AddOptions = ({
     },
   ]);
 
-  const selectedField = data.fields[currentField] as unknown as questionField;
+  const selectedField: questionField = data.fields[currentField];
 
   const addData = (item: any) => {
     setData({
@@ -372,7 +372,7 @@ export const AddLangOptions = ({
     },
   ]);
 
-  const selectedField = data.fields[currentField] as unknown as questionField;
+  const selectedField: questionField = data.fields[currentField];
 
   const addData = (item: any) => {
     setData({

@@ -40,16 +40,11 @@ const GetContent = ({
     data: { fields },
   } = useSurveyStore();
 
-  const newGroupFields = groupfields
-    ? (Array.isArray(groupfields)
-        ? groupfields
-        : Object.values(groupfields || {}))
-    : [];
+  const newGroupFields = Array.isArray(groupfields)
+    ? groupfields
+    : Object.values(groupfields);
 
-  const field = fields[currentField as string] as unknown as questionField;
-  if (!field) {
-    return null;
-  }
+  const field: questionField = fields[currentField as string];
 
   switch (questionType) {
     case "shorttext":

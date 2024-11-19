@@ -270,6 +270,7 @@ export type DrawerOpenProps = {
 };
 
 const OdkTable = ({ data }: { data: any }) => {
+  const [activeTab, setActiveTab] = useState("responses");
   const { query } = useRouter();
   const gridRef = useRef<AgGridReact>(null);
   const [rowData, setRowData] = useState(data.tableData);
@@ -374,6 +375,7 @@ const OdkTable = ({ data }: { data: any }) => {
             Back to Survey
           </Link>
         </div>
+      
         <Flex justifyContent="flex-end">
           <button className="button__ghost" onClick={onBtExport}>
             export xlsx

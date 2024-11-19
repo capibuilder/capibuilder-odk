@@ -7,6 +7,7 @@ import { modifiedJsonData } from "./modifiedJsonData";
 
 export type entity = {
   datasetName: string;
+  
 };
 
 export type XmlProps = {
@@ -65,7 +66,6 @@ export type XmlProps = {
     min?: number;
   };
   otherLangs: MultiLangs[];
-  repeatCount?: number;
 };
 
 const ID_PREFIX = "id_";
@@ -77,26 +77,11 @@ const generateInstanceValue = (data: XmlProps): string => {
   }
 
   if (data.group) {
-    if (data.groupRepeat && data.repeatCount && data.repeatCount > 1) {
-      return Array(data.repeatCount)
-        .fill(null)
-        .map(
-          () => `
-          <${data.dataAttribute}>
-            ${Object.values(data.groupfields)
-              .map(generateInstanceValue)
-              .join("")}
-          </${data.dataAttribute}>
-        `
-        )
-        .join("");
-    }
-
     return `
-      <${data.dataAttribute}>
-        ${Object.values(data.groupfields).map(generateInstanceValue).join("")}
-      </${data.dataAttribute}>
-    `;
+    <${data.dataAttribute}>
+      ${Object.values(data.groupfields).map(generateInstanceValue).join("")}
+    </${data.dataAttribute}>
+  `;
   }
 
   if (data.defaultValue) {
@@ -365,12 +350,6 @@ const generateBind = (data: XmlProps): string => {
       ? `${data.parentPath.join("/")}/${data.dataAttribute}`
       : data.dataAttribute;
 
-  if (data.group) {
-    bindElements.push('type="group"');
-  } else if (data.type) {
-    bindElements.push(`type="${data.type}"`);
-  }
-
   if (data.saveToEntity) {
     bindElements.push(`entities:saveto=${modifiedDataAttribute}`);
   }
@@ -404,6 +383,10 @@ const generateBind = (data: XmlProps): string => {
     );
 
     bindElements.push(`${MessageConstuctor({ dateRange: data.dateRange })}`);
+  }
+
+  if (data.type) {
+    bindElements.push(`type="${data.type}"`);
   }
 
   if (data.required) {
@@ -499,15 +482,15 @@ const generateBody = (
       )
       .join("");
 
-    if (data.groupRepeat && data.repeatCount && data.repeatCount > 1) {
+    if (data.groupRepeat) {
       return `
-        <group ref="/data/${modifiedDataAttribute}">
-          <label ref="jr:itext('/data/${modifiedDataAttribute}:label')"/>
-          <repeat nodeset="/data/${modifiedDataAttribute}" repeat_count="${data.repeatCount}">
-            ${groupContent}
-          </repeat>
-        </group>
-      `;
+      <group ref="/data/${modifiedDataAttribute}">
+        <label ref="jr:itext('/data/${modifiedDataAttribute}:label')"/>
+        <repeat nodeset="/data/${modifiedDataAttribute}">
+        ${groupContent}
+        </repeat>
+      </group>
+    `;
     }
 
     return `
@@ -655,16 +638,7 @@ const generateXml = ({
       : "";
 
   const bodyData = modifiedFields
-    .map(field => {
-      if (field.group) {
-        console.log("Generating group body:", {
-          dataAttribute: field.dataAttribute,
-          repeatCount: field.repeatCount,
-          groupRepeat: field.groupRepeat,
-        });
-      }
-      return generateBody(field, false, undefined, undefined);
-    })
+    .map(field => generateBody(field, false))
     .join("");
 
   const multiLangiTextData = jsonData.langs
