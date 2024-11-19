@@ -1,5 +1,6 @@
 import { ArrowLeft } from "@/assets";
 import { RowClassParams, RowStyle } from "ag-grid-community";
+import "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -375,7 +376,7 @@ const OdkTable = ({ data }: { data: any }) => {
             Back to Survey
           </Link>
         </div>
-      
+
         <Flex justifyContent="flex-end">
           <button className="button__ghost" onClick={onBtExport}>
             export xlsx

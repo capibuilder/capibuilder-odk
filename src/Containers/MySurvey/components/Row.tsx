@@ -321,16 +321,19 @@ const PopoverContentView = ({
         >
           <AiOutlineQrcode /> QR Code
         </li>
-        {!!data.publishedAt && (
-          <Link
-            href={`/projects/${data.projectId}/survey/${data.xmlFormId}/responses`}
-          >
-            <li>
-              <CiViewTable />
-              Responses
-            </li>
-          </Link>
-        )}
+        <Link
+          href={(() => {
+            const path = !!data.publishedAt
+              ? `/projects/${data.projectId}/survey/${data.xmlFormId}/responses`
+              : `/projects/${data.projectId}/survey/${data.xmlFormId}/draft-responses`;
+            return path;
+          })()}
+        >
+          <li>
+            <CiViewTable />
+            {data.publishedAt ? "Responses" : "Responses"}
+          </li>
+        </Link>
         {!data.publishedAt ? (
           <a onClick={handleDownloadDraft}>
             <li>
