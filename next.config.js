@@ -5,6 +5,11 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-}
+  eslint: {
+    rules: {
+      quotes: ["error", "single"],
+    },
+  },
+};
 
 module.exports = nextConfig
