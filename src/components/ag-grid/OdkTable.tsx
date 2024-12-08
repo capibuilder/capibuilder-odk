@@ -327,6 +327,8 @@ const OdkTable = ({ data }: { data: any }) => {
 
   const defaultColDef = useMemo(() => {
     return {
+      flex: 1,
+      minWidth: 150,
       sortable: true,
       resizable: true,
       autoHeaderHeight: true,

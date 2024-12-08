@@ -1,7 +1,6 @@
 import { Loading, LoadingBlock } from "@/components";
 import ProtectedRoute from "@/utils/ProtectedRoute";
 import { getTokenFormLocal } from "@/utils/useAxios";
-
 import axios from "axios";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
@@ -19,6 +18,8 @@ const ProjectView = ({ query }: { query: any }) => {
     colDefData: [],
     tableData: [],
   });
+
+  
 
   useEffect(() => {
     (async () => {

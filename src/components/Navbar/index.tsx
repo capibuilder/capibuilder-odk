@@ -94,7 +94,7 @@ const Navbar = () => {
         <Wrapper>
           <LeftItems>
             <Logo href={"/"}>
-            <img
+              <img
                 src={"/images/logoCapibara.svg"}
                 style={{ width: 40, height: 40, transform: "scaleX(-1)" }}
                 alt="CAPIBuilder logo"
@@ -143,9 +143,7 @@ const Navbar = () => {
               >
                 Templates
               </NavItem>
-          
-            
-       
+
               <NavItem
                 className="sm"
                 active=""
@@ -164,7 +162,7 @@ const Navbar = () => {
               <div style={{ display: "flex", gap: "8px" }}>
                 <button
                   onClick={() => {
-                    push("/login");
+                    push("/");
                   }}
                   className="gs-btn lightbtn"
                 >

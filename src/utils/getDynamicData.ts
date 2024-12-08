@@ -67,8 +67,9 @@ export const getColDefData = (inputJson: any): OutputJsonType => {
   const convertObjectColDef = (obj: Record<string, any>, prefix = ""): any => {
     const objData = Object.entries(obj).map(prop => {
       const [key, value] = prop;
-
       const field = prefix ? `${prefix}__${key}` : `${key}`;
+
+      const headerName = key.replace('@odata.navigationLink', '');
 
       if (
         typeof obj[key] === "object" &&
@@ -83,12 +84,12 @@ export const getColDefData = (inputJson: any): OutputJsonType => {
         );
 
         return {
-          headerName: key,
+          headerName: headerName,
           children: convertedData,
         };
       } else {
         return {
-          headerName: key,
+          headerName: headerName,
           field: field,
           columnType: getType(value),
         };
