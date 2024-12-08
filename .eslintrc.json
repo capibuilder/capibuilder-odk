@@ -14,18 +14,38 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": [
+    "react"
+  ],
   "rules": {
     "@next/next/no-img-element": "off",
-    "quotes": ["error", "double"],
-    "jsx-quotes": ["error", "prefer-double"],
-    "@typescript-eslint/no-explicit-any": ["off"],
-    "@typescript-eslint/no-empty-function": ["off"],
-    "@typescript-eslint/no-unused-vars": ["off"],
-    "@typescript-eslint/no-non-null-assertion": ["off"],
-    "react/jsx-uses-react": ["off"],
-    "react/react-in-jsx-scope": ["off"],
+    "quotes": "off",
+    "jsx-quotes": [
+      "error",
+      "prefer-double"
+    ],
+    "@typescript-eslint/no-explicit-any": [
+      "off"
+    ],
+    "@typescript-eslint/no-empty-function": [
+      "off"
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "off"
+    ],
+    "@typescript-eslint/no-non-null-assertion": [
+      "off"
+    ],
+    "react/jsx-uses-react": [
+      "off"
+    ],
+    "react/react-in-jsx-scope": [
+      "off"
+    ],
     "no-shadow": "off",
-    "semi": ["error", "always"]
+    "semi": [
+      "error",
+      "always"
+    ]
   }
 }

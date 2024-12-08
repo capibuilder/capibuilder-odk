@@ -603,7 +603,7 @@ const generateXml = ({
     .join("");
 
   const pushableBind = entity
-    ? '<bind calculate="1" nodeset="/data/meta/entity/@create" readonly="true()" type="string"/> <bind nodeset="/data/meta/entity/@id" readonly="true()" type="string"/> <setvalue event="odk-instance-first-load" readonly="true()" ref="/data/meta/entity/@id" type="string" value="uuid()"/> <setvalue event="odk-instance-first-load" readonly="true()" ref="/data/meta/entity/label" type="string" value="uuid()"/>'
+    ? `<bind calculate="1" nodeset="/data/meta/entity/@create" readonly="true()" type="string"/> <bind nodeset="/data/meta/entity/@id" readonly="true()" type="string"/> <setvalue event="odk-instance-first-load" readonly="true()" ref="/data/meta/entity/@id" type="string" value="uuid()"/> <setvalue event="odk-instance-first-load" readonly="true()" ref="/data/meta/entity/label" type="string" value="uuid()"/>`
     : "";
 
   const iTextData = modifiedFields.map(generateIText).join("");
