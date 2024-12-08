@@ -34,7 +34,7 @@ export const CreateSurveyCard = styled.div`
   width: 100%;
   padding: 12px 20px;
   text-align: center;
-  background: #CED9E5;
+  background: #ced9e5;
   border-radius: 10px;
   cursor: pointer;
   display: grid;

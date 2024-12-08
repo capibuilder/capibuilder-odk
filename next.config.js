@@ -7,7 +7,7 @@ const nextConfig = {
   },
   eslint: {
     rules: {
-      quotes: ["error", "single"],
+      quotes: ["error", "double"],
     },
   },
 };

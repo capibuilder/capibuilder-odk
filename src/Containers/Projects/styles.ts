@@ -40,8 +40,8 @@ export const Table = styled.div`
     text-align: center;
 
     span {
-      justify-self: center;  // Add this to center the content within grid items
-      width: 100%;  // Add this to ensure span takes full width
+      justify-self: center; // Add this to center the content within grid items
+      width: 100%; // Add this to ensure span takes full width
     }
   }
 
@@ -56,7 +56,6 @@ export const Table = styled.div`
       color: #fff;
       font-size: 18px;
       font-weight: 600;
-      
     }
   }
 `;

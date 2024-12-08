@@ -168,7 +168,7 @@ const SurveyModel = ({ handleClose }: { handleClose: () => void }) => {
   return (
     <SurveyModelContainer>
       <Overlay onClick={handleClose} />
-     
+
       <ModelWrapper data-animate="opacity" className="c-scrollbar">
         {loading ? (
           <Loading height="30px" />
@@ -293,8 +293,7 @@ const SurveyModel = ({ handleClose }: { handleClose: () => void }) => {
             </Form>
           </>
         )}
-        </ModelWrapper>
-     
+      </ModelWrapper>
     </SurveyModelContainer>
   );
 };

@@ -70,7 +70,6 @@ export const Table = styled.div`
     grid-template-columns: 1.5fr 0.8fr 0.8fr 0.2fr;
     align-items: center;
     text-align: center;
-    
   }
 
   .head {

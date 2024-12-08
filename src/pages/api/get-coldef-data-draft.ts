@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 // Helper function to create column definitions from form fields
 const createColDefs = (fields: any[]) => {
   return fields
-    .filter(field => field.type !== 'structure') // Skip structure fields
+    .filter(field => field.type !== "structure") // Skip structure fields
     .map(field => ({
       field: field.name, // Use name as the field identifier
       headerName: field.name.charAt(0).toUpperCase() + field.name.slice(1), // Capitalize first letter
@@ -12,13 +12,13 @@ const createColDefs = (fields: any[]) => {
       sortable: true,
       filter: true,
       // Add type-specific configurations
-      ...(field.type === 'int' && { 
-        filter: 'agNumberColumnFilter',
-        type: 'numericColumn'
+      ...(field.type === "int" && {
+        filter: "agNumberColumnFilter",
+        type: "numericColumn",
       }),
-      ...(field.type === 'binary' && {
-        cellRenderer: 'imageCellRenderer'
-      })
+      ...(field.type === "binary" && {
+        cellRenderer: "imageCellRenderer",
+      }),
     }));
 };
 
@@ -26,7 +26,7 @@ const createColDefs = (fields: any[]) => {
 const matchDataWithColumns = (submissionsData: any[], formFields: any[]) => {
   // Get field names excluding structure fields
   const fieldNames = formFields
-    .filter(field => field.type !== 'structure')
+    .filter(field => field.type !== "structure")
     .map(field => field.name);
 
   // Map submissions data to match column fields
@@ -54,9 +54,9 @@ export default async function handler(
       headers: { Authorization: authHeader },
     });
     const formFields = fieldsRes.data || [];
-    
+
     // Log form fields for debugging
-    console.log('Form Fields:', JSON.stringify(formFields, null, 2));
+    console.log("Form Fields:", JSON.stringify(formFields, null, 2));
 
     // Get submissions data
     const submissionsRes = await odkAxios.get(submissionsUri, {
@@ -72,9 +72,8 @@ export default async function handler(
 
     return response.status(200).json({
       colDefData,
-      tableData: matchedTableData
+      tableData: matchedTableData,
     });
-
   } catch (error: any) {
     console.error("API Error:", error);
     return response.status(500).json({

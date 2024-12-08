@@ -83,17 +83,17 @@ const useSurveyStore = create<State & Actions>((set, get) => ({
   deleteField: (id: string) => {
     const newFields: { [key: string]: Field } = { ...get().data.fields };
 
-    const parentGroup = Object.values(newFields).find((field: Field) => 
-      field.groupfields && field.groupfields[id]
+    const parentGroup = Object.values(newFields).find(
+      (field: Field) => field.groupfields && field.groupfields[id]
     );
 
     if (parentGroup) {
       const updatedGroupFields = { ...parentGroup.groupfields };
       delete updatedGroupFields[id];
-      
+
       newFields[`field-${parentGroup.id}`] = {
         ...parentGroup,
-        groupfields: updatedGroupFields
+        groupfields: updatedGroupFields,
       };
     } else {
       const hasChildren = Object.values(newFields).some(
@@ -120,7 +120,7 @@ const useSurveyStore = create<State & Actions>((set, get) => ({
         fields: newFields,
       },
     }));
-    
+
     get().currentField === id &&
       set({
         currentField: null,

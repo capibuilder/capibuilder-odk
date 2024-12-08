@@ -7,7 +7,6 @@ import { modifiedJsonData } from "./modifiedJsonData";
 
 export type entity = {
   datasetName: string;
-  
 };
 
 export type XmlProps = {

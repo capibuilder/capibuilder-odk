@@ -32,10 +32,10 @@ export const getParentDataAttributes = (
   fieldId: string
 ): string[] => {
   if (fieldId === "content") return [];
-  
+
   const dataAttributes: string[] = [];
   const field = fields[fieldId];
-  
+
   // Add safety check for field existence
   if (!field) {
     return dataAttributes;

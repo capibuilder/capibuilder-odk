@@ -19,8 +19,6 @@ const ProjectView = ({ query }: { query: any }) => {
     tableData: [],
   });
 
-  
-
   useEffect(() => {
     (async () => {
       try {

@@ -116,12 +116,16 @@ const InputTypeList: React.FC<InputTypeListProps> = ({
 
   const handleClick = useCallback(
     async (option: any) => {
-      const currentFieldId = useSurveyStore.getState().currentField as string | null;
+      const currentFieldId = useSurveyStore.getState().currentField as
+        | string
+        | null;
       const currentField = currentFieldId ? data.fields[currentFieldId] : null;
-      
+
       const randomId = generateRandomId(5);
       const currentLevelFields = Object.values(data.fields).filter(
-        (field: any) => field.parentId === (currentTabBtn === "content" ? null : currentTabBtn)
+        (field: any) =>
+          field.parentId ===
+          (currentTabBtn === "content" ? null : currentTabBtn)
       );
 
       const commonFieldData = {
@@ -148,7 +152,9 @@ const InputTypeList: React.FC<InputTypeListProps> = ({
             ...option.field,
             ...commonFieldData,
             otherLangs: await getTranslationOptions(
-              (data?.langs || []).map(v => ({ /* ... */ })),
+              (data?.langs || []).map(v => ({
+                /* ... */
+              })),
               option.field.selectOptions,
               data.langs!
             ),
@@ -159,13 +165,17 @@ const InputTypeList: React.FC<InputTypeListProps> = ({
           };
 
       // If current field is a group, add to its groupfields
-      if (currentFieldId && currentField && currentField.questionType === "group") {
+      if (
+        currentFieldId &&
+        currentField &&
+        currentField.questionType === "group"
+      ) {
         const existingGroupFields = currentField.groupfields || {};
-        
+
         const groupFieldsCount = Object.keys(existingGroupFields).length;
         const newFieldWithNumber = {
           ...newField,
-          questionNumber: groupFieldsCount + 1
+          questionNumber: groupFieldsCount + 1,
         };
 
         const updatedFields = {
@@ -174,14 +184,14 @@ const InputTypeList: React.FC<InputTypeListProps> = ({
             ...currentField,
             groupfields: {
               ...existingGroupFields,
-              [`field-${randomId}`]: newFieldWithNumber
-            }
-          }
+              [`field-${randomId}`]: newFieldWithNumber,
+            },
+          },
         };
 
         setData({
           ...data,
-          fields: updatedFields
+          fields: updatedFields,
         });
       } else {
         // Original logic for non-group fields
@@ -204,7 +214,7 @@ const InputTypeList: React.FC<InputTypeListProps> = ({
 
         setData({
           ...data,
-          fields: orderedFields
+          fields: orderedFields,
         });
       }
 
@@ -212,7 +222,7 @@ const InputTypeList: React.FC<InputTypeListProps> = ({
       onClick();
     },
     [data, setData, setCurrentField, currentTabBtn, onClick]
-);
+  );
 
   return (
     <InputTypeListContainer>

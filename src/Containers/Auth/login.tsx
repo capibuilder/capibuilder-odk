@@ -71,11 +71,11 @@ function Login() {
     <AuthContainer>
       <AuthWrapper>
         <div className="formwrapper">
-        <Logo href={"/"}>
-              <span className="text-logo">
-                <span className="light">CAPI</span>Builder
-              </span>
-            </Logo>
+          <Logo href={"/"}>
+            <span className="text-logo">
+              <span className="light">CAPI</span>Builder
+            </span>
+          </Logo>
           <Typography as="h1" content="Welcome Back" />
           {error && (
             <Alert

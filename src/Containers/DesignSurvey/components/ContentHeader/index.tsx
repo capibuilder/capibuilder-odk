@@ -8,7 +8,11 @@ import { Content, ContentHeaderContainer, ContentItem, Header } from "./styles";
 type ContentHeaderProps = {
   data?: any;
   title: string;
-  handleClick: (currentBtn: string, group?: boolean, targetFieldId?: string | null) => void;
+  handleClick: (
+    currentBtn: string,
+    group?: boolean,
+    targetFieldId?: string | null
+  ) => void;
 };
 
 const ContentHeader = ({
@@ -22,7 +26,10 @@ const ContentHeader = ({
   const setCurrentField = useSurveyStore(state => state.setCurrentField);
 
   const handleDragEnd = (result: any) => {
-    if (!result.destination || result.destination.index === result.source.index) {
+    if (
+      !result.destination ||
+      result.destination.index === result.source.index
+    ) {
       return;
     }
 
@@ -32,15 +39,19 @@ const ContentHeader = ({
 
     if (currentField) {
       //console.log("Setting destination based on currentField:", currentField);
-      destinationDroppableId = `content-child-items-${currentField.replace("field-", "")}`;
+      destinationDroppableId = `content-child-items-${currentField.replace(
+        "field-",
+        ""
+      )}`;
     }
 
-    if (sourceDroppableId.includes("content-child-items") && 
-        destinationDroppableId.includes("content-child-items")) {
-      
+    if (
+      sourceDroppableId.includes("content-child-items") &&
+      destinationDroppableId.includes("content-child-items")
+    ) {
       const parentId = `field-${sourceDroppableId.split("-")[3]}`;
       const parentField = allData.fields[parentId];
-      
+
       if (!parentField || !parentField.groupfields) {
         console.error("Parent field or groupfields not found:", parentId);
         return;
@@ -51,30 +62,33 @@ const ContentHeader = ({
       const [removed] = reorderedSubItems.splice(source.index, 1);
       reorderedSubItems.splice(destination.index, 0, removed);
 
-      const updatedGroupFields = reorderedSubItems.reduce((acc: any, item: any, index: number) => {
-        if (!item || !item.id) {
-          console.error("Invalid item in reordered items");
-          return acc;
-        }
+      const updatedGroupFields = reorderedSubItems.reduce(
+        (acc: any, item: any, index: number) => {
+          if (!item || !item.id) {
+            console.error("Invalid item in reordered items");
+            return acc;
+          }
 
-        acc[`field-${item.id}`] = {
-          ...item,
-          questionNumber: `${parentField.questionNumber}.${index + 1}`
-        };
-        return acc;
-      }, {});
+          acc[`field-${item.id}`] = {
+            ...item,
+            questionNumber: `${parentField.questionNumber}.${index + 1}`,
+          };
+          return acc;
+        },
+        {}
+      );
 
       const updatedFields = {
         ...allData.fields,
         [parentId]: {
           ...parentField,
-          groupfields: updatedGroupFields
-        }
+          groupfields: updatedGroupFields,
+        },
       };
 
       setData({
         ...allData,
-        fields: updatedFields
+        fields: updatedFields,
       });
     }
   };
@@ -179,7 +193,7 @@ const QuestionWrapper = ({ number, field, id, handleClick, title }: any) => {
         className="content-wrapper"
         onClick={() => {
           setCurrentField(`field-${id}`);
-         //console.log("Main question clicked:", `field-${id}`);
+          //console.log("Main question clicked:", `field-${id}`);
         }}
       >
         <div className="content-wrapper-item">

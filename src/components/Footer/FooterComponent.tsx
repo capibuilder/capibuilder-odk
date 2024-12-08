@@ -2,7 +2,7 @@ import { Footer } from "..";
 
 const FooterComponent = () => {
   return (
-    <div> 
+    <div>
       <Footer />
     </div>
   );

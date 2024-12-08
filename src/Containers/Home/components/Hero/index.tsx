@@ -2,22 +2,28 @@ import { useRouter } from "next/router";
 import { HeroWrapper } from "./styles";
 
 export default function Index() {
-
-const router = useRouter();
+  const router = useRouter();
   const { query, push } = useRouter();
-  
+
   return (
     <HeroWrapper>
       <div className="inWrap">
         <h1>2X your data collection speed with powerful ODK form-builder.</h1>
         <p className="text">
-          CAPIBuilder helps small teams like yours to accelerate design, test, iterate, and auto-translate forms for data collection in social impact projects. CAPIBuilder forms can be used in any Open Data Kit (ODK) application.
+          CAPIBuilder helps small teams like yours to accelerate design, test,
+          iterate, and auto-translate forms for data collection in social impact
+          projects. CAPIBuilder forms can be used in any Open Data Kit (ODK)
+          application.
         </p>
         <div className="flex">
-          <button className="darkbtn" onClick={() => {
-                    push("/sign-up");
-                  }}             
-                >Launch form in 2 mins @CAPIBuilder Cloud</button>
+          <button
+            className="darkbtn"
+            onClick={() => {
+              push("/sign-up");
+            }}
+          >
+            Launch form in 2 mins @CAPIBuilder Cloud
+          </button>
           <button className="lightbtn">
             <svg
               width="14"
@@ -30,8 +36,8 @@ const router = useRouter();
                 d="M5.33333 10L10 7L5.33333 4V10ZM7 13.6667C6.07777 13.6667 5.21111 13.4916 4.4 13.1413C3.58888 12.7911 2.88333 12.3162 2.28333 11.7167C1.68333 11.1167 1.20844 10.4111 0.858662 9.6C0.508884 8.78889 0.333773 7.92222 0.333328 7C0.333328 6.07778 0.508439 5.21111 0.858662 4.4C1.20888 3.58889 1.68377 2.88333 2.28333 2.28333C2.88333 1.68333 3.58888 1.20844 4.4 0.858665C5.21111 0.508888 6.07777 0.333777 7 0.333332C7.92222 0.333332 8.78888 0.508443 9.59999 0.858665C10.4111 1.20889 11.1167 1.68378 11.7167 2.28333C12.3167 2.88333 12.7918 3.58889 13.142 4.4C13.4922 5.21111 13.6671 6.07778 13.6667 7C13.6667 7.92222 13.4916 8.78889 13.1413 9.6C12.7911 10.4111 12.3162 11.1167 11.7167 11.7167C11.1167 12.3167 10.4111 12.7918 9.59999 13.142C8.78888 13.4922 7.92222 13.6671 7 13.6667Z"
                 fill="#6F47EB"
               />
-            </svg> 
-            <span >Deploy CAPIBuilder Open Source</span>
+            </svg>
+            <span>Deploy CAPIBuilder Open Source</span>
           </button>
         </div>
         <div className="btmText flex">

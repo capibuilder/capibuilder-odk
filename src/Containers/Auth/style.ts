@@ -185,32 +185,29 @@ export const AuthWrapper = styled.div`
       }
     }
 
-    logo{
+    logo {
       display: flex;
       align-items: center;
       font-weight: 600;
       color: #000;
 
       img {
-    margin-bottom: 4px;
-    margin-right: 3px;
-  }
-  .text-logo {
-    padding: 8px 16px;
-    border-radius: 10px;
-    font-weight: 600;
-    /* background-color: ${props => props.theme.linkColor};
+        margin-bottom: 4px;
+        margin-right: 3px;
+      }
+      .text-logo {
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-weight: 600;
+        /* background-color: ${props => props.theme.linkColor};
     color: ${props => props.theme.darkBackground}; */
-    font-size: 20px;
+        font-size: 20px;
 
-    .light {
-      color: ${props => props.theme.primaryColor};
+        .light {
+          color: ${props => props.theme.primaryColor};
+        }
+      }
     }
-  }
-
-    }
-    
-
   }
 
   @media (max-width: 999px) {

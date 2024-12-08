@@ -4,11 +4,7 @@ import useKeyPress from "@/hooks/useKeyPress";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import {
-  CreateSurveyCard,
-  CreateSurveyContainer,
-  SurveyGrid
-} from "./styles";
+import { CreateSurveyCard, CreateSurveyContainer, SurveyGrid } from "./styles";
 
 // type StateProps = "copy" | "template";
 
@@ -35,7 +31,7 @@ const CreateSurvey = () => {
         />
       )}
       {openModel && <SurveyModel handleClose={() => setOpenModel(false)} />}
-        <Head>
+      <Head>
         <title>CAPIBuilder: Design ODK Survey & Data Collection Form</title>
       </Head>
       <h1 className="page__title">Build Form</h1>
@@ -48,9 +44,7 @@ const CreateSurvey = () => {
         >
           <StartIcon />
           <h2>Use Form Designer</h2>
-          <p>
-            Drag-n-drop question types to create a new survey form.
-          </p>
+          <p>Drag-n-drop question types to create a new survey form.</p>
         </CreateSurveyCard>
         <CreateSurveyCard
           data-animate="opacity"

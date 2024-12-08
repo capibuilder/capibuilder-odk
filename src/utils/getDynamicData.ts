@@ -69,7 +69,7 @@ export const getColDefData = (inputJson: any): OutputJsonType => {
       const [key, value] = prop;
       const field = prefix ? `${prefix}__${key}` : `${key}`;
 
-      const headerName = key.replace('@odata.navigationLink', '');
+      const headerName = key.replace("@odata.navigationLink", "");
 
       if (
         typeof obj[key] === "object" &&

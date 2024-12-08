@@ -168,7 +168,7 @@ const DesignSurvey = () => {
         const empty = Object.values(field.groupfields).find(
           (subField: any) => subField.dataAttribute === ""
         ) as questionField | undefined;
-        
+
         if (empty) {
           setAlert({
             title: "Empty data attribute",
@@ -506,7 +506,11 @@ const DesignSurveyWrapperView = () => {
   const setCurrentTabBtn = useSurveyStore(state => state.setCurrentTabBtn);
   const [isGrouped, setIsGrouped] = useState(false);
 
-  const handleClick = (currentBtn: string, group?: boolean, targetFieldId?: string | null) => {
+  const handleClick = (
+    currentBtn: string,
+    group?: boolean,
+    targetFieldId?: string | null
+  ) => {
     if (group) {
       setIsGrouped(true);
       setCurrentTabBtn(targetFieldId || "");
@@ -525,8 +529,8 @@ const DesignSurveyWrapperView = () => {
     (item: any) => item.tab === "content"
   );
 
-  const current: questionField | undefined = currentField 
-    ? (data.fields[currentField] as unknown as questionField) 
+  const current: questionField | undefined = currentField
+    ? (data.fields[currentField] as unknown as questionField)
     : undefined;
 
   return (

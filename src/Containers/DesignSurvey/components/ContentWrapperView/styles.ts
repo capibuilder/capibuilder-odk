@@ -90,7 +90,7 @@ export const ContentWrapper = styled.div`
         display: flex;
         align-items: flex-start;
         gap: 8px;
-        background-color: #DCE4EA;
+        background-color: #dce4ea;
 
         input,
         textarea {
@@ -121,13 +121,12 @@ export const ContentWrapper = styled.div`
           outline: none;
           font-weight: 500;
           resize: vertical;
-          background-color: #DCE4EA;
+          background-color: #dce4ea;
         }
       }
 
       .desc {
         margin-top: 8px;
-        
       }
     }
 

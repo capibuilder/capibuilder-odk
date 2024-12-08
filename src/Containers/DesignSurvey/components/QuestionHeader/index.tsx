@@ -218,7 +218,7 @@ const QuestionHeader = () => {
       console.log("Current field data:", {
         fieldId: currentField,
         repeatCount: current.repeatCount,
-        groupRepeat: current.groupRepeat
+        groupRepeat: current.groupRepeat,
       });
     }
   }, [current, currentField]);
@@ -449,7 +449,7 @@ const QuestionHeader = () => {
                     }));
                   }}
                 />
-                
+
                 {current.questionType === "group" && options.loop && (
                   <div style={{ marginBlock: "8px" }}>
                     <TextField
@@ -457,13 +457,16 @@ const QuestionHeader = () => {
                       min={1}
                       placeholder="Mention number of repeats"
                       value={(current.repeatCount || "") as any}
-                      onChange={(e) => {
+                      onChange={e => {
                         const value = parseInt(e.target.value);
                         if (value >= 1 || e.target.value === "") {
-                          console.log("Setting repeatCount in QuestionHeader:", value);
+                          console.log(
+                            "Setting repeatCount in QuestionHeader:",
+                            value
+                          );
                           addFieldData({
                             groupRepeat: options.loop,
-                            repeatCount: value || undefined
+                            repeatCount: value || undefined,
                           });
                         }
                       }}

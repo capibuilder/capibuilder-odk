@@ -25,12 +25,16 @@ export default function App({ Component, pageProps }: AppProps) {
         <div>
           <AlertProvider>
             <NextNProgress color="var(--primary-color)" />
-           
-            {(typeof window !== "undefined" && (window.location.pathname === "/" || window.location.pathname === "/index")) ? null : (
+
+            {typeof window !== "undefined" &&
+            (window.location.pathname === "/" ||
+              window.location.pathname === "/index") ? null : (
               <Navbar />
-            )}        
+            )}
             <Component {...pageProps} />
-            {process.env.NODE_ENV !== "production" || (typeof window !== "undefined" && window.location.pathname !== "/index") ? (
+            {process.env.NODE_ENV !== "production" ||
+            (typeof window !== "undefined" &&
+              window.location.pathname !== "/index") ? (
               <FooterComponent />
             ) : null}
             <GlobalStyles />

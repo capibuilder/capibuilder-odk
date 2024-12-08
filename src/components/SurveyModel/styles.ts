@@ -21,7 +21,7 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  
+
   select {
     padding: 8px;
     border-radius: 4px;
@@ -31,7 +31,7 @@ export const Form = styled.form`
   .label {
     display: flex;
     gap: 4px;
-    
+
     .required {
       color: red;
       margin-left: 4px;
