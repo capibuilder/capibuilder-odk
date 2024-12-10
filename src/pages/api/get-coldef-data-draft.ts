@@ -56,7 +56,6 @@ export default async function handler(
     const formFields = fieldsRes.data || [];
 
     // Log form fields for debugging
-    console.log("Form Fields:", JSON.stringify(formFields, null, 2));
 
     // Get submissions data
     const submissionsRes = await odkAxios.get(submissionsUri, {

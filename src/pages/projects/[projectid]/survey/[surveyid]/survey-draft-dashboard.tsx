@@ -1,21 +1,21 @@
 import { SurveyDashboard } from "@/Containers";
 import ProtectedRoute from "@/utils/ProtectedRoute";
 
-const SurveyDashboardView = ({ slug }: any) => {
+const SurveyDraftDashboardView = ({ surveyId }: any) => {
   return (
     <ProtectedRoute>
-      <SurveyDashboard {...{ slug }} />
+      <SurveyDashboard slug={surveyId} isDraft={true} />
     </ProtectedRoute>
   );
 };
 
 export const getServerSideProps = async (context: any) => {
-  const { slug } = context.params;
+  const { surveyid } = context.params;
   return {
     props: {
-      slug,
+      surveyId: surveyid || null,
     },
   };
 };
 
-export default SurveyDashboardView;
+export default SurveyDraftDashboardView;

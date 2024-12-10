@@ -336,10 +336,12 @@ const PopoverContentView = ({
         </Link>
 
         <Link
-          href={{
-            pathname: `/survey-dashboard/${data.xmlFormId}`,
-            query: { name: data.name },
-          }}
+          href={(() => {
+            const path = !!data.publishedAt
+              ? `/projects/${data.projectId}/survey/${data.xmlFormId}/survey-dashboard`
+              : `/projects/${data.projectId}/survey/${data.xmlFormId}/survey-draft-dashboard`;
+            return path;
+          })()}
         >
           <li>
             <MdDashboard />

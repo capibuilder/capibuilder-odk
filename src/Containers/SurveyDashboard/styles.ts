@@ -5,42 +5,24 @@ export const SurveyDashboardContainer = styled.div``;
 
 export const Wrapper = styled(WrapperStub)`
   .header-container {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
+    margin-bottom: 30px;
+    padding: 10px 15px;
+    background-color: #fff;
 
-  .back-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: ${({ theme }) => theme.textColor};
-    background: ${({ theme }) => theme.linkColor};
-    padding: 0 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    text-decoration: none;
-
-    &:hover {
-      opacity: 0.8;
+    .back-link {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 15px;
+      color: inherit;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
     }
-  }
 
-  .heading {
-    display: flex;
-    flex-direction: column;
-    font-size: 1.5rem;
-    font-weight: 600;
-    background-color: ${({ theme }) => theme.linkColor};
-    color: ${({ theme }) => theme.textColor};
-    padding: 20px 15px;
-    border-radius: 8px;
-    margin-bottom: 24px;
-  }
-
-  .subheading {
-    font-size: 0.9rem;
-    color: #666;
-    margin-top: 4px;
+    .heading {
+      font-size: 24px;
+      font-weight: 600;
+    }
   }
 `;
