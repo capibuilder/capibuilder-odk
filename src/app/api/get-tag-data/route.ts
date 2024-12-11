@@ -1,4 +1,4 @@
-import { getDataFromTag } from "@/assets/mockData";
+import { getDataFromTag } from "@/utils/mockData";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {

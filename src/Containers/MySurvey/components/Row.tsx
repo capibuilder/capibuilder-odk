@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useState } from "react";
 import { AiOutlineDelete, AiOutlineEye, AiOutlineQrcode } from "react-icons/ai";
 import { CiViewTable } from "react-icons/ci";
-import { MdDownload, MdOutlineFileUpload } from "react-icons/md";
+import { MdDashboard, MdDownload, MdOutlineFileUpload } from "react-icons/md";
 import { Flex, TextField } from "socialwell-design";
 import { VersionModelWrapper } from "../styles";
 import QRCode from "./QRCode";
@@ -334,6 +334,21 @@ const PopoverContentView = ({
             {data.publishedAt ? "Responses" : "Responses"}
           </li>
         </Link>
+
+        <Link
+          href={(() => {
+            const path = !!data.publishedAt
+              ? `/projects/${data.projectId}/survey/${data.xmlFormId}/survey-dashboard`
+              : `/projects/${data.projectId}/survey/${data.xmlFormId}/survey-draft-dashboard`;
+            return path;
+          })()}
+        >
+          <li>
+            <MdDashboard />
+            Dashboard
+          </li>
+        </Link>
+
         {!data.publishedAt ? (
           <a onClick={handleDownloadDraft}>
             <li>
