@@ -34,6 +34,7 @@ export default async function handler(
       colDefData,
       tableData,
     });
+    console.log("data from Submision by day", tableData);
   } catch (error: any) {
     console.error("ERROR>>", error.response.data);
 

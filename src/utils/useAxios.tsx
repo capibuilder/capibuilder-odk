@@ -149,8 +149,6 @@ export const updateTags = async (
         },
       }
     );
-
-    console.log(response.data);
   } catch (error) {
     console.error("Error fetching report data:", error);
     throw error;
