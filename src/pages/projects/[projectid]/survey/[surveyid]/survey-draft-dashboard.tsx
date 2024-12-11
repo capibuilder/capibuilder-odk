@@ -1,10 +1,11 @@
-import { SurveyDashboard } from "@/Containers";
+import { SubmissionByDay, SurveyDashboard } from "@/Containers";
 import ProtectedRoute from "@/utils/ProtectedRoute";
 
 const SurveyDraftDashboardView = ({ surveyId }: any) => {
   return (
     <ProtectedRoute>
       <SurveyDashboard slug={surveyId} isDraft={true} />
+      <SubmissionByDay isDraft={true} />
     </ProtectedRoute>
   );
 };

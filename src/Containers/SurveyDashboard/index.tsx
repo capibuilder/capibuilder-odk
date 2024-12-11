@@ -5,7 +5,11 @@ import { odkAxios } from "@/utils/useAxios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { FaComments } from "react-icons/fa";
+import { HiUsers } from "react-icons/hi";
 import { IoIosArrowBack } from "react-icons/io";
+import { MdOutlineAssessment } from "react-icons/md";
+import { TbFileImport } from "react-icons/tb";
 import styled, { css } from "styled-components";
 import { SurveyDashboardContainer, Wrapper } from "./styles";
 
@@ -34,32 +38,38 @@ const SurveyDashboard = ({ slug, isDraft }: SurveyDashboardProps) => {
             id: "1",
             type: "card",
             tag: "#totalSubmissions",
-            title: isDraft ? "Draft Survey Submissions" : "Survey Submissions",
+            title: "Survey Submissions",
+            icon: TbFileImport,
             isDraft,
           },
-          {
-            id: "2",
-            type: "card",
-            tag: "#totalComments",
-            title: isDraft
-              ? "Draft Submission Comments"
-              : "Submission Comments",
-            isDraft,
-          },
-          {
-            id: "3",
-            type: "card",
-            tag: "#totalAudits",
-            title: isDraft ? "Draft Audits Available" : "Audits Available",
-            isDraft,
-          },
-          {
-            id: "4",
-            type: "card",
-            tag: "#totalEnumerators",
-            title: isDraft ? "Draft Enumerators" : "Enumerators",
-            isDraft,
-          },
+          ...(isDraft
+            ? []
+            : [
+                {
+                  id: "2",
+                  type: "card",
+                  tag: "#totalComments",
+                  title: "Submission Comments",
+                  icon: FaComments,
+                  isDraft,
+                },
+                {
+                  id: "3",
+                  type: "card",
+                  tag: "#totalAudits",
+                  title: "Audits Available",
+                  icon: MdOutlineAssessment,
+                  isDraft,
+                },
+                {
+                  id: "4",
+                  type: "card",
+                  tag: "#totalEnumerators",
+                  title: "Enumerators",
+                  icon: HiUsers,
+                  isDraft,
+                },
+              ]),
         ],
       },
     ],

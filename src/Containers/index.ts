@@ -13,6 +13,7 @@ export { default as Pricing } from "./Pricing";
 export { default as Profile } from "./Profile";
 export { default as SetPasswordFromOld } from "./SetPasswordFromOld";
 export { default as ShareSurvey } from "./ShareSurvey";
+export { default as SubmissionByDay } from "./SubmissionByDay";
 export { default as SurveyDashboard } from "./SurveyDashboard";
 export { default as SurveyResponse } from "./SurveyResponse";
 export { default as Tags } from "./Tags";

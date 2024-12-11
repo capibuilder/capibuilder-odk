@@ -2,7 +2,7 @@ import { getTokenFormLocal } from "@/utils/useAxios";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { memo, useEffect, useState } from "react";
-import { HiUsers } from "react-icons/hi";
+import { IconType } from "react-icons";
 import styled from "styled-components";
 
 interface CardData {
@@ -13,7 +13,15 @@ interface CardData {
   dailyCounts: number[];
 }
 
-const Card = ({ component }: { component: any }) => {
+interface CardProps {
+  component: {
+    tag: string;
+    isDraft: boolean;
+    icon: IconType;
+  };
+}
+
+const Card = ({ component }: CardProps) => {
   const [data, setData] = useState<CardData>({
     title: "",
     value: 0,
@@ -23,6 +31,7 @@ const Card = ({ component }: { component: any }) => {
   });
 
   const router = useRouter();
+  const Icon = component.icon;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,7 +72,7 @@ const Card = ({ component }: { component: any }) => {
     <DashboardCard>
       <div className="title">
         <p>
-          <HiUsers size={20} className="icon" />
+          <Icon size={20} className="icon" />
           {data.title}
         </p>
         <div className="value-container">

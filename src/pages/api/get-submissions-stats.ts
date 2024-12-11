@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 const CARD_MAPPING = {
   "#totalSubmissions": {
     title: "Survey Submissions",
-    endpoint: "/submissions",
+    endpoint: "/Submissions",
   },
   "#totalComments": {
     title: "Submission Comments",
@@ -19,57 +19,6 @@ const CARD_MAPPING = {
     endpoint: "/submissions/submitters",
   },
 } as const;
-
-async function getCommentsCount(
-  projectId: string,
-  formId: string,
-  authHeader: string
-) {
-  try {
-    // First get all submissions to get their instanceIds
-    const submissionsResponse = await odkAxios.get(
-      `/v1/projects/${projectId}/forms/${formId}/submissions`,
-      {
-        headers: { Authorization: authHeader },
-      }
-    );
-
-    // Get instanceIds from submissions
-    const instanceIds =
-      submissionsResponse.data?.map(
-        (submission: any) => submission.__id || submission.instanceId
-      ) || [];
-
-    console.log("Found instanceIds:", instanceIds);
-
-    // If no submissions, return 0 comments
-    if (instanceIds.length === 0) return 0;
-
-    // Get comments for each submission
-    const commentsPromises = instanceIds.map(instanceId =>
-      odkAxios.get(
-        `/v1/projects/${projectId}/forms/${formId}/submissions/${instanceId}/comments`,
-        {
-          headers: { Authorization: authHeader },
-        }
-      )
-    );
-
-    const commentsResponses = await Promise.all(commentsPromises);
-
-    // Sum up all comments
-    const totalComments = commentsResponses.reduce((total, response) => {
-      // Response is an array directly, not wrapped in data property
-      return total + (Array.isArray(response.data) ? response.data.length : 0);
-    }, 0);
-
-    console.log("Total comments found:", totalComments);
-    return totalComments;
-  } catch (error) {
-    console.error("Error fetching comments:", error);
-    return 0;
-  }
-}
 
 export default async function handler(
   req: NextApiRequest,
@@ -87,34 +36,58 @@ export default async function handler(
     }
 
     const url = `/v1/projects/${projectId}/forms/${formId}${cardConfig.endpoint}`;
-    console.log("Fetching from URL:", url);
+    console.log("Constructed URL:", url);
 
     try {
-      let value = 0;
+      const response = await odkAxios.get(url, {
+        headers: { Authorization: authHeader },
+      });
 
-      if (tag === "#totalComments") {
-        value = await getCommentsCount(projectId, formId, authHeader);
-      } else {
-        const response = await odkAxios.get(url, {
-          headers: { Authorization: authHeader },
+      console.log("Full API Response:", response.data);
+
+      if (tag === "#totalSubmissions") {
+        const submissions = Array.isArray(response.data) ? response.data : [];
+        const dailyCounts = submissions.reduce((acc: any, submission: any) => {
+          const date = new Date(submission.createdAt).toLocaleDateString();
+          if (!acc[date]) {
+            acc[date] = 0;
+          }
+          acc[date] += 1;
+          return acc;
+        }, {});
+
+        return res.status(200).json({
+          title: cardConfig.title,
+          value: submissions.length,
+          prefix: "",
+          suffix: "",
+          dailyCounts: Object.entries(dailyCounts).map(([date, count]) => ({
+            date,
+            count,
+          })),
         });
-        value = response.data?.length || 0;
+      } else if (tag === "#totalEnumerators") {
+        // Process enumerators data
+        const enumerators = Array.isArray(response.data) ? response.data : [];
+        return res.status(200).json({
+          title: cardConfig.title,
+          value: enumerators.length,
+          prefix: "",
+          suffix: "",
+          dailyCounts: [], // Adjust as needed
+        });
+      } else {
+        // Handle other tags if necessary
+        return res.status(200).json({
+          title: cardConfig.title,
+          value: response.data.length || 0,
+          prefix: "",
+          suffix: "",
+          dailyCounts: [],
+        });
       }
-
-      return res.status(200).json({
-        title: cardConfig.title,
-        value,
-        prefix: "",
-        suffix: "",
-        dailyCounts: [],
-      });
     } catch (error: any) {
-      console.error("ODK API Error:", {
-        status: error.response?.status,
-        statusText: error.response?.statusText,
-        data: error.response?.data,
-        url,
-      });
+      console.error("ODK API Error occurred");
 
       if (error.response?.status === 404) {
         return res.status(404).json({
