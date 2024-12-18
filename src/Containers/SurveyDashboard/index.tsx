@@ -5,10 +5,9 @@ import { odkAxios } from "@/utils/useAxios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { FaComments } from "react-icons/fa";
+import { FaComments, FaQuestionCircle } from "react-icons/fa";
 import { HiUsers } from "react-icons/hi";
 import { IoIosArrowBack } from "react-icons/io";
-import { MdOutlineAssessment } from "react-icons/md";
 import { TbFileImport } from "react-icons/tb";
 import styled, { css } from "styled-components";
 import { SurveyDashboardContainer, Wrapper } from "./styles";
@@ -37,38 +36,46 @@ const SurveyDashboard = ({ slug, isDraft }: SurveyDashboardProps) => {
           {
             id: "1",
             type: "card",
+            tag: "#totalFormFilds",
+            title: "Total Survey Questions",
+            icon: FaQuestionCircle,
+            isDraft,
+          },
+          {
+            id: "2",
+            type: "card",
             tag: "#totalSubmissions",
             title: "Survey Submissions",
             icon: TbFileImport,
+            isDraft,
+          },
+          {
+            id: "5",
+            type: "card",
+            tag: "#totalEnumerators",
+            title: "Enumerators",
+            icon: HiUsers,
             isDraft,
           },
           ...(isDraft
             ? []
             : [
                 {
-                  id: "2",
+                  id: "3",
                   type: "card",
                   tag: "#totalComments",
                   title: "Submission Comments",
                   icon: FaComments,
                   isDraft,
                 },
-                {
-                  id: "3",
-                  type: "card",
-                  tag: "#totalAudits",
-                  title: "Audits Available",
-                  icon: MdOutlineAssessment,
-                  isDraft,
-                },
-                {
-                  id: "4",
-                  type: "card",
-                  tag: "#totalEnumerators",
-                  title: "Enumerators",
-                  icon: HiUsers,
-                  isDraft,
-                },
+                // {
+                //   id: "4",
+                //   type: "card",
+                //   tag: "#totalAudits",
+                //   title: "Audits Available",
+                //   icon: MdOutlineAssessment,
+                //   isDraft,
+                // },
               ]),
         ],
       },
