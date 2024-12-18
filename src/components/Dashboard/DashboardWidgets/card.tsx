@@ -54,7 +54,15 @@ const Card = ({ component }: CardProps) => {
           }
         );
 
-        setData(res.data);
+        console.log("API Response:", res.data);
+
+        const cardData = res.data.find(
+          (item: any) => item.tag === component.tag
+        );
+
+        if (cardData) {
+          setData(cardData);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -67,6 +75,10 @@ const Card = ({ component }: CardProps) => {
     router.query.projectid,
     router.query.surveyid,
   ]);
+
+  useEffect(() => {
+    console.log("Updated Card Data:", data);
+  }, [data]);
 
   return (
     <DashboardCard>
@@ -91,9 +103,7 @@ const Card = ({ component }: CardProps) => {
                 style={{
                   height: `${(value / Math.max(...data.dailyCounts)) * 100}%`,
                 }}
-                title={`${new Date(
-                  Date.now() - (4 - index) * 86400000
-                ).toLocaleDateString()}: ${value} submissions`}
+                title={`Day ${index + 1}: ${value} submissions`}
               />
             </div>
           ))}
