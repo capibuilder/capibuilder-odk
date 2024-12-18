@@ -4,72 +4,111 @@ import type { NextApiRequest, NextApiResponse } from "next";
 const CARD_MAPPING = {
   "#totalSubmissions": {
     title: "Survey Submissions",
-    endpoint: "/draft.svc/Submissions",
+    endpoint: "/Submissions",
   },
-  // Ensure this matches the tag being sent
-  // "#totalComments": {
-  //   title: "Submission Comments",
-  //   endpoint: "/draft.svc/Submissions/comments",
-  // },
+  "#totalComments": {
+    title: "Review Comments",
+    endpoint: "/submissions/comments",
+  },
+  "#totalEnumerators": {
+    title: "Enumerators",
+    endpoint: "/submissions/submitters",
+  },
+  "#totalFormFilds": {
+    title: "Total Survey Questions",
+    endpoint: "/fields",
+  },
 } as const;
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { projectId, formId, tag } = req.body;
+  const { projectId, formId } = req.body;
   const authHeader = req.headers.authorization;
 
   try {
-    const cardConfig = CARD_MAPPING[tag as keyof typeof CARD_MAPPING];
+    const submissionsUrl = `/v1/projects/${projectId}/forms/${formId}${CARD_MAPPING["#totalSubmissions"].endpoint}`;
+    const submissionsResponse = await odkAxios.get(submissionsUrl, {
+      headers: { Authorization: authHeader },
+    });
 
-    if (!cardConfig) {
-      console.error("Invalid tag:", tag);
-      return res.status(400).json({ error: "Invalid tag" });
-    }
+    const submissions = submissionsResponse.data;
 
-    const url = `/v1/projects/${projectId}/forms/${formId}${cardConfig.endpoint}`;
-    console.log("Fetching from URL:", url);
+    // Fetch comments count
+    const commentsCountPromises = submissions.map(async (submission: any) => {
+      const instanceId = submission.instanceId;
+      const commentsUrl = `/v1/projects/${projectId}/forms/${formId}/submissions/${instanceId}/comments`;
+      try {
+        const commentsResponse = await odkAxios.get(commentsUrl, {
+          headers: { Authorization: authHeader },
+        });
+        return commentsResponse.data.length;
+      } catch (error: any) {
+        console.error(
+          `Error fetching comments for ${instanceId}:`,
+          error.response?.data || error.message
+        );
+        return 0;
+      }
+    });
 
-    try {
-      const response = await odkAxios.get(url, {
-        headers: { Authorization: authHeader },
-      });
+    const commentsCounts = await Promise.all(commentsCountPromises);
+    const totalComments = commentsCounts.reduce((acc, count) => acc + count, 0);
 
-      const submissions = response.data.value || [];
-      const dailyCounts = submissions.reduce((acc: any, submission: any) => {
-        const date = new Date(
-          submission.__system.submissionDate
-        ).toLocaleDateString();
-        if (!acc[date]) {
-          acc[date] = 0;
-        }
-        acc[date] += 1;
-        return acc;
-      }, {});
+    // Fetch enumerators (submitters)
+    const enumeratorsUrl = `/v1/projects/${projectId}/forms/${formId}${CARD_MAPPING["#totalEnumerators"].endpoint}`;
+    const enumeratorsResponse = await odkAxios.get(enumeratorsUrl, {
+      headers: { Authorization: authHeader },
+    });
 
-      return res.status(200).json({
-        title: cardConfig.title,
+    const enumerators = enumeratorsResponse.data;
+    const totalEnumerators = enumerators.length;
+
+    // Fetch total form fields
+    const fieldsUrl = `/v1/projects/${projectId}/forms/${formId}${CARD_MAPPING["#totalFormFilds"].endpoint}`;
+    const fieldsResponse = await odkAxios.get(fieldsUrl, {
+      headers: { Authorization: authHeader },
+    });
+
+    const totalFormFields = fieldsResponse.data.length;
+
+    const results = [
+      {
+        tag: "#totalSubmissions",
+        title: CARD_MAPPING["#totalSubmissions"].title,
         value: submissions.length,
         prefix: "",
         suffix: "",
-        dailyCounts: Object.entries(dailyCounts).map(([date, count]) => ({
-          date,
-          count,
-        })),
-      });
-    } catch (error: any) {
-      console.error("ODK API Error occurred");
+        dailyCounts: calculateDailyCounts(submissions),
+      },
+      {
+        tag: "#totalComments",
+        title: CARD_MAPPING["#totalComments"].title,
+        value: totalComments,
+        prefix: "",
+        suffix: "",
+        dailyCounts: [],
+      },
+      {
+        tag: "#totalEnumerators",
+        title: CARD_MAPPING["#totalEnumerators"].title,
+        value: totalEnumerators,
+        prefix: "",
+        suffix: "",
+        dailyCounts: [],
+      },
+      {
+        tag: "#totalFormFilds",
+        title: CARD_MAPPING["#totalFormFilds"].title,
+        value: totalFormFields,
+        prefix: "",
+        suffix: "",
+        dailyCounts: [],
+      },
+    ];
 
-      if (error.response?.status === 404) {
-        return res.status(404).json({
-          message: "Resource not found",
-          details: error.response.data,
-        });
-      }
-
-      throw error;
-    }
+    return res.status(200).json(results);
   } catch (error: any) {
     console.error("Server Error:", error);
     return res.status(500).json({
@@ -77,4 +116,20 @@ export default async function handler(
       details: error.response?.data || "No details available",
     });
   }
+}
+
+function calculateDailyCounts(submissions: any[]) {
+  const dailyCounts = submissions.reduce((acc: any, submission: any) => {
+    const date = new Date(submission.createdAt).toLocaleDateString();
+    if (!acc[date]) {
+      acc[date] = 0;
+    }
+    acc[date] += 1;
+    return acc;
+  }, {});
+
+  return Object.entries(dailyCounts).map(([date, count]) => ({
+    date,
+    count,
+  }));
 }

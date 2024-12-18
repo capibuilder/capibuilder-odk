@@ -50,16 +50,17 @@ function SubmissionByDay({ isDraft }: SubmissionByDayProps) {
           }
         );
 
-        // Log the API response to check its structure
-        console.log("API Response:", res.data);
-
         // Use dailyCounts from the response
-        const dailyCounts = res.data.dailyCounts || [];
+        const dailyCounts =
+          res.data.find((item: any) => item.tag === "#totalSubmissions")
+            .dailyCounts || [];
+
+        // Example logic to determine approved and rejected counts
         const chartData = dailyCounts.map((item: any) => ({
           date: item.date,
-          received: item.count, // Assuming all are received
-          approved: 0, // Placeholder, adjust as needed
-          rejected: 0, // Placeholder, adjust as needed
+          received: item.count,
+          approved: Math.floor(item.count * 0.7), // Example: 70% approved
+          rejected: Math.floor(item.count * 0.3), // Example: 30% rejected
         }));
 
         setData(chartData);
@@ -89,7 +90,7 @@ function SubmissionByDay({ isDraft }: SubmissionByDayProps) {
       {
         label: "Rejected",
         data: data.map((item: any) => item.rejected),
-        backgroundColor: "#BCBBDD",
+        backgroundColor: "#FF6B6B",
       },
     ],
   };
@@ -118,7 +119,7 @@ function SubmissionByDay({ isDraft }: SubmissionByDayProps) {
     },
     scales: {
       x: {
-        stacked: true,
+        stacked: false,
         ticks: {
           font: {
             size: 12,
@@ -126,7 +127,7 @@ function SubmissionByDay({ isDraft }: SubmissionByDayProps) {
         },
       },
       y: {
-        stacked: true,
+        stacked: false,
         ticks: {
           font: {
             size: 12,
