@@ -69,19 +69,20 @@ const Tags = () => {
   const tagData = tags || [];
   const filteredData = query.q
     ? tagData.filter((item: KeywordProps) =>
-        item.keywordDetails[0].keyword
-          ?.toLowerCase()
-          .includes(String(query.q).toLowerCase())
+        item.keyword?.toLowerCase().includes(String(query.q).toLowerCase())
       )
     : tagData;
 
   return (
     <TagsContainer>
       <Head>
-        <title>Tags</title>
+        <title>
+          CAPIBuilder - Keywords: Define and reuse data for the nonprofit data
+          collection
+        </title>
       </Head>
       <TagsWrapper>
-        <h1 className="page__title">Tags</h1>
+        <h1 className="page__title">Keywords</h1>
 
         <Search />
       </TagsWrapper>
@@ -116,23 +117,18 @@ type TagData = {
   id: string;
   tag: string;
   label: string;
-  defination: string;
+  description: string;
   children?: TagData[];
   parent?: string;
 };
 
-interface KeywordDetails {
-  keywordDetailsId: string;
-  keyword: string;
-  defination: string;
-  label: string;
-}
-
 interface KeywordProps {
   keywordId: string;
   createdAt: string;
-  keywordDetails: KeywordDetails[];
   relatedKeywordId: string | null;
+  keyword: string;
+  description: string;
+  keywordTitle: string;
 }
 
 const Tag = React.memo(({ data }: { data: TagData }) => {
@@ -208,9 +204,9 @@ const convertData = (data: KeywordProps[]): TagData[] => {
   data.forEach(item => {
     map[item.keywordId] = {
       id: item.keywordId,
-      tag: item.keywordDetails[0].keyword,
-      label: item.keywordDetails[0].label,
-      defination: item.keywordDetails[0].defination,
+      tag: item.keyword,
+      label: item.keywordTitle,
+      description: item.description,
       children: [],
       parent: item.relatedKeywordId || undefined,
     };
@@ -283,16 +279,15 @@ const TagContent = () => {
   return (
     <TagContentWrapper>
       <div className="tag">
-        <span className="header">Label</span>{" "}
-        <span>{keyword.keywordDetails.at(0)?.label}</span>
+        <span className="header">Keyword Title</span>{" "}
+        <span>{keyword.keyword}</span>
       </div>
       <div className="tag">
-        <span className="header">tag</span>{" "}
-        <span>{keyword.keywordDetails.at(0)?.keyword}</span>
+        <span className="header">Keyword</span> <span>{keyword.keyword}</span>
       </div>
       <div className="tag">
-        <span className="header">Definition</span>{" "}
-        <span>{keyword.keywordDetails.at(0)?.defination}</span>
+        <span className="header">Description</span>{" "}
+        <span>{keyword.description}</span>
       </div>
       <div className="tag tag-parent">
         <span className="header">Broader Tag</span>{" "}
@@ -304,7 +299,7 @@ const TagContent = () => {
             setCurrentKeywordId(keyword.relatedKeywordId);
           }}
         >
-          {parent ? parent?.keywordDetails.at(0)?.keyword : "None"}
+          {parent ? parent?.keyword : "None"}
         </span>
       </div>
     </TagContentWrapper>
@@ -331,7 +326,7 @@ const TagDrawer = ({ refresh }: { refresh: () => void }) => {
   const keyword: KeywordProps | undefined =
     filteredData.find(item => item.keywordId === currentKeywordId) || undefined;
 
-  const currentKeyword = keyword?.keywordDetails.at(0);
+  const currentKeyword = keyword;
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -342,7 +337,7 @@ const TagDrawer = ({ refresh }: { refresh: () => void }) => {
     if (keywordId.edit) {
       updateTags(
         keywordId.id,
-        currentKeyword?.keywordDetailsId || "",
+        currentKeyword?.keywordId || "",
         label,
         keyword,
         defination
@@ -402,24 +397,24 @@ const TagDrawer = ({ refresh }: { refresh: () => void }) => {
       <TagDrawerOverlay />
       <TagDrawerWrapper>
         <div className="header">
-          {keywordId.edit ? "Edit Tag" : "Add Tag"}
-          {keywordId.id && `: ${keyword?.keywordDetails.at(0)?.keyword}`}
+          {keywordId.edit ? "Edit Keyword" : "Add Keyword"}
+          {keywordId.id && `: ${keyword?.keyword}`}
         </div>
         <form onSubmit={onSubmit} className="content">
           <div className="input-group">
             <label htmlFor="label">
-              label <div className="required">*</div>
+              keyword Title <div className="required">*</div>
             </label>
             <input
               type="text"
               id="label"
-              defaultValue={keywordId.edit ? currentKeyword?.label : ""}
+              defaultValue={keywordId.edit ? currentKeyword?.keyword || "" : ""}
               required
             />
           </div>
           <div className="input-group">
             <label htmlFor="tag">
-              tag <div className="required">*</div>
+              Keyword <div className="required">*</div>
             </label>
             <div className="input-error">
               <input
@@ -446,10 +441,10 @@ const TagDrawer = ({ refresh }: { refresh: () => void }) => {
           </div>
           <div className="input-group">
             <label htmlFor="defination">
-              Definition <div className="required">*</div>
+              Description <div className="required">*</div>
             </label>
             <textarea name="defination" id="" required rows={5}>
-              {keywordId.edit ? currentKeyword?.defination : ""}
+              {keywordId.edit ? currentKeyword?.description : ""}
             </textarea>
           </div>
           <div className="btns">
