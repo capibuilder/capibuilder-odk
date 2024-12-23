@@ -37,16 +37,14 @@ export const getAllTags = async () => {
     const response = await axios.post(
       process.env.NEXT_PUBLIC_KEYWORDS_REST_API as string,
       {
-        query: `query GetAllSocialwellKeywordRegister {
-                getAllSocialwellKeywordRegister {
+        query: `query GetAllKeywords {
+                getAllKeywords {
                   keywordId
+                  keyword
+                  keywordTitle
+                  description
                   relatedKeywordId
-                  keywordDetails {
-                    keywordDetailsId
-                    defination
-                    keyword
-                    label
-                  }
+               
                 }
               }`,
         // variables: {
@@ -60,7 +58,7 @@ export const getAllTags = async () => {
       }
     );
 
-    return response.data.data?.getAllSocialwellKeywordRegister;
+    return response.data.data?.getAllKeywords;
   } catch (error) {
     console.error("Error fetching report data:", error);
     throw error;

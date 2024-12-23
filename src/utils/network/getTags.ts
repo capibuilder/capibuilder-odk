@@ -4,13 +4,13 @@ import axios from "axios";
 export async function getTags(query: string) {
   const data = {
     query:
-      "query SearchSocialwellKeywords($input: SearchSocialwellKeywordsInput) {\r\n  searchSocialwellKeywords(input: $input) {\r\n    keywordId\r\n    keyword\r\n    language\r\n  }\r\n}\r\n",
+      "query SearchKeywords($input: SearchKeywordsInput) {\r\n  searchKeywords(input: $input) {\r\n    keywordId\r\n    keyword\r\n     }\r\n}\r\n",
     variables: {
       input: {
         query,
       },
     },
-    operationName: "SearchSocialwellKeywords",
+    operationName: "SearchKeywords",
   };
 
   try {
@@ -18,7 +18,7 @@ export async function getTags(query: string) {
       .post(process.env.NEXT_PUBLIC_KEYWORDS_REST_API as string, data)
       .then(({ data }: { data: Root }) => ({
         error: false,
-        data: data.data.searchSocialwellKeywords,
+        data: data.data.searchKeywords,
       }));
   } catch (error) {
     return { error: true, data: null };
@@ -26,5 +26,5 @@ export async function getTags(query: string) {
 }
 
 export interface Root {
-  data: { searchSocialwellKeywords: keyword[] };
+  data: { searchKeywords: keyword[] };
 }
