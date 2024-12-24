@@ -132,7 +132,7 @@ const Navbar = () => {
                 href={"/tags"}
                 active={(asPath === "/tags").toString()}
               >
-                Tags
+                Keywords
               </NavItem>
               <NavItem
                 onClick={() => {
