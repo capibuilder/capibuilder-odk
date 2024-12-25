@@ -55,10 +55,11 @@ function Signup() {
             <Typography as="h1" content={"Verify your email"} />
             <br />
             <p className="notif">
-              A email has been sent with a link to verify your account. Please
-              click on that link to verify your account. If you have not
-              received the email after a few minutes, please check your spam
-              folder.
+              A email has been sent from the email{" "}
+              <b><a href="mailto:hi@capibuilder.com">hi@capibuilder.com</a></b> with a link to verify your
+              account. Please click on that link to verify your account. If you
+              have not received the email after a few minutes, please check your
+              spam folder.
             </p>
           </div>
         ) : (
