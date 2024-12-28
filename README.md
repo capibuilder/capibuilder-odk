@@ -31,7 +31,7 @@ NEXT_PUBLIC_API_KEY (The API key for the API)
 
 ## Installation
 
-The deployment can be done through running through the command or docker.
+The deployment can be done by running the command or docker.
 
 ### Clone the repository to your local machine
 
