@@ -56,10 +56,14 @@ function Signup() {
             <br />
             <p className="notif">
               A email has been sent from the email{" "}
-              <b><a href="mailto:hi@capibuilder.com">hi@capibuilder.com</a></b> with a link to verify your
-              account. Please click on that link to verify your account. If you
-              have not received the email after a few minutes, please check your
-              spam folder.
+              <b>
+                <a href={`mailto:${process.env.SUPPORT_MAIL_SIGN_UP}`}>
+                  {process.env.SUPPORT_MAIL_SIGN_UP}
+                </a>
+              </b>{" "}
+              with a link to verify your account. Please click on that link to
+              verify your account. If you have not received the email after a
+              few minutes, please check your spam folder.
             </p>
           </div>
         ) : (
