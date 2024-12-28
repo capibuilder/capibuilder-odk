@@ -267,7 +267,7 @@ const QuestionHeader = () => {
 
       {!current?.auditType && (
         <Options>
-          <div className="title">Tag</div>
+          <div className="title">Keyword</div>
           <div
             onClick={e => {
               e.stopPropagation();
