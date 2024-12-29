@@ -522,7 +522,7 @@ const DesignSurveyWrapperView = () => {
     (item: any) => item.tab === "content"
   );
 
-  const current: questionField = data.fields[currentField];
+  const current = data.fields[currentField] as any;
 
   return (
     <DesignSurveyWrapper>
