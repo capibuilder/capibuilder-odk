@@ -3,7 +3,6 @@ import ConnectIcon from "@/assets/icons/connectIcon";
 import SelectAppearance from "@/components/SelectAppearance";
 import useSurveyStore from "@/context/surveyStores";
 import useKeyPress from "@/hooks/useKeyPress";
-import { questionField } from "@/interfaces/questionFields";
 import { questionTypes } from "@/interfaces/questionTypes";
 import { combineQuestion } from "@/utils/combineQuestions";
 import { useCallback, useEffect, useState } from "react";
@@ -142,14 +141,7 @@ const QuestionHeader = () => {
   const [createDataset, setCreateDataset] = useState(false);
   const [showSelectAppearance, setShowSelectAppearance] = useState(false);
 
-  const current: questionField = data.fields[currentField];
-
   const [options, setOptions] = useState({
-    // type: {
-    //   label: "Single Choice",
-    //   value: "single",
-    // },
-
     isRequired: false,
     requiredMsg: "",
     loop: false,
@@ -166,18 +158,50 @@ const QuestionHeader = () => {
     isMultipleSelection: false,
     isVerticalAlignment: false,
     isShuffleOptionOrder: false,
-    // saveToEntity: false,
   });
 
-  const updateCurrentField = useCallback(() => {
-    if (!currentField) return;
+  // Get current field from either top-level or nested fields
+  const getCurrentField = useCallback(() => {
+    if (!currentField) return undefined;
 
-    setField(current);
-    setOptions(prevData => ({
-      ...prevData,
-      ...fieldData(current),
-    }));
-  }, [currentField]);
+    // Check if it's a top-level field
+    let field = data.fields[currentField];
+
+    // If not found in top-level, check group fields
+    if (!field) {
+      Object.values(data.fields).forEach((groupField: any) => {
+        if (
+          groupField.group &&
+          groupField.groupfields &&
+          groupField.groupfields[currentField]
+        ) {
+          field = groupField.groupfields[currentField];
+        }
+      });
+    }
+
+    return field;
+  }, [currentField, data.fields]);
+
+  // Update field and options only when currentField or data changes
+  useEffect(() => {
+    const currentFieldData = getCurrentField();
+    if (currentFieldData && (!field || field.id !== currentFieldData.id)) {
+      setField(currentFieldData);
+      setOptions(prevData => ({
+        ...prevData,
+        ...fieldData(currentFieldData),
+      }));
+    }
+  }, [currentField, data.fields]);
+
+  useEffect(() => {
+    if (currentField) {
+      updateSetData();
+    }
+  }, [options, currentField]);
+
+  const current = getCurrentField();
 
   const updateSetData = useCallback(() => {
     if (!currentField) return;
@@ -198,14 +222,6 @@ const QuestionHeader = () => {
     addFieldData(currentOptions);
   }, [options, currentField]);
 
-  useEffect(() => {
-    updateCurrentField();
-  }, [updateCurrentField]);
-
-  useEffect(() => {
-    updateSetData();
-  }, [updateSetData]);
-
   useKeyPress("Escape", () => {
     showDropdown && setShowDropdown(false);
     setShowTag(false);
@@ -215,11 +231,6 @@ const QuestionHeader = () => {
 
   useEffect(() => {
     if (current?.questionType === "group") {
-      console.log("Current field data:", {
-        fieldId: currentField,
-        repeatCount: current.repeatCount,
-        groupRepeat: current.groupRepeat,
-      });
     }
   }, [current, currentField]);
 
@@ -295,7 +306,8 @@ const QuestionHeader = () => {
             <ArrowDown />
           </div>
           <br />
-          {!hideAddtoTag.includes(current.questionType) &&
+          {current &&
+            !hideAddtoTag.includes(current.questionType) &&
             !current.parentId && (
               <SwitchOptions
                 name="Add to Project Tags"
@@ -433,7 +445,7 @@ const QuestionHeader = () => {
           <Options>
             <div className="title">setting</div>
 
-            {field?.group && (
+            {field?.group && current && (
               <>
                 <SwitchOptions
                   name={
@@ -460,10 +472,6 @@ const QuestionHeader = () => {
                       onChange={e => {
                         const value = parseInt(e.target.value);
                         if (value >= 1 || e.target.value === "") {
-                          console.log(
-                            "Setting repeatCount in QuestionHeader:",
-                            value
-                          );
                           addFieldData({
                             groupRepeat: options.loop,
                             repeatCount: value || undefined,

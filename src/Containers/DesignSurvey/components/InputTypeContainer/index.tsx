@@ -109,32 +109,26 @@ const InputTypeList: React.FC<InputTypeListProps> = ({
   visible,
   isGrouped,
 }) => {
-  const { data, setCurrentField, setData, currentTabBtn } = useSurveyStore(
-    state => state,
-    shallow
-  );
+  const { data, setData, currentField, setCurrentField, currentTabBtn } =
+    useSurveyStore(state => state, shallow);
 
   const handleClick = useCallback(
     async (option: any) => {
-      const currentFieldId = useSurveyStore.getState().currentField as
-        | string
-        | null;
-      const currentField = currentFieldId ? data.fields[currentFieldId] : null;
-
-      const randomId = generateRandomId(5);
-      const currentLevelFields = Object.values(data.fields).filter(
+      // Get current field count for numbering
+      const currentFieldNumber = Object.values(data.fields).filter(
         (field: any) =>
           field.parentId ===
           (currentTabBtn === "content" ? null : currentTabBtn)
-      );
+      ).length;
 
+      const randomId = generateRandomId(5);
       const commonFieldData = {
         id: randomId,
         instanceId: generateRandomId(8),
         dataAttribute: option.value,
         tab: "content",
         parentId: currentTabBtn === "content" ? null : currentTabBtn,
-        questionNumber: currentLevelFields.length + 1,
+        questionNumber: currentFieldNumber + 1,
         otherLangs: data?.langs?.map(v => ({
           label: "",
           lang: v,
@@ -146,75 +140,44 @@ const InputTypeList: React.FC<InputTypeListProps> = ({
         })),
       };
 
-      // Create the new field
-      const newField = ["yesNo", "likertScale"].includes(option.value)
-        ? {
-            ...option.field,
-            ...commonFieldData,
-            otherLangs: await getTranslationOptions(
-              (data?.langs || []).map(v => ({
-                /* ... */
-              })),
-              option.field.selectOptions,
-              data.langs!
-            ),
-          }
-        : {
-            ...option.field,
-            ...commonFieldData,
-          };
+      if (["yesNo", "likertScale"].includes(option.value)) {
+        const otherLangs = data?.langs!.map(v => ({
+          label: "",
+          lang: v,
+          hint: "",
+          requiredMsg: "",
+          constraintMsg: "",
+          defaultValue: "",
+          selectOptions: [],
+        }));
 
-      // If current field is a group, add to its groupfields
-      if (
-        currentFieldId &&
-        currentField &&
-        currentField.questionType === "group"
-      ) {
-        const existingGroupFields = currentField.groupfields || {};
+        const newOtherLangs = await getTranslationOptions(
+          otherLangs,
+          option.field.selectOptions,
+          data.langs!
+        );
 
-        const groupFieldsCount = Object.keys(existingGroupFields).length;
-        const newFieldWithNumber = {
-          ...newField,
-          questionNumber: groupFieldsCount + 1,
-        };
-
-        const updatedFields = {
-          ...data.fields,
-          [currentFieldId]: {
-            ...currentField,
-            groupfields: {
-              ...existingGroupFields,
-              [`field-${randomId}`]: newFieldWithNumber,
+        setData({
+          ...data,
+          fields: {
+            ...data.fields,
+            [`field-${randomId}`]: {
+              ...option.field,
+              ...commonFieldData,
+              otherLangs: newOtherLangs,
             },
           },
-        };
-
-        setData({
-          ...data,
-          fields: updatedFields,
         });
       } else {
-        // Original logic for non-group fields
-        const orderedFields: Record<string, any> = {};
-        let addedNewField = false;
-
-        Object.entries(data.fields).forEach(([key, value]) => {
-          if (key === currentFieldId) {
-            orderedFields[key] = value;
-            orderedFields[`field-${randomId}`] = newField;
-            addedNewField = true;
-          } else {
-            orderedFields[key] = value;
-          }
-        });
-
-        if (!addedNewField) {
-          orderedFields[`field-${randomId}`] = newField;
-        }
-
         setData({
           ...data,
-          fields: orderedFields,
+          fields: {
+            ...data.fields,
+            [`field-${randomId}`]: {
+              ...option.field,
+              ...commonFieldData,
+            },
+          },
         });
       }
 

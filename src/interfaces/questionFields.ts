@@ -1,10 +1,10 @@
 import { questionTypes } from "./questionTypes";
 
 export interface questionField {
-  id?: number;
-  type?: string;
-  label?: string;
-  typeLabel?: string;
+  id: string | number;
+  type: string;
+  label: string;
+  typeLabel: string;
   questionType: questionTypes;
   required?: boolean;
   meta?: boolean;

@@ -220,9 +220,6 @@ const DesignSurvey = () => {
         minify: true,
       } as any);
 
-      // console.log(xmlData);
-      // return;
-
       const jsonString = JSON.stringify(jsonData);
 
       const blob = new Blob([jsonString], { type: "application/json" });
@@ -506,14 +503,10 @@ const DesignSurveyWrapperView = () => {
   const setCurrentTabBtn = useSurveyStore(state => state.setCurrentTabBtn);
   const [isGrouped, setIsGrouped] = useState(false);
 
-  const handleClick = (
-    currentBtn: string,
-    group?: boolean,
-    targetFieldId?: string | null
-  ) => {
+  const handleClick = (currentBtn: string, group?: boolean, id?: string) => {
     if (group) {
       setIsGrouped(true);
-      setCurrentTabBtn(targetFieldId || "");
+      setCurrentTabBtn(id);
       setOpen(!open);
       document.body.style.overflow = "hidden";
       return;
@@ -529,9 +522,7 @@ const DesignSurveyWrapperView = () => {
     (item: any) => item.tab === "content"
   );
 
-  const current: questionField | undefined = currentField
-    ? (data.fields[currentField] as unknown as questionField)
-    : undefined;
+  const current: questionField = data.fields[currentField];
 
   return (
     <DesignSurveyWrapper>

@@ -52,7 +52,9 @@ export default function CascadingSelect() {
 
   const setData = useSurveyStore(state => state.setData);
 
-  const selected: questionField = data.fields[currentField as string];
+  const selected = data.fields[
+    currentField as string
+  ] as unknown as questionField;
 
   const handleAdd = async (opta: any[]) => {
     if (dataKeys.length === 0) return;

@@ -48,10 +48,17 @@ export default function Projects() {
       const response = await odkAxios("/v1/projects?forms=true", config);
       setProjects(sortByCreatedAt(response.data || []));
     } catch (error: any) {
-      if (error.response.status !== 500) {
+      if (error?.response?.status !== 500) {
         setAlert({
           title: "Error",
           text: error.message,
+          state: "error",
+          show: true,
+        });
+      } else {
+        setAlert({
+          title: "Error",
+          text: "An unexpected error occurred",
           state: "error",
           show: true,
         });

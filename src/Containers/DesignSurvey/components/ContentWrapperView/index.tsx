@@ -184,7 +184,14 @@ const ContentWrapperView = () => {
                     ismodified: { ...current?.ismodified, hint: true },
                   })
                 }
-                placeholder="Description (optional)"
+                onClick={() => {
+                  if (!current?.ismodified?.hint) {
+                    addFieldData({
+                      hint: "",
+                      ismodified: { ...current?.ismodified, hint: true },
+                    });
+                  }
+                }}
               />
             </div>
             {current?.hint && current.questionType !== "note" && (

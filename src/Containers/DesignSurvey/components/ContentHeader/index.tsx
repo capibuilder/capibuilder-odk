@@ -136,6 +136,8 @@ const QuestionWrapper = ({ number, field, id, handleClick, title }: any) => {
   const deleteField = useSurveyStore(state => state.deleteField);
   const currentField = useSurveyStore(state => state.currentField);
   const setCurrentField = useSurveyStore(state => state.setCurrentField);
+  const setCurrentTabBtn = useSurveyStore(state => state.setCurrentTabBtn);
+  const setIsGrouped = useSurveyStore(state => state.setIsGrouped);
 
   const hasDuplicate = useMemo(() => {
     return Object.values(data.fields)
@@ -193,13 +195,21 @@ const QuestionWrapper = ({ number, field, id, handleClick, title }: any) => {
         className="content-wrapper"
         onClick={() => {
           setCurrentField(`field-${id}`);
-          //console.log("Main question clicked:", `field-${id}`);
+          const isGroupField = field.group;
+          if (isGroupField) {
+            setIsGrouped(true);
+            setCurrentTabBtn(`field-${id}`);
+          } else {
+            setIsGrouped(false);
+            setCurrentTabBtn(`field-${id}`);
+          }
         }}
       >
         <div className="content-wrapper-item">
           <div className="content">
             <div className="number">
-              <TickIcon size="12" /> {field.questionNumber}
+              <TickIcon size="12" />
+              {field.questionNumber}
             </div>
             <div className="question">
               <p>
@@ -214,7 +224,7 @@ const QuestionWrapper = ({ number, field, id, handleClick, title }: any) => {
               <button
                 onClick={e => {
                   e.stopPropagation();
-                  handleClick(title, true, `field-${id}`);
+                  handleClick(`field-${id}`, true, `field-${id}`);
                 }}
                 className="options"
               >
@@ -245,8 +255,19 @@ const QuestionWrapper = ({ number, field, id, handleClick, title }: any) => {
 };
 
 const SubQuestionWrapper = ({ field, id, handleClick, title }: any) => {
+  const data = useSurveyStore(state => state.data);
   const deleteField = useSurveyStore(state => state.deleteField);
   const setCurrentField = useSurveyStore(state => state.setCurrentField);
+  const currentField = useSurveyStore(state => state.currentField);
+  const setCurrentTabBtn = useSurveyStore(state => state.setCurrentTabBtn);
+  const setIsGrouped = useSurveyStore(state => state.setIsGrouped);
+
+  const getGroupField = (itemId: string) => {
+    if (field.groupfields && field.groupfields[`field-${itemId}`]) {
+      return field.groupfields[`field-${itemId}`];
+    }
+    return null;
+  };
 
   if (!field.group) return null;
 
@@ -255,11 +276,7 @@ const SubQuestionWrapper = ({ field, id, handleClick, title }: any) => {
       droppableId={`content-child-items-${id}`}
       type="sub-group"
     >
-      <div
-        style={{
-          paddingInlineStart: "10px",
-        }}
-      >
+      <div style={{ paddingInlineStart: "10px" }}>
         {Object.values(field.groupfields!).map((item: any, index: number) => (
           <Fragment key={item.id}>
             <DragDropWrapper.Draggable
@@ -268,15 +285,22 @@ const SubQuestionWrapper = ({ field, id, handleClick, title }: any) => {
               index={index}
             >
               <div
-                onClick={() => {
-                  setCurrentField(`field-${item.id}`);
-                  //console.log("Sub question clicked:", `field-${item.id}`);
+                onClick={e => {
+                  e.stopPropagation();
+                  const groupField = getGroupField(item.id);
+                  if (groupField) {
+                    setCurrentField(`field-${item.id}`);
+                    setIsGrouped(true);
+                    setCurrentTabBtn(`field-${item.id}`);
+                  }
                 }}
                 className="group-content"
               >
                 <div className="content">
                   <div className="number">
-                    <TickIcon size="12" /> {item.questionNumber || index + 1}
+                    <TickIcon size="12" />
+
+                    {item.questionNumber || index + 1}
                   </div>
                   <div className="question">
                     <p>

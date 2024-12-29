@@ -22,6 +22,7 @@ export type State = {
   };
   currentField: string | null;
   currentTabBtn: string;
+  isGrouped: boolean;
 };
 
 export type Actions = {
@@ -33,6 +34,7 @@ export type Actions = {
   removeCurrentField: () => void;
   setCurrentTabBtn: (tab: any) => void;
   deleteField: (id: string) => void;
+  setIsGrouped: (isGrouped: boolean) => void;
 };
 
 const useSurveyStore = create<State & Actions>((set, get) => ({
@@ -48,6 +50,7 @@ const useSurveyStore = create<State & Actions>((set, get) => ({
   },
   currentField: null,
   currentTabBtn: "",
+  isGrouped: false,
   setData: (data: any) => set({ data }),
   addData: (data: any) => set({ data: { ...get().data, ...data } }),
   resetForm: () =>
@@ -126,6 +129,7 @@ const useSurveyStore = create<State & Actions>((set, get) => ({
         currentField: null,
       });
   },
+  setIsGrouped: isGrouped => set({ isGrouped }),
 }));
 
 export default useSurveyStore;

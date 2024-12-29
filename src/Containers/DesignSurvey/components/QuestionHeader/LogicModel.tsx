@@ -9,7 +9,8 @@ import { ConstraintModel } from "./ConstraintOptions";
 import { RelevantModel } from "./RelevantOptions";
 import { ModelOverlay, ModelWrapper } from "./styles";
 
-const isEdited = (field: questionField) => {
+const isEdited = (field?: questionField) => {
+  if (!field) return false;
   return !!field.calculate || !!field.relevant || !!field.constraint;
 };
 
@@ -18,7 +19,9 @@ const LogicModel = () => {
   const data = useSurveyStore(state => state.data);
   const currentField = useSurveyStore(state => state.currentField)!;
 
-  const current: questionField = data.fields[currentField];
+  const current = data.fields[currentField] as unknown as
+    | questionField
+    | undefined;
 
   return (
     <>
@@ -36,7 +39,7 @@ const LogicModel = () => {
             cursor: "pointer",
           }}
         >
-          {isEdited(current) ? (
+          {current && isEdited(current) ? (
             <EditIcon size="26" />
           ) : (
             <CirclePlusIcon size="26" />
@@ -52,7 +55,7 @@ const Model = ({ setIsOpen }: { setIsOpen: (isOpen: boolean) => void }) => {
   const { fields } = useSurveyStore(state => state.data);
   const currentField = useSurveyStore(state => state.currentField)!;
 
-  const field: questionField = fields[currentField];
+  const field = fields[currentField] as unknown as questionField;
 
   return (
     <>

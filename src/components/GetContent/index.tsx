@@ -1,5 +1,4 @@
 import useSurveyStore from "@/context/surveyStores";
-import { questionField } from "@/interfaces/questionFields";
 import { questionTypes } from "@/interfaces/questionTypes";
 import { AiOutlineScan } from "react-icons/ai";
 import { FiUploadCloud } from "react-icons/fi";
@@ -12,6 +11,57 @@ import AddOptions, { AddLangOptions, PreviewOptions } from "./AddOptions";
 import CascadingSelect from "./CascadingSelect";
 import UploadMedia from "./UploadMedia";
 import { GroupWrapperView } from "./styles";
+
+const VALID_QUESTION_TYPES: questionTypes[] = [
+  "shorttext",
+  "longtext",
+  "number",
+  "date",
+  "time",
+  "rating",
+  "group",
+  "image",
+  "audio",
+  "video",
+  "fileupload",
+  "signature",
+  "barcode",
+  "ranking",
+  "multipleselect",
+  "singleselect",
+  "note",
+  "chooseone",
+  "likert",
+  "geopoint",
+  "geoshape",
+  "datetime",
+  "trigger",
+  "cascadingselect",
+  "link",
+];
+
+const QuestionWithHint = ({
+  children,
+  hint,
+}: {
+  children: React.ReactNode;
+  hint?: string;
+}) => (
+  <div>
+    {hint && <div className="hint">{hint}</div>}
+    {children}
+  </div>
+);
+
+interface GroupField {
+  questionType: questionTypes;
+  typeLabel: string;
+  optionType: string;
+  hint?: string;
+  label?: string;
+  selectOptions?: any;
+  groupfields?: any;
+}
 
 const GetContent = ({
   type,
@@ -40,25 +90,51 @@ const GetContent = ({
     data: { fields },
   } = useSurveyStore();
 
-  const newGroupFields = Array.isArray(groupfields)
-    ? groupfields
-    : Object.values(groupfields);
+  const getCurrentField = () => {
+    if (!currentField) return undefined;
 
-  const field: questionField = fields[currentField as string];
+    let field = fields[currentField];
 
-  switch (questionType) {
+    if (!field) {
+      Object.values(fields).forEach((groupField: any) => {
+        if (
+          groupField.group &&
+          groupField.groupfields &&
+          groupField.groupfields[currentField]
+        ) {
+          field = groupField.groupfields[currentField];
+        }
+      });
+    }
+
+    return field;
+  };
+
+  const field = getCurrentField();
+
+  const effectiveQuestionType = field?.questionType || questionType;
+
+  switch (effectiveQuestionType) {
     case "shorttext":
-      if (typeLabel === "email") {
-        return <Input placeholder="Type your email here" type="email" />;
-      } else if (typeLabel === "contact info") {
-        return <Input placeholder="Enter your answer here" />;
-      } else if (typeLabel === "website") {
-        return <Input placeholder="https://" type="url" />;
-      } else {
-        return <Input />;
-      }
+      return (
+        <QuestionWithHint hint={field?.hint}>
+          {typeLabel === "email" ? (
+            <Input placeholder="Type your email here" type="email" />
+          ) : typeLabel === "contact info" ? (
+            <Input placeholder="Enter your answer here" />
+          ) : typeLabel === "website" ? (
+            <Input placeholder="https://" type="url" />
+          ) : (
+            <Input />
+          )}
+        </QuestionWithHint>
+      );
     case "longtext":
-      return <TextArea />;
+      return (
+        <QuestionWithHint hint={field?.hint}>
+          <TextArea />
+        </QuestionWithHint>
+      );
 
     case "link":
       return (
@@ -98,12 +174,18 @@ const GetContent = ({
       return <Rating fieldProp={fieldProp} />;
 
     case "group":
-      return <GroupWrapper groupfields={newGroupFields} />;
+      return (
+        <GroupWrapper
+          groupfields={groupfields}
+          preview={preview}
+          fieldProp={fieldProp}
+        />
+      );
 
     case "cascadingselect":
       return (
         <>
-          <GroupWrapper groupfields={newGroupFields} />
+          <GroupWrapper groupfields={groupfields} />
           <CascadingSelect />
         </>
       );
@@ -231,22 +313,34 @@ const GetContent = ({
   }
 };
 
-export const GroupWrapper = ({ groupfields = [] }: any) => {
+export const GroupWrapper = ({
+  groupfields = {} as Record<string, GroupField>,
+  preview,
+  fieldProp,
+}: {
+  groupfields: Record<string, GroupField>;
+  preview?: boolean;
+  fieldProp?: any;
+}) => {
+  const groupFieldsArray = Object.values(groupfields);
+
   return (
     <GroupWrapperView>
-      {groupfields.map((field: questionField, index: number) => (
+      {groupFieldsArray.map((field: GroupField, index: number) => (
         <div className="group__wrapper" key={index}>
           <div className="group__wrapper__label">{field.label}</div>
           <div className="group__wrapper__content">
-            <GetContent
-              type={field.optionType as string}
-              typeLabel={field.typeLabel}
-              preview={true}
-              options={field.selectOptions}
-              groupfields={field.groupfields}
-              fieldProp={field}
-              questionType={field.questionType}
-            />
+            <QuestionWithHint hint={field.hint}>
+              <GetContent
+                type={field.optionType}
+                typeLabel={field.typeLabel}
+                preview={preview}
+                options={field.selectOptions}
+                groupfields={field.groupfields}
+                fieldProp={field}
+                questionType={field.questionType}
+              />
+            </QuestionWithHint>
           </div>
         </div>
       ))}
