@@ -10,18 +10,6 @@ const nextConfig = {
       quotes: ["error", "double"],
     },
   },
-  async rewrites() {
-    return [
-      {
-        source: "/funding.json",
-        destination: "/api/funding",
-      },
-      {
-        source: "/.well-known/funding-manifest-urls",
-        destination: "/api/.well-known/funding-manifest-urls",
-      },
-    ];
-  },
 };
 
 module.exports = nextConfig;

@@ -128,3 +128,18 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view the 
   ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to view the production build.
+
+## Funding Endpoints
+
+The following endpoints are available:
+- Production: 
+  - https://app.capibuilder.org/.well-known/funding-manifest-urls
+  - https://app.capibuilder.org/funding.json
+- Development:
+  - http://localhost:3000/.well-known/funding-manifest-urls
+  - http://localhost:3000/funding.json
+
+Note: Make sure to configure the following in Vercel:
+1. Add environment variables if needed
+2. Verify the rewrites are properly configured in the deployment
+3. Check that the API routes are accessible
