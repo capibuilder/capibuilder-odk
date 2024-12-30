@@ -2,6 +2,10 @@
 
 `CAPIBuilder` is an open-source web application built with Next.js, TypeScript, and Styled-Component CSS. CAPIBuilder solves an important problem in the data collection process by providing a user-friendly interface for creating and managing survey forms, collecting responses, and reviewing data for Open Data Kit (ODK) API.
 
+### Contact
+
+odk@capibuilder.com
+
 ## Before you begin
 
 CAPIBuilder provides only the web application. To use it, you will need to run the ODK Central server, which is available here:

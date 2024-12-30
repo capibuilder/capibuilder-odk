@@ -1,0 +1,36 @@
+{
+    "name": "CAPIBuilder",
+    "description": "Form builder for social impact data collection using ODK, KoboToolbox, Avni, SurveyCTO, CommCare, DHIS2, and more.",
+    "funding": {
+        "type": "open_collective",
+        "url": "https://opencollective.com/capibuilder"
+    },
+    "links": {
+        "homepage": "https://capibuilder.com",
+        "repository": "https://github.com/capibuilder/capibuilder"
+    },
+    "tags": [
+        "form-builder",
+        "odk",
+        "data-collection",
+        "social-impact",
+        "survey-tool"
+    ],
+    "categories": [
+        "Development Tools",
+        "Data Collection"
+    ],
+    "maintainers": [
+        {
+            "name": "Atanu Garai",
+            "email": "odk@capibuilder.com"
+        }
+    ],
+    "requirements": {
+        "monthly": {
+            "amount": "1000",
+            "currency": "USD"
+        },
+        "description": "Funding will be used for:\n- Add a RAG pipeline to automate form creation compatible with ODK XML schema, based on word or spreadsheet CAPI drafts uploaded by the user\n- Ongoing development and maintenance\n- Server costs\n- Documentation improvements\n- Community support\n-"
+    }
+}
