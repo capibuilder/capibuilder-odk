@@ -497,40 +497,16 @@ const generateBody = (
       )
       .join("");
 
-    if (data.groupRepeat) {
-      return `
-        <group ref="/data/${modifiedDataAttribute}">
-          <label ref="jr:itext('/data/${modifiedDataAttribute}:label')"/>
-          <repeat nodeset="/data/${modifiedDataAttribute}" count="${
-        data.repeatCount || 1
-      }">
-            ${Object.values(data.groupfields)
-              .map(
-                field => `
-              <input ref="/data/${modifiedDataAttribute}/${
-                  field.dataAttribute
-                }">
-                <label ref="jr:itext('/data/${modifiedDataAttribute}/${
-                  field.dataAttribute
-                }:label')"/>
-                ${
-                  field.hint
-                    ? `<hint ref="jr:itext('/data/${modifiedDataAttribute}/${field.dataAttribute}:hint')"/>`
-                    : ""
-                }
-              </input>
-            `
-              )
-              .join("")}
-          </repeat>
-        </group>
-      `;
-    }
-
     return `
       <group ref="/data/${modifiedDataAttribute}">
         <label ref="jr:itext('/data/${modifiedDataAttribute}:label')"/>
-        ${groupContent}
+        ${
+          data.groupRepeat
+            ? `<repeat nodeset="/data/${modifiedDataAttribute}" count="${
+                data.repeatCount || 1
+              }">${groupContent}</repeat>`
+            : groupContent
+        }
       </group>
     `;
   }
