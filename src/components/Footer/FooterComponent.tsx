@@ -1,11 +1,7 @@
 import { Footer } from "..";
 
 const FooterComponent = () => {
-  return (
-    <div>
-      <Footer />
-    </div>
-  );
+  return <Footer />;
 };
 
 export default FooterComponent;

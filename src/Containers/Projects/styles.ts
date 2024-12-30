@@ -9,8 +9,10 @@ export const Wrapper = styled(WrapperStub)`
   }
 
   button.add-new {
-    all: unset;
-    position: relative;
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    z-index: 11;
     cursor: pointer;
     background-color: #7879f1;
     display: flex;
@@ -19,8 +21,6 @@ export const Wrapper = styled(WrapperStub)`
     align-items: center;
     justify-content: center;
     color: #fff;
-    margin-left: auto;
-    margin-top: 20px;
     border-radius: 50%;
     box-shadow: 1px 2px 5.800000190734863px 0px #00000040;
 
@@ -32,6 +32,8 @@ export const Wrapper = styled(WrapperStub)`
 
 export const Table = styled.div`
   --grid: 2fr 0.8fr 0.8fr 0.5fr 0.4fr;
+  min-height: 650px;
+  background-color: #fff;
 
   .grid {
     display: grid;
