@@ -2,20 +2,6 @@
 
 `CAPIBuilder` is an open-source web application built with Next.js, TypeScript, and Styled-Component CSS. CAPIBuilder solves an important problem in the data collection process by providing a user-friendly interface for creating and managing survey forms, collecting responses, and reviewing data for Open Data Kit (ODK) API.
 
-### Funding
-
-CAPIBuilder is part of the FLOSS Funding Directory. The following endpoints are available:
-
-- `/.well-known/funding-manifest-urls` - Returns the URL to the funding manifest
-- `/funding.json` - Returns the funding manifest
-- `/.well-known/funding.json` - Alternative location for the funding manifest
-
-These endpoints are configured through Vercel rewrites to serve the funding information for the project.
-
-### Contact
-
-odk@capibuilder.com
-
 ## Before you begin
 
 CAPIBuilder provides only the web application. To use it, you will need to run the ODK Central server, which is available here:
@@ -128,18 +114,3 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view the 
   ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to view the production build.
-
-## Funding Endpoints
-
-The following endpoints are available:
-- Production: 
-  - https://app.capibuilder.org/.well-known/funding-manifest-urls
-  - https://app.capibuilder.org/funding.json
-- Development:
-  - http://localhost:3000/.well-known/funding-manifest-urls
-  - http://localhost:3000/funding.json
-
-Note: Make sure to configure the following in Vercel:
-1. Add environment variables if needed
-2. Verify the rewrites are properly configured in the deployment
-3. Check that the API routes are accessible
