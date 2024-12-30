@@ -20,9 +20,6 @@ export const Wrapper = styled(WrapperStub)`
 
   a.add-new {
     position: fixed;
-    bottom: 40px;
-    right: 40px;
-    z-index: 11;
     cursor: pointer;
     background-color: #7879f1;
     display: flex;
@@ -31,6 +28,9 @@ export const Wrapper = styled(WrapperStub)`
     align-items: center;
     justify-content: center;
     color: #fff;
+    right: 40px;
+    z-index: 11;
+    bottom: 40px;
     border-radius: 50%;
     box-shadow: 1px 2px 5.800000190734863px 0px #00000040;
 
