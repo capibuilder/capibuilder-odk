@@ -151,7 +151,7 @@ export const BorderThingy = styled.div`
   margin: 16px 0;
 `;
 
-export const FooterContainer = styled.div`
+export const FooterContainer = styled.footer`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -159,6 +159,7 @@ export const FooterContainer = styled.div`
   background-color: #1c1934;
   color: #ffffff;
   margin-bottom: 15px;
+  padding-bottom: 0;
 `;
 
 export const FooterContent = styled.div`

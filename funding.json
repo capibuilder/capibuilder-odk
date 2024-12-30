@@ -1,0 +1,76 @@
+{
+    "version": "v1.0.0",
+    "entity": {
+        "type": "organisation",
+        "role": "maintainer",
+        "name": "Atanu Garai",
+        "email": "odk@capibuilder.com",
+        "phone": "",
+        "description": "Form builder for social impact data collection using ODK, KoboToolbox, Avni, SurveyCTO, CommCare, DHIS2, and more. We're focused on making data collection easier and more efficient for social impact organizations worldwide.\n\nOur platform enables researchers and organizations to create, manage, and deploy sophisticated data collection forms without technical expertise.\n\nWe believe in open source and interoperability across different data collection platforms.",
+        "webpageUrl": {
+            "url": "https://app.capibuilder.org",
+            "wellKnown": "https://app.capibuilder.org/.well-known/funding-manifest-urls"
+        }
+    },
+    "projects": [
+        {
+            "guid": "capibuilder-odk",
+            "name": "CAPIBuilder ODK",
+            "description": "Form builder for social impact data collection using ODK. Create, manage, and deploy ODK-compatible forms with an intuitive interface. Features include drag-and-drop form building, multi-language support, complex skip logic, and automated XML generation.\n\nThe platform supports various question types, validation rules, and complex survey logic while maintaining compatibility with ODK's XML schema.",
+            "webpageUrl": {
+                "url": "https://app.capibuilder.org",
+                "wellKnown": "https://app.capibuilder.org/.well-known/funding-manifest-urls"
+            },
+            "repositoryUrl": {
+                "url": "https://github.com/capibuilder/capibuilder-odk",
+                "wellKnown": "https://github.com/capibuilder/capibuilder-odk/blob/main/.well-known/funding-manifest-urls"
+            },
+            "licenses": [
+                "spdx:AGPL-3.0"
+            ],
+            "tags": [
+                "form-builder",
+                "odk",
+                "data-collection",
+                "social-impact",
+                "survey-tool"
+            ]
+        }
+    ],
+    "funding": {
+        "channels": [
+            {
+                "guid": "opencollective",
+                "type": "payment-provider",
+                "address": "https://opencollective.com/capibuilder",
+                "description": "Support us through Open Collective for transparent fund management and regular updates on our progress."
+            }
+        ],
+        "plans": [
+            {
+                "guid": "rag-pipeline",
+                "status": "active",
+                "name": "RAG Pipeline Development",
+                "description": "Fund the development of RAG pipeline to automate form creation from word/spreadsheet CAPI drafts and deploy in ODK and other platforms.",
+                "amount": 1000,
+                "currency": "USD",
+                "frequency": "monthly",
+                "channels": [
+                    "opencollective"
+                ]
+            },
+            {
+                "guid": "maintenance",
+                "status": "active",
+                "name": "Maintenance and Server Costs",
+                "description": "Support ongoing development, server costs, and documentation improvements.",
+                "amount": 500,
+                "currency": "USD",
+                "frequency": "monthly",
+                "channels": [
+                    "opencollective"
+                ]
+            }
+        ]
+    }
+}
