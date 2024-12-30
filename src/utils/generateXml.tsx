@@ -65,6 +65,7 @@ export type XmlProps = {
     min?: number;
   };
   otherLangs: MultiLangs[];
+  repeatCount?: number;
 };
 
 const ID_PREFIX = "id_";
@@ -76,11 +77,26 @@ const generateInstanceValue = (data: XmlProps): string => {
   }
 
   if (data.group) {
+    if (data.groupRepeat && data.repeatCount) {
+      return Array(data.repeatCount)
+        .fill(null)
+        .map(
+          () => `
+          <${data.dataAttribute}>
+            ${Object.values(data.groupfields)
+              .map(generateInstanceValue)
+              .join("")}
+          </${data.dataAttribute}>
+        `
+        )
+        .join("");
+    }
+
     return `
     <${data.dataAttribute}>
       ${Object.values(data.groupfields).map(generateInstanceValue).join("")}
     </${data.dataAttribute}>
-  `;
+    `;
   }
 
   if (data.defaultValue) {
@@ -483,13 +499,32 @@ const generateBody = (
 
     if (data.groupRepeat) {
       return `
-      <group ref="/data/${modifiedDataAttribute}">
-        <label ref="jr:itext('/data/${modifiedDataAttribute}:label')"/>
-        <repeat nodeset="/data/${modifiedDataAttribute}">
-        ${groupContent}
-        </repeat>
-      </group>
-    `;
+        <group ref="/data/${modifiedDataAttribute}">
+          <label ref="jr:itext('/data/${modifiedDataAttribute}:label')"/>
+          <repeat nodeset="/data/${modifiedDataAttribute}" count="${
+        data.repeatCount || 1
+      }">
+            ${Object.values(data.groupfields)
+              .map(
+                field => `
+              <input ref="/data/${modifiedDataAttribute}/${
+                  field.dataAttribute
+                }">
+                <label ref="jr:itext('/data/${modifiedDataAttribute}/${
+                  field.dataAttribute
+                }:label')"/>
+                ${
+                  field.hint
+                    ? `<hint ref="jr:itext('/data/${modifiedDataAttribute}/${field.dataAttribute}:hint')"/>`
+                    : ""
+                }
+              </input>
+            `
+              )
+              .join("")}
+          </repeat>
+        </group>
+      `;
     }
 
     return `
