@@ -143,11 +143,21 @@ const ContentWrapperView = () => {
         <div className="content__header__number">{current.questionNumber}</div>
         <div className="content__header__title">
           <div className="input-group">
+            <div className="label-wrapper">
+              <span className="required">*</span>
+            </div>
             <AutoResizableTextarea
-              placeholder={getAutoResizablePlaceholder(current)}
               key={current.id?.toString() + "title" || ""}
               className="title c-scrollbar"
               value={current?.label}
+              onClick={() => {
+                if (!current?.ismodified?.label) {
+                  addFieldData({
+                    label: "",
+                    ismodified: { ...current?.ismodified, label: true },
+                  });
+                }
+              }}
               onChange={e => {
                 if (current.group) {
                   addFieldData({
@@ -163,6 +173,11 @@ const ContentWrapperView = () => {
                 }
               }}
             />
+            {!current?.label && current?.ismodified?.label && (
+              <div className="warning-text">
+                Question or data label is required
+              </div>
+            )}
           </div>
           {current?.label && (
             <LengthWarner

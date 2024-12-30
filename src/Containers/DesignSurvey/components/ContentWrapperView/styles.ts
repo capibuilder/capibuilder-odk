@@ -138,4 +138,23 @@ export const ContentWrapper = styled.div`
   .content__body {
     padding: 30px;
   }
+
+  .label-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+
+    .required {
+      color: #ff4d4f;
+      margin-left: 4px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+
+  .warning-text {
+    color: #ff4d4f;
+    font-size: 12px;
+    margin-top: 4px;
+  }
 `;

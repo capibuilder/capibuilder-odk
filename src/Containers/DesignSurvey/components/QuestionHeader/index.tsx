@@ -614,32 +614,35 @@ const QuestionHeader = () => {
 
             {!hideRequired.includes(current.questionType) && (
               <SwitchOptions
-                name="required"
-                isChecked={options.isRequired}
+                name="Required"
+                isChecked={current?.required || false}
                 onChange={() => {
-                  setOptions(data => ({
-                    ...data,
-                    isRequired: !data.isRequired,
-                  }));
+                  const newRequired = !current?.required;
+                  console.log("Before setting required:", {
+                    current: current?.required,
+                    newRequired,
+                  });
+                  addFieldData({
+                    required: newRequired,
+                    requiredMsg: newRequired ? "This field is required" : "",
+                    ismodified: { ...current?.ismodified, requiredMsg: true },
+                  });
+                  console.log("After setting required:", newRequired);
                 }}
               />
             )}
 
-            {options.isRequired && (
+            {current?.required && (
               <div style={{ marginBlock: "8px" }}>
                 <TextField
                   onChange={e => {
-                    setOptions(data => ({
-                      ...data,
-                      requiredMsg: e.target.value,
-                    }));
-
                     addFieldData({
+                      requiredMsg: e.target.value,
                       ismodified: { ...current?.ismodified, requiredMsg: true },
                     });
                   }}
                   placeholder="Enter Required message"
-                  value={options.requiredMsg}
+                  value={current?.requiredMsg || ""}
                   type="text"
                 />
               </div>
