@@ -23,6 +23,13 @@ export type State = {
   currentField: string | null;
   currentTabBtn: string;
   isGrouped: boolean;
+  current: {
+    questionType: string;
+    repeatCount?: number;
+  };
+  options: {
+    loop: boolean;
+  };
 };
 
 export type Actions = {
@@ -35,6 +42,7 @@ export type Actions = {
   setCurrentTabBtn: (tab: any) => void;
   deleteField: (id: string) => void;
   setIsGrouped: (isGrouped: boolean) => void;
+  setOptions: (fn: (data: any) => any) => void;
 };
 
 const useSurveyStore = create<State & Actions>((set, get) => ({
@@ -51,6 +59,13 @@ const useSurveyStore = create<State & Actions>((set, get) => ({
   currentField: null,
   currentTabBtn: "",
   isGrouped: false,
+  current: {
+    questionType: "",
+    repeatCount: undefined,
+  },
+  options: {
+    loop: false,
+  },
   setData: (data: any) => set({ data }),
   addData: (data: any) => set({ data: { ...get().data, ...data } }),
   resetForm: () =>
@@ -80,7 +95,20 @@ const useSurveyStore = create<State & Actions>((set, get) => ({
       },
     }));
   },
-  setCurrentField: (id: string) => set({ currentField: id }),
+  setCurrentField: (id: string) => {
+    const field = get().data.fields[id];
+
+    set({
+      currentField: id,
+      current: {
+        questionType: field?.type || "",
+        repeatCount: field?.repeatCount || undefined,
+      },
+      options: {
+        loop: field?.groupRepeat || false,
+      },
+    });
+  },
   removeCurrentField: () => set({ currentField: null }),
   setCurrentTabBtn: (tab: any) => set({ currentTabBtn: tab }),
   deleteField: (id: string) => {
@@ -130,6 +158,10 @@ const useSurveyStore = create<State & Actions>((set, get) => ({
       });
   },
   setIsGrouped: isGrouped => set({ isGrouped }),
+  setOptions: fn =>
+    set(state => ({
+      options: fn(state.options),
+    })),
 }));
 
 export default useSurveyStore;

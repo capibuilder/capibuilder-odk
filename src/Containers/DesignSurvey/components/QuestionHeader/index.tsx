@@ -234,6 +234,19 @@ const QuestionHeader = () => {
     }
   }, [current, currentField]);
 
+  useEffect(() => {
+    if (field?.repeatCount >= 1) {
+      setOptions(data => ({
+        ...data,
+        loop: true,
+      }));
+
+      addFieldData({
+        groupRepeat: true,
+      });
+    }
+  }, [field?.repeatCount]);
+
   return (
     <QuestionHeaderContainer className="c-scrollbar">
       {createDataset && (
@@ -459,6 +472,13 @@ const QuestionHeader = () => {
                       ...data,
                       loop: !data.loop,
                     }));
+
+                    addFieldData({
+                      groupRepeat: !options.loop,
+                      repeatCount: !options.loop
+                        ? undefined
+                        : current.repeatCount,
+                    });
                   }}
                 />
 
@@ -468,14 +488,18 @@ const QuestionHeader = () => {
                       type="number"
                       min={1}
                       placeholder="Mention number of repeats"
-                      value={(current.repeatCount || "") as any}
+                      value={field?.repeatCount || ""}
                       onChange={e => {
                         const value = parseInt(e.target.value);
                         if (value >= 1 || e.target.value === "") {
                           addFieldData({
-                            groupRepeat: options.loop,
+                            groupRepeat: true,
                             repeatCount: value || undefined,
                           });
+                          setField(prev => ({
+                            ...prev,
+                            repeatCount: value || undefined,
+                          }));
                         }
                       }}
                     />
