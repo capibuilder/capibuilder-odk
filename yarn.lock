@@ -11804,22 +11804,22 @@ xlsx@^0.18.5:
     wmf "~1.0.1"
     word "~0.3.0"
 
-xml-formatter@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.npmjs.org/xml-formatter/-/xml-formatter-3.3.0.tgz"
-  integrity sha512-+vVC4qTDuwsF6HbLG2g8RX2/jFeIiOxtbZ607hetoAupXU9P6dKv3+nqM1G6VJ6xv/ClyfUOKW4cWTbJ8x+0vw==
+xml-formatter@^3.6.3:
+  version "3.6.3"
+  resolved "https://registry.npmjs.org/xml-formatter/-/xml-formatter-3.6.3.tgz"
+  integrity sha512-++x1TlRO1FRlQ82AZ4WnoCSufaI/PT/sycn4K8nRl4gnrNC1uYY2VV/67aALZ2m0Q4Q/BLj/L69K360Itw9NNg==
   dependencies:
-    xml-parser-xo "^4.0.3"
+    xml-parser-xo "^4.1.2"
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/xml-name-validator/-/xml-name-validator-3.0.0.tgz"
   integrity sha512-A5CUptxDsvxKJEU3yO6DuWBSJz/qizqzJKOMIfUJHETbBw/sFaDxgd6fxm1ewUaM0jZ444Fc5vC5ROYurg/4Pw==
 
-xml-parser-xo@^4.0.3:
-  version "4.0.4"
-  resolved "https://registry.npmjs.org/xml-parser-xo/-/xml-parser-xo-4.0.4.tgz"
-  integrity sha512-wdjXcsgKaVeTJ+TKbahl38jCPkXPvVWnkpCMZwjL1Thavj2Vj7UuGBNR5z297Gh80kpHgs8rWJAhPWkm3rlZrw==
+xml-parser-xo@^4.1.2:
+  version "4.1.3"
+  resolved "https://registry.npmjs.org/xml-parser-xo/-/xml-parser-xo-4.1.3.tgz"
+  integrity sha512-U6eN5Pyrlek9ottHVpT9e8YUax75oVYXbnYxU+utzDC7i+OyWj9ynsNMiZNQZvpuazbG0O7iLAs9FkcFmzlgSA==
 
 xml2js@^0.5.0:
   version "0.5.0"
