@@ -42,8 +42,7 @@ export const getAllTags = async () => {
                   keywordId
                   keyword
                   keywordTitle
-                  description
-                  relatedKeywordId
+                  description      
                
                 }
               }`,
